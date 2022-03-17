@@ -135,7 +135,6 @@ Recommendations:
   - Numbers which are by definition lower than the max uint value can be compressed appropriately.
   - Basis points is <= 10,000 which fits into uint16 (max of 65,536)
 
-
 # Known Issues
 
 ## Stuck in escrow
