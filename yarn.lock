@@ -565,10 +565,10 @@
     "@openzeppelin/contracts" "^4.2.0"
     "@openzeppelin/contracts-upgradeable" "^4.2.0"
 
-"@manifoldxyz/royalty-registry-solidity@1.0.8":
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/@manifoldxyz/royalty-registry-solidity/-/royalty-registry-solidity-1.0.8.tgz#dd634eb88c3e8e88bcced118104cc31d532ff1c7"
-  integrity sha512-/SYJgtjHtn8ycvHe/NMxDDN91UF1xLR40XAOb6xg19YtqYYwHMDGZr20ffZoRc/ibHUdbX4CD3YCucNJdEx9xw==
+"@manifoldxyz/royalty-registry-solidity@1.0.9":
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/@manifoldxyz/royalty-registry-solidity/-/royalty-registry-solidity-1.0.9.tgz#4d3516338c8b351e1e61d5a597ec532574beed6d"
+  integrity sha512-Cv38ROezkl6J8lizyPlEmPoAvLiRcO31OnWe/Jept0mNk7oygrPZrfG07OMfwphn+dOFxmszQTns7AJRQfxMBA==
   dependencies:
     "@manifoldxyz/libraries-solidity" "^1.0.2"
     "@openzeppelin/contracts" "^4.3.2"
