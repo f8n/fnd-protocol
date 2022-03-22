@@ -2,7 +2,6 @@
   "name": "@f8n/fnd-protocol",
   "description": "Foundation smart contracts",
   "version": "2.0.1",
-  "license": "MIT",
   "scripts": {
     "build": "hardhat typechain",
     "lint": "yarn prettier && yarn lint:sol && yarn lint:ts",
@@ -47,6 +46,16 @@
   "files": [
     "addresses.js",
     "artifacts",
-    "contracts"
-  ]
+    "contracts",
+    "!contracts/mocks/**/*"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/f8n/fnd-protocol"
+  },
+  "bugs": {
+    "url": "https://github.com/f8n/fnd-protocol/issues"
+  },
+  "homepage": "https://github.com/f8n/fnd-protocol",
 }
