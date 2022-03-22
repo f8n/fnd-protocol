@@ -45,7 +45,8 @@
     "typescript": "4.6.2"
   },
   "files": [
+    "addresses.js",
     "artifacts",
-    "addresses.js"
+    "contracts"
   ]
 }
