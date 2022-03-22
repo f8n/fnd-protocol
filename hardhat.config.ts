@@ -7,6 +7,7 @@ import "hardhat-contract-sizer";
 import "@openzeppelin/hardhat-upgrades";
 import { HardhatUserConfig } from "hardhat/types";
 import "@primitivefi/hardhat-dodoc";
+import "hardhat-tracer";
 
 const config: HardhatUserConfig = {
   solidity: {
