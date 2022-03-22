@@ -46,8 +46,7 @@
   "files": [
     "addresses.js",
     "artifacts",
-    "contracts",
-    "!contracts/mocks/**/*"
+    "contracts"
   ],
   "license": "MIT",
   "repository": {
@@ -57,5 +56,5 @@
   "bugs": {
     "url": "https://github.com/f8n/fnd-protocol/issues"
   },
-  "homepage": "https://github.com/f8n/fnd-protocol",
+  "homepage": "https://github.com/f8n/fnd-protocol"
 }

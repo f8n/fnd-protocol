@@ -110,7 +110,6 @@ export async function deployMarketAndFETH({
       ONE_DAY, // duration
       marketProxy.address,
     ],
-    unsafeAllowLinkedLibraries: true, // https://github.com/OpenZeppelin/openzeppelin-upgrades/issues/52
   })) as FNDNFTMarket;
   await market.initialize();
 
