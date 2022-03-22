@@ -2,7 +2,7 @@
 
 If you find a security issue impacting contracts deployed to mainnet, please report them via our [Immunefi bounty program](https://immunefi.com/bounty/foundation/).
 
-Other questions or issues can be reported via GitHub `Issues` or reach out to [@HardlyDifficult](https://twitter.com/HardlyDifficult) over Twitter DMs.
+Other questions or issues can be reported via [GitHub `Issues`](https://github.com/f8n/fnd-protocol/issues) or ask in [`Discussions`](https://github.com/f8n/fnd-protocol/discussions).
 
 ## Testing
 
