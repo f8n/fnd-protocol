@@ -1,0 +1,81 @@
+version: 2.1
+orbs: 
+  wait-for: cobli/wait-for@0.0.2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:16
+    working_directory: ~/repo
+    steps:
+      - checkout
+
+      # NPM auth from https://discuss.circleci.com/t/yarn-with-private-packages/10157
+      - run: echo "//registry.npmjs.org/:_authToken=${npm_TOKEN}" > ~/.npmrc
+      - run: yarn
+      - run: yarn build
+
+      - persist_to_workspace:
+          root: ~/repo
+          paths: .
+  test:
+    docker:
+      - image: circleci/node:16
+    working_directory: ~/repo
+    steps:
+      - attach_workspace:
+          at: ~/repo
+
+      - run: yarn test
+  lint:
+    docker:
+      - image: circleci/node:16
+    working_directory: ~/repo
+    steps:
+      - attach_workspace:
+          at: ~/repo
+
+      - run: yarn lint
+
+      # Auto-commit any lint or doc changes
+      - run: mkdir -p ~/.ssh
+      - run: ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+      - run: bash .circleci/commit.sh
+  publish:
+    docker:
+      - image: circleci/node:16
+    working_directory: ~/repo
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run:
+          name: Authenticate with registry
+          command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/.npmrc
+      - run:
+          name: Publish package
+          command: npm publish
+
+workflows:
+  build:
+    jobs:
+      - build:
+          filters:
+            tags:
+              only: /.*/
+            branches:
+              ignore:
+                - gh-pages
+                - artifacts
+      - test:
+          requires:
+            - build
+      - lint:
+          requires:
+            - build
+      - publish:
+          requires:
+            - build
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/

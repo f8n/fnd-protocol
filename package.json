@@ -1,0 +1,51 @@
+{
+  "name": "@f8n/fnd-protocol",
+  "description": "Foundation smart contracts",
+  "version": "2.0.1",
+  "license": "MIT",
+  "scripts": {
+    "build": "hardhat typechain",
+    "lint": "yarn prettier && yarn lint:sol && yarn lint:ts",
+    "lint:sol": "solhint --config ./.solhint.json --fix \"contracts/**/*.sol\"",
+    "lint:ts": "eslint --config ./.eslintrc.yaml --fix --ext .js,.ts .",
+    "prettier": "prettier --config .prettierrc --write --list-different \"**/*.{js,json,md,sol,ts}\"",
+    "test": "hardhat test",
+    "size-contracts": "hardhat size-contracts"
+  },
+  "devDependencies": {
+    "@manifoldxyz/royalty-registry-solidity": "1.0.9",
+    "@nomiclabs/hardhat-ethers": "2.0.5",
+    "@nomiclabs/hardhat-waffle": "2.0.3",
+    "@openzeppelin/contracts": "4.5.0",
+    "@openzeppelin/contracts-upgradeable": "4.5.2",
+    "@openzeppelin/hardhat-upgrades": "1.16.1",
+    "@primitivefi/hardhat-dodoc": "0.2.3",
+    "@typechain/ethers-v5": "9.0.0",
+    "@typechain/hardhat": "5.0.0",
+    "@types/chai": "4.3.0",
+    "@types/mocha": "9.1.0",
+    "@typescript-eslint/eslint-plugin": "5.15.0",
+    "@typescript-eslint/parser": "5.15.0",
+    "chai": "4.3.6",
+    "eslint": "8.11.0",
+    "eslint-config-prettier": "8.5.0",
+    "eslint-plugin-no-only-tests": "2.6.0",
+    "ethereum-waffle": "3.4.0",
+    "ethers": "5.6.1",
+    "hardhat": "2.8.0",
+    "hardhat-contract-sizer": "2.5.1",
+    "hardhat-gas-reporter": "1.0.8",
+    "prettier": "2.6.0",
+    "prettier-plugin-solidity": "1.0.0-beta.19",
+    "solc": "0.8.13",
+    "solhint": "3.3.7",
+    "solhint-plugin-prettier": "0.0.5",
+    "ts-node": "10.7.0",
+    "typechain": "7.0.1",
+    "typescript": "4.6.2"
+  },
+  "files": [
+    "artifacts",
+    "addresses.js"
+  ]
+}
