@@ -3916,7 +3916,7 @@ ethereumjs-wallet@0.6.5:
     utf8 "^3.0.0"
     uuid "^3.3.2"
 
-ethers@5.6.1, ethers@^5.0.1, ethers@^5.0.2, ethers@^5.5.2:
+ethers@5.6.1, ethers@^5.0.1, ethers@^5.0.2, ethers@^5.0.24, ethers@^5.5.2:
   version "5.6.1"
   resolved "https://registry.yarnpkg.com/ethers/-/ethers-5.6.1.tgz#a56cd67f1595b745dc3dde0ccf2b5de53a41a6d0"
   integrity sha512-qtl/2W+dwmUa5Z3JqwsbV3JEBZZHNARe5K/A2ePcNAuhJYnEKIgGOT/O9ouPwBijSqVoQnmQMzi5D48LFNOY2A==
@@ -4727,6 +4727,13 @@ hardhat-gas-reporter@1.0.8:
     array-uniq "1.0.3"
     eth-gas-reporter "^0.2.24"
     sha1 "^1.1.1"
+
+hardhat-tracer@1.0.0-alpha.6:
+  version "1.0.0-alpha.6"
+  resolved "https://registry.yarnpkg.com/hardhat-tracer/-/hardhat-tracer-1.0.0-alpha.6.tgz#4545a772930567cad4620ee9448cb76e89b07b02"
+  integrity sha512-QXKEJPaCDU0P7ZNHvFuGQoKLZ9+uma3ASAoPjhHr4CYwgIHcronVPZ7zkztRc7LhDbKFffIuoh0jEQWGgR6Neg==
+  dependencies:
+    ethers "^5.0.24"
 
 hardhat@2.8.0:
   version "2.8.0"
