@@ -14,6 +14,12 @@ yarn test
 
 Note that our full test suite is not included here at this time. The tests are meant to demonstrate how to work with our contracts and a few of the core features.
 
+## Integrations
+
+Contracts from this repo are published to [`@f8n/fnd-protocol`](https://www.npmjs.com/package/@f8n/fnd-protocol).
+
+See our [examples repo](https://github.com/f8n/fnd-protocol-examples) to see how you can build on these contracts.
+
 ## Contract Documentation
 
 ### Marketplace
