@@ -117,6 +117,75 @@ Retrieves details related to the NFT in the FND Market.
 | offerBuyer | address | undefined |
 | offerExpiration | uint256 | undefined |
 
+### probeNFT
 
+```solidity
+function probeNFT(address nftContract, uint256 tokenId) external payable
+```
+
+Checks an NFT to confirm it will function correctly with our marketplace.
+
+*This should be called with as `call` to simulate the tx; never `sendTransaction`.*
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| nftContract | address | undefined |
+| tokenId | uint256 | undefined |
+
+
+
+
+## Errors
+
+### FNDMiddleware_Contract_Is_Not_ERC721
+
+```solidity
+error FNDMiddleware_Contract_Is_Not_ERC721()
+```
+
+
+
+
+
+
+### FNDMiddleware_No_Royalty_Recipients_Defined
+
+```solidity
+error FNDMiddleware_No_Royalty_Recipients_Defined()
+```
+
+
+
+
+
+
+### FNDMiddleware_Royalty_Recipient_Address_0
+
+```solidity
+error FNDMiddleware_Royalty_Recipient_Address_0()
+```
+
+
+
+
+
+
+### FNDMiddleware_Royalty_Recipient_Not_Receivable
+
+```solidity
+error FNDMiddleware_Royalty_Recipient_Not_Receivable(address recipient)
+```
+
+
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| recipient | address | undefined |
 
 
