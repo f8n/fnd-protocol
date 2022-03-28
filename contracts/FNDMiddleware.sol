@@ -41,8 +41,10 @@
 
 pragma solidity ^0.8.0;
 
+import "@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721BurnableUpgradeable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 
 import "./FNDNFTMarket.sol";
 import "./PercentSplitETH.sol";
@@ -53,13 +55,20 @@ import "./interfaces/ens/IENS.sol";
 import "./interfaces/ens/IPublicResolver.sol";
 import "./interfaces/ens/IReverseRegistrar.sol";
 
+error FNDMiddleware_Contract_Is_Not_ERC721();
+error FNDMiddleware_No_Royalty_Recipients_Defined();
+error FNDMiddleware_Royalty_Recipient_Address_0();
+error FNDMiddleware_Royalty_Recipient_Not_Receivable(address recipient);
+
 /**
  * @title Convenience methods to ease integration with other contracts.
  * @notice This will aggregate calls and format the output per the needs of our frontend or other consumers.
  */
 contract FNDMiddleware is Constants {
   using AddressUpgradeable for address;
+  using AddressUpgradeable for address payable;
   using Strings for uint256;
+  using ERC165Checker for address;
 
   struct Fee {
     uint256 percentInBasisPoints;
@@ -97,7 +106,7 @@ contract FNDMiddleware is Constants {
     uint256 tokenId,
     uint256 price
   )
-    external
+    public
     view
     returns (
       FeeWithRecipient memory foundation,
@@ -235,6 +244,32 @@ contract FNDMiddleware is Constants {
             break;
           }
         }
+      }
+    }
+  }
+
+  /**
+   * @notice Checks an NFT to confirm it will function correctly with our marketplace.
+   * @dev This should be called with as `call` to simulate the tx; never `sendTransaction`.
+   */
+  function probeNFT(address nftContract, uint256 tokenId) external payable {
+    if (!nftContract.supportsInterface(type(IERC721).interfaceId)) {
+      revert FNDMiddleware_Contract_Is_Not_ERC721();
+    }
+    (, , , RevSplit[] memory creatorRevSplit) = getFees(nftContract, tokenId, BASIS_POINTS);
+    if (creatorRevSplit.length == 0) {
+      revert FNDMiddleware_No_Royalty_Recipients_Defined();
+    }
+    for (uint256 i = 0; i < creatorRevSplit.length; ++i) {
+      address recipient = creatorRevSplit[i].recipient;
+      if (recipient == address(0)) {
+        revert FNDMiddleware_Royalty_Recipient_Address_0();
+      }
+      // Sending > 1 to help confirm when the recipient is a contract forwarding to other addresses
+      // solhint-disable-next-line avoid-low-level-calls
+      (bool success, ) = recipient.call{ value: 10, gas: SEND_VALUE_GAS_LIMIT_MULTIPLE_RECIPIENTS }("");
+      if (!success) {
+        revert FNDMiddleware_Royalty_Recipient_Not_Receivable(recipient);
       }
     }
   }
