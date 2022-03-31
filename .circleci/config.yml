@@ -83,6 +83,9 @@ workflows:
       - lint:
           requires:
             - build
+      - subgraph:
+          requires:
+            - build
       - publish:
           requires:
             - build
