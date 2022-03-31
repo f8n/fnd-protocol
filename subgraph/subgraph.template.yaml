@@ -1,0 +1,297 @@
+specVersion: 0.0.2
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: NFT721Contract
+    network: {{network}}
+    source:
+      address: "{{nft721Address}}"
+      abi: NFT721Contract
+      startBlock: {{startBlock.nft721}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - NFTContract
+      abis:
+        - name: NFT721Contract
+          file: ../artifacts/contracts/FNDNFT721.sol/FNDNFT721.json
+        - name: CollectionContract
+          file: ../artifacts/contracts/CollectionContract.sol/CollectionContract.json
+      eventHandlers:
+        # TODO use the nft template for the shared contract instead
+        - event: Approval(indexed address,indexed address,indexed uint256)
+          handler: handleApproval
+        - event: ApprovalForAll(indexed address,indexed address,bool)
+          handler: handleApprovalForAll
+        - event: BaseURIUpdated(string)
+          handler: handleBaseURIUpdated
+        - event: TokenCreatorUpdated(indexed address,indexed address,indexed uint256)
+          handler: handleTokenCreatorUpdated
+        - event: Minted(indexed address,indexed uint256,indexed string,string)
+          handler: handleMinted
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+        - event: TokenCreatorPaymentAddressSet(indexed address,indexed address,indexed uint256)
+          handler: handleTokenCreatorPaymentAddressSet
+        - event: NFTOwnerMigrated(indexed uint256,indexed address,indexed address)
+          handler: handleNFTOwnerMigrated
+        - event: PaymentAddressMigrated(indexed uint256,indexed address,indexed address,address,address)
+          handler: handlePaymentAddressMigrated
+      file: ./src/mappings/nft.ts
+
+  - kind: ethereum/contract
+    name: NFTMarketContract
+    network: {{network}}
+    source:
+      address: "{{nftMarketAddress}}"
+      abi: NFTMarketContract
+      startBlock: {{startBlock.nftMarket}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - NFTMarketContract
+      abis:
+        - name: NFTMarketContract
+          file: ../artifacts/contracts/FNDNFTMarket.sol/FNDNFTMarket.json
+        - name: NFT721Contract
+          file: ../artifacts/contracts/FNDNFT721.sol/FNDNFT721.json
+        - name: CollectionContract
+          file: ../artifacts/contracts/CollectionContract.sol/CollectionContract.json
+        - name: IMarketDeprecatedAPIs
+          file: ../artifacts/contracts/interfaces/IMarketDeprecatedAPIs.sol/IMarketDeprecatedAPIs.json
+      eventHandlers:
+        - event: ReserveAuctionBidPlaced(indexed uint256,indexed address,uint256,uint256)
+          handler: handleReserveAuctionBidPlaced
+        - event: ReserveAuctionCanceled(indexed uint256)
+          handler: handleReserveAuctionCanceled
+        - event: ReserveAuctionCanceledByAdmin(indexed uint256,string)
+          handler: handleReserveAuctionCanceledByAdmin
+        - event: ReserveAuctionCreated(indexed address,indexed address,indexed uint256,uint256,uint256,uint256,uint256)
+          handler: handleReserveAuctionCreated
+        - event: ReserveAuctionFinalized(indexed uint256,indexed address,indexed address,uint256,uint256,uint256)
+          handler: handleReserveAuctionFinalized
+        - event: ReserveAuctionInvalidated(indexed uint256)
+          handler: handleReserveAuctionInvalidated
+        - event: ReserveAuctionUpdated(indexed uint256,uint256)
+          handler: handleReserveAuctionUpdated
+        - event: PrivateSaleFinalized(indexed address,indexed uint256,indexed address,address,uint256,uint256,uint256,uint256)
+          handler: handlePrivateSaleFinalized
+        - event: OfferMade(indexed address,indexed uint256,indexed address,uint256,uint256)
+          handler: handleOfferMade
+        - event: OfferAccepted(indexed address,indexed uint256,indexed address,address,uint256,uint256,uint256)
+          handler: handleOfferAccepted
+        - event: OfferInvalidated(indexed address,indexed uint256)
+          handler: handleOfferInvalidated
+        - event: OfferCanceledByAdmin(indexed address,indexed uint256,string)
+          handler: handleOfferCanceledByAdmin
+        - event: BuyPriceSet(indexed address,indexed uint256,indexed address,uint256)
+          handler: handleBuyPriceSet
+        - event: BuyPriceCanceled(indexed address,indexed uint256)
+          handler: handleBuyPriceCanceled
+        - event: BuyPriceInvalidated(indexed address,indexed uint256)
+          handler: handleBuyPriceInvalidated
+        - event: BuyPriceAccepted(indexed address,indexed uint256,indexed address,address,uint256,uint256,uint256)
+          handler: handleBuyPriceAccepted
+      file: ./src/mappings/nftMarket.ts
+
+  - kind: ethereum/contract
+    name: MarketDeprecatedEvents
+    network: {{network}}
+    source:
+      address: "{{nftMarketAddress}}"
+      abi: MarketDeprecatedEvents
+      startBlock: {{startBlock.nftMarket}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - NFTMarketContract
+      abis:
+        - name: NFTMarketContract
+          file: ../artifacts/contracts/FNDNFTMarket.sol/FNDNFTMarket.json
+        - name: NFT721Contract
+          file: ../artifacts/contracts/FNDNFT721.sol/FNDNFT721.json
+        - name: CollectionContract
+          file: ../artifacts/contracts/CollectionContract.sol/CollectionContract.json
+        - name: MarketDeprecatedEvents
+          file: ../artifacts/contracts/mocks/MarketDeprecatedEvents.sol/MarketDeprecatedEvents.json
+      eventHandlers:
+        - event: ReserveAuctionSellerMigrated(indexed uint256,indexed address,indexed address)
+          handler: handleReserveAuctionSellerMigrated
+      file: ./src/mappings/nftMarket.ts
+
+  - kind: ethereum/contract
+    name: Feth
+    network: {{network}}
+    source:
+      address: "{{fethAddress}}"
+      abi: FethContract
+      startBlock: {{startBlock.feth}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - Feth
+      abis:
+        - name: FethContract
+          file: ../artifacts/contracts/FETH.sol/FETH.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+        - event: ETHWithdrawn(indexed address,indexed address,uint256)
+          handler: handleETHWithdrawn
+        - event: BalanceLocked(indexed address,indexed uint256,uint256,uint256)
+          handler: handleBalanceLocked
+        - event: BalanceUnlocked(indexed address,indexed uint256,uint256)
+          handler: handleBalanceUnlocked
+      file: ./src/mappings/feth.ts
+
+  - kind: ethereum/contract
+    name: PercentSplit
+    network: {{network}}
+    source:
+      address: "{{percentSplitAddress}}"
+      abi: PercentSplitContract
+      startBlock: {{startBlock.percentSplit}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - PercentSplit
+      abis:
+        - name: PercentSplitContract
+          file: ../artifacts/contracts/PercentSplitETH.sol/PercentSplitETH.json
+      eventHandlers:
+        - event: PercentSplitCreated(indexed address)
+          handler: handlePercentSplitCreated
+      file: ./src/mappings/percentSplit.ts
+  - kind: ethereum/contract
+    name: PercentSplitV1
+    network: {{network}}
+    source:
+      address: "{{percentSplitV1Address}}"
+      abi: PercentSplitContract
+      startBlock: {{startBlock.percentSplitV1}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - PercentSplit
+      abis:
+        - name: PercentSplitContract
+          file: ../artifacts/contracts/PercentSplitETH.sol/PercentSplitETH.json
+      eventHandlers:
+        - event: PercentSplitCreated(indexed address)
+          handler: handlePercentSplitCreated
+      file: ./src/mappings/percentSplit.ts
+  - kind: ethereum/contract
+    name: PercentSplitV2
+    network: {{network}}
+    source:
+      address: "{{percentSplitV2Address}}"
+      abi: PercentSplitContract
+      startBlock: {{startBlock.percentSplitV2}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - PercentSplit
+      abis:
+        - name: PercentSplitContract
+          file: ../artifacts/contracts/PercentSplitETH.sol/PercentSplitETH.json
+      eventHandlers:
+        - event: PercentSplitCreated(indexed address)
+          handler: handlePercentSplitCreated
+      file: ./src/mappings/percentSplit.ts
+  - kind: ethereum/contract
+    name: FNDCollectionFactory
+    network: {{network}}
+    source:
+      address: "{{collectionFactoryAddress}}"
+      abi: FNDCollectionFactoryContract
+      startBlock: {{startBlock.collectionFactory}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - Collection
+      abis:
+        - name: FNDCollectionFactoryContract
+          file: ../artifacts/contracts/FNDCollectionFactory.sol/FNDCollectionFactory.json
+        - name: NFT721Contract
+          file: ../artifacts/contracts/FNDNFT721.sol/FNDNFT721.json
+        - name: CollectionContract
+          file: ../artifacts/contracts/CollectionContract.sol/CollectionContract.json
+      eventHandlers:
+        - event: CollectionCreated(indexed address,indexed address,indexed uint256,string,string,uint256)
+          handler: handleCollectionCreated
+      file: ./src/mappings/collections.ts
+
+templates:
+  - kind: ethereum/contract
+    name: PercentSplit
+    network: {{network}}
+    source:
+      abi: PercentSplitContract
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - PercentSplit
+      abis:
+        - name: PercentSplitContract
+          file: ../artifacts/contracts/PercentSplitETH.sol/PercentSplitETH.json
+      eventHandlers:
+        - event: PercentSplitShare(indexed address,uint256)
+          handler: handlePercentSplitShare
+      file: ./src/mappings/percentSplit.ts
+
+  # Collections use the same template & entities as the shared collection
+  - kind: ethereum/contract
+    name: CollectionContract
+    network: {{network}}
+    source:
+      abi: CollectionContract
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - NFTContract
+      abis:
+        - name: NFT721Contract
+          file: ../artifacts/contracts/FNDNFT721.sol/FNDNFT721.json
+        - name: CollectionContract
+          file: ../artifacts/contracts/CollectionContract.sol/CollectionContract.json
+      eventHandlers:
+        - event: Approval(indexed address,indexed address,indexed uint256)
+          handler: handleApproval
+        - event: ApprovalForAll(indexed address,indexed address,bool)
+          handler: handleApprovalForAll
+        - event: BaseURIUpdated(string)
+          handler: handleBaseURIUpdated
+        - event: Minted(indexed address,indexed uint256,indexed string,string)
+          handler: handleMinted
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+        - event: TokenCreatorPaymentAddressSet(indexed address,indexed address,indexed uint256)
+          handler: handleTokenCreatorPaymentAddressSet
+        - event: NFTOwnerMigrated(indexed uint256,indexed address,indexed address)
+          handler: handleNFTOwnerMigrated
+        - event: PaymentAddressMigrated(indexed uint256,indexed address,indexed address,address,address)
+          handler: handlePaymentAddressMigrated
+        - event: SelfDestruct(indexed address)
+          handler: handleSelfDestruct
+      file: ./src/mappings/nft.ts

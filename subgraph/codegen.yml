@@ -1,0 +1,8 @@
+overwrite: true
+schema: 
+  - "schema.graphql"
+  - "scalars.graphql"
+generates:
+  ../src/types/generated/subgraph.tsx:
+    plugins:
+      - "typescript"

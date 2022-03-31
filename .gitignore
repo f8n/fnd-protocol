@@ -11,5 +11,7 @@ artifacts
 yarn-error.log
 
 .openzeppelin/
+subgraph/build
+subgraph/generated
 
 .DS_Store
