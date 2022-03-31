@@ -1,0 +1,45 @@
+{
+  "name": "@f8n/fnd-protocol-subgraph",
+  "description": "Foundation subgraph",
+  "version": "2.0.0",
+  "scripts": {
+    "test": "graph test collection && graph test account",
+    "build": "graph codegen && graph build",
+    "prepare:goerli": "mustache config/goerli.js subgraph.template.yaml > subgraph.yaml",
+    "deploy:goerli": "yarn prepare:goerli && yarn build && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ f8n/fnd-goerli && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ f8n/f8n-goerli && graph deploy FoundationContract --debug --ipfs https://graph--foundation-goerli-ipfs.datahub.figment.io/apikey/$FIGMENT_API_KEY --node https://graph--foundation-goerli-admin.datahub.figment.io/apikey/$FIGMENT_API_KEY",
+    "prepare:mainnet": "mustache config/mainnet.js subgraph.template.yaml > subgraph.yaml",
+    "deploy:mainnet": "yarn prepare:mainnet && yarn build && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ f8n/fnd && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ f8n/f8n-mainnet && graph deploy FoundationContract --debug --ipfs https://graph--foundation-mainnet-ipfs.datahub.figment.io/apikey/$FIGMENT_API_KEY --node https://graph--foundation-mainnet-admin.datahub.figment.io/apikey/$FIGMENT_API_KEY",
+    "deploy:mainnet:studio": "yarn prepare:mainnet && yarn build && graph deploy --studio foundation",
+    "deploy:mainnet:figment": "yarn prepare:mainnet && yarn build && graph deploy FoundationContract --debug --ipfs https://graph--foundation-mainnet-ipfs.datahub.figment.io/apikey/$FIGMENT_API_KEY --node https://graph--foundation-mainnet-admin.datahub.figment.io/apikey/$FIGMENT_API_KEY",
+    "deploy:playground": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ f8n/f8n-playground",
+    "deploy:qa": "yarn deploy:qa:goerli && yarn deploy:qa:mainnet",
+    "deploy:qa:goerli": "yarn prepare:goerli && yarn build && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ f8n/qa-goerli",
+    "deploy:qa:mainnet": "yarn prepare:mainnet && yarn build && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ f8n/qa",
+    "diff:goerli": "ts-node ./scripts/diffSubgraphs.ts -f f8n-goerli -t qa-goerli",
+    "diff:mainnet": "ts-node ./scripts/diffSubgraphs.ts -f fnd -t qa",
+    "diff:figment": "ts-node ./scripts/diffSubgraphs.ts -f fnd -t https://subgraph.foundation.app",
+    "diff:figment:goerli": "ts-node ./scripts/diffSubgraphs.ts -f fnd-goerli -t https://goerli-subgraph.foundation.app"
+  },
+  "devDependencies": {
+    "@graphprotocol/graph-cli": "0.29.0",
+    "@graphprotocol/graph-ts": "0.26.0",
+    "@graphql-codegen/cli": "2.6.2",
+    "@graphql-codegen/typescript": "2.4.8",
+    "@types/mustache": "^4.1.2",
+    "@types/yargs": "^17.0.10",
+    "graphql": "16.3.0",
+    "graphql-request": "4.2.0",
+    "graphql-tag": "2.12.6",
+    "matchstick-as": "0.4.2",
+    "mustache": "4.2.0",
+    "replace-in-file": "6.3.2",
+    "yargs": "17.4.0"
+  },
+  "license": "MIT",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ]
+}
