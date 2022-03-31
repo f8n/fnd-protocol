@@ -4,6 +4,7 @@
   "version": "2.0.3",
   "scripts": {
     "build": "hardhat typechain",
+    "clean": "hardhat clean",
     "lint": "yarn prettier && yarn lint:sol && yarn lint:ts",
     "lint:sol": "solhint --config ./.solhint.json --fix \"contracts/**/*.sol\"",
     "lint:ts": "eslint --config ./.eslintrc.yaml --fix --ext .js,.ts .",

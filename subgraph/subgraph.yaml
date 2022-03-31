@@ -4,11 +4,11 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: NFT721Contract
-    network: mainnet
+    network: goerli
     source:
-      address: "0x3B3ee1931Dc30C1957379FAc9aba94D1C48a5405"
+      address: "0x44458837ac4036337e5Ce46Ce28A744e05e02016"
       abi: NFT721Contract
-      startBlock: 11648721
+      startBlock: 4093147
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -44,11 +44,11 @@ dataSources:
 
   - kind: ethereum/contract
     name: NFTMarketContract
-    network: mainnet
+    network: goerli
     source:
-      address: "0xcDA72070E455bb31C7690a170224Ce43623d0B6f"
+      address: "0xeB1bD095061bbDb1aD065524628812cae63e4222"
       abi: NFTMarketContract
-      startBlock: 11648710
+      startBlock: 4093141
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -101,11 +101,11 @@ dataSources:
 
   - kind: ethereum/contract
     name: MarketDeprecatedEvents
-    network: mainnet
+    network: goerli
     source:
-      address: "0xcDA72070E455bb31C7690a170224Ce43623d0B6f"
+      address: "0xeB1bD095061bbDb1aD065524628812cae63e4222"
       abi: MarketDeprecatedEvents
-      startBlock: 11648710
+      startBlock: 4093141
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -128,11 +128,11 @@ dataSources:
 
   - kind: ethereum/contract
     name: Feth
-    network: mainnet
+    network: goerli
     source:
-      address: "0x49128CF8ABE9071ee24540a296b5DED3F9D50443"
+      address: "0xf73Ad14f849cd9a0a1fc14Ad1A01650a9FDdE79F"
       abi: FethContract
-      startBlock: 14335127
+      startBlock: 6385436
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -155,11 +155,11 @@ dataSources:
 
   - kind: ethereum/contract
     name: PercentSplit
-    network: mainnet
+    network: goerli
     source:
-      address: "0x00Fc4bB5349F1104D3252c36C308688651e3eb1F"
+      address: "0xCca271c0a163FD398DE7b86fB6e8f32054301C5f"
       abi: PercentSplitContract
-      startBlock: 14391349
+      startBlock: 6421609
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -175,11 +175,11 @@ dataSources:
       file: ./src/mappings/percentSplit.ts
   - kind: ethereum/contract
     name: PercentSplitV1
-    network: mainnet
+    network: goerli
     source:
-      address: ""
+      address: "0xa98ee7C19Cd8907097A7Ace2349E7b973f2BAe1b"
       abi: PercentSplitContract
-      startBlock: 12562117
+      startBlock: 4901372
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -195,11 +195,11 @@ dataSources:
       file: ./src/mappings/percentSplit.ts
   - kind: ethereum/contract
     name: PercentSplitV2
-    network: mainnet
+    network: goerli
     source:
-      address: ""
+      address: "0xd5C2bd6777250188B34D77C82e46838b602B06A3"
       abi: PercentSplitContract
-      startBlock: 13623251
+      startBlock: 5826847
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -215,11 +215,11 @@ dataSources:
       file: ./src/mappings/percentSplit.ts
   - kind: ethereum/contract
     name: FNDCollectionFactory
-    network: mainnet
+    network: goerli
     source:
-      address: "0x3B612a5B49e025a6e4bA4eE4FB1EF46D13588059"
+      address: "0x889C3635E09B0a2d1603690288c1784155cf2CA6"
       abi: FNDCollectionFactoryContract
-      startBlock: 13531391
+      startBlock: 5746425
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -241,7 +241,7 @@ dataSources:
 templates:
   - kind: ethereum/contract
     name: PercentSplit
-    network: mainnet
+    network: goerli
     source:
       abi: PercentSplitContract
     mapping:
@@ -261,7 +261,7 @@ templates:
   # Collections use the same template & entities as the shared collection
   - kind: ethereum/contract
     name: CollectionContract
-    network: mainnet
+    network: goerli
     source:
       abi: CollectionContract
     mapping:
