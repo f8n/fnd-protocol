@@ -1,6 +1,5 @@
 ![FND Github-Protocol](https://user-images.githubusercontent.com/14855515/161173574-4479b891-f0b1-4c95-8cf7-6e4ba06e36fb.png)
 
-
 If you find a security issue impacting contracts deployed to mainnet, please report them via our [Immunefi bounty program](https://immunefi.com/bounty/foundation/).
 
 Other questions or issues can be reported via [GitHub `Issues`](https://github.com/f8n/fnd-protocol/issues) or ask in [`Discussions`](https://github.com/f8n/fnd-protocol/discussions).
