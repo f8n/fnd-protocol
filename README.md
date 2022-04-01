@@ -53,7 +53,7 @@ See our [examples repo](https://github.com/f8n/fnd-protocol-examples) to see how
 
 Below is a diagram depicting the marketplace states and transitions for the various market tools.
 
-<img width="5522" alt="MarketplaceStateMachine" src="https://user-images.githubusercontent.com/14855515/155433938-428f475f-2c6d-441f-9502-674d0f7953fc.png">
+![Flowchart 1-Marketplace State Machine](https://user-images.githubusercontent.com/14855515/161260593-2bc20f67-4c70-4450-b3a2-eea5a7cd45ff.png)
 
 ### NFTs
 
@@ -98,7 +98,7 @@ In order to maintain readability as our contracts grow in complexity, we separat
 
 Below is a diagram depicting the relationships between various contracts.
 
-<img width="2804" alt="UMLContractDiagram" src="https://user-images.githubusercontent.com/14855515/155433971-d048e5dc-86dc-49fd-8c0e-b930117867c5.png">
+![Flowchart 2-Contract UML](https://user-images.githubusercontent.com/14855515/161260681-64774e18-d429-46ba-8c35-52efa0eb92e3.png)
 
 ## Market Tool Interactions
 
