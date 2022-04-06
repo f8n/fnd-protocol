@@ -140,3 +140,38 @@ Recommendations:
 - Basis points: uint16
   - Numbers which are by definition lower than the max uint value can be compressed appropriately.
   - Basis points is <= 10,000 which fits into uint16 (max of 65,536)
+
+
+# Backend Integration
+
+Foundation is fully on-chain and the easiest way to retrieve any event emitted from our contract is through the hosted [subgraph](https://thegraph.com/hosted-service/subgraph/f8n/fnd). In fact this is what our backend that powers [foundation.app](foundation.app) does as well! 
+
+To integrate you can use the endpoints below:
+ - **playground:** https://thegraph.com/hosted-service/subgraph/f8n/fnd
+ - **mainnet:** https://api.thegraph.com/subgraphs/name/f8n/fnd 
+ - **goerli:** https://api.thegraph.com/subgraphs/name/f8n/fnd-goerli 
+ 
+ To get you rolling here's an example query that retrieves a list of BuyNows:
+
+```
+{
+ nftMarketBuyNows(first: 100){
+  id,
+  nft {
+   id,
+   tokenId,
+   dateMinted,
+  },
+  nftContract {
+   id,
+   name,
+   symbol
+  },
+  status,
+  seller {
+   id
+  },
+  amountInETH,
+ }
+}
+```
