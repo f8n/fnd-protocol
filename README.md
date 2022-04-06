@@ -141,19 +141,19 @@ Recommendations:
   - Numbers which are by definition lower than the max uint value can be compressed appropriately.
   - Basis points is <= 10,000 which fits into uint16 (max of 65,536)
 
-
 # Backend Integration
 
-Foundation is fully on-chain and the easiest way to retrieve any event emitted from our contract is through the hosted [subgraph](https://thegraph.com/hosted-service/subgraph/f8n/fnd). In fact this is what our backend that powers [foundation.app](foundation.app) does as well! 
+Foundation is fully on-chain and the easiest way to retrieve any event emitted from our contract is through the hosted [subgraph](https://thegraph.com/hosted-service/subgraph/f8n/fnd). In fact this is what our backend that powers [foundation.app](foundation.app) does as well!
 
 To integrate you can use the endpoints below:
- - **playground:** https://thegraph.com/hosted-service/subgraph/f8n/fnd
- - **mainnet:** https://api.thegraph.com/subgraphs/name/f8n/fnd 
- - **goerli:** https://api.thegraph.com/subgraphs/name/f8n/fnd-goerli 
- 
- To get you started here's are some example queries:
- 
-*Retrieve a list of BuyNows:*
+
+- **playground:** https://thegraph.com/hosted-service/subgraph/f8n/fnd
+- **mainnet:** https://api.thegraph.com/subgraphs/name/f8n/fnd
+- **goerli:** https://api.thegraph.com/subgraphs/name/f8n/fnd-goerli
+
+To get you started here's are some example queries:
+
+_Retrieve a list of BuyNows:_
 
 ```
 {
@@ -179,13 +179,14 @@ To integrate you can use the endpoints below:
 }
 ```
 
-*Retrieve historical BuyNow Events:*
+_Retrieve historical BuyNow Events:_
+
 ```
 {
   nftHistories(
-    where: {buyNow_not: null}, 
-    first: 100, 
-    orderBy: date, 
+    where: {buyNow_not: null},
+    first: 100,
+    orderBy: date,
     orderDirection: asc) {
       id,
       contractAddress,
