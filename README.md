@@ -151,27 +151,63 @@ To integrate you can use the endpoints below:
  - **mainnet:** https://api.thegraph.com/subgraphs/name/f8n/fnd 
  - **goerli:** https://api.thegraph.com/subgraphs/name/f8n/fnd-goerli 
  
- To get you rolling here's an example query that retrieves a list of BuyNows:
+ To get you started here's are some example queries:
+ 
+*Retrieve a list of BuyNows:*
 
 ```
 {
- nftMarketBuyNows(first: 100){
-  id,
-  nft {
-   id,
-   tokenId,
-   dateMinted,
-  },
-  nftContract {
-   id,
-   name,
-   symbol
-  },
-  status,
-  seller {
-   id
-  },
-  amountInETH,
- }
+ nftMarketBuyNows(
+   first: 100) {
+    id,
+    nft {
+      id,
+      tokenId,
+      dateMinted,
+    },
+    nftContract {
+      id,
+      name,
+      symbol
+    },
+    status,
+    seller {
+      id
+    },
+    amountInETH,
+  }
+}
+```
+
+*Retrieve historical BuyNow Events:*
+```
+{
+  nftHistories(
+    where: {buyNow_not: null}, 
+    first: 100, 
+    orderBy: date, 
+    orderDirection: asc) {
+      id,
+      contractAddress,
+      nft {
+        id,
+        tokenId,
+        dateMinted,
+      },
+      buyNow {
+        id,
+        status,
+        dateCreated,
+        dateCanceled,
+        dateAccepted,
+        dateInvalidated
+        seller{
+          id
+        }
+        buyer {
+          id
+        }
+      },
+    }
 }
 ```
