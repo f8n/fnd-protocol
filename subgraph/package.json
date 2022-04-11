@@ -33,7 +33,7 @@
     "matchstick-as": "0.4.2",
     "mustache": "4.2.0",
     "replace-in-file": "6.3.2",
-    "yargs": "17.4.0"
+    "yargs": "17.4.1"
   },
   "license": "MIT",
   "main": "dist/index.js",
