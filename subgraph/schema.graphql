@@ -763,7 +763,7 @@ type NftMarketBuyNow @entity {
   "The tx hash where this buy now was initially created"
   transactionHashCreated: Bytes!
 
-  "The account purchasing the NFT using this buy now, if applicable"
+  "The nft recipient, if applicable"
   buyer: Account
 
   "The date/time the buy now was canceled in seconds since Unix epoch, if applicable"
@@ -787,7 +787,7 @@ type NftMarketBuyNow @entity {
   "How much the creator earned from this buy now, set once accepted"
   creatorRevenueInETH: BigDecimal
 
-  "How much Foundation earned from this buy now, set once accepted"
+  "How much Protocol earned from this buy now, set once accepted"
   foundationRevenueInETH: BigDecimal
 
   "How much the owner (if not the creator) earned from this buy now, set once accepted"
@@ -795,4 +795,16 @@ type NftMarketBuyNow @entity {
 
   "True if this is the first sale on Foundation and being sold by the creator, not known until the offer is accepted"
   isPrimarySale: Boolean
+
+  "Referrer address for the buy, if applicable"
+  buyReferrer: Account
+
+  "Referral fee paid for the buy from protocol fee, if applicable"
+  buyReferrerProtocolFee: BigDecimal
+
+  "Referral fee paid for the buy from owner fee, if applicable"
+  buyReferrerSellerFee: BigDecimal
+
+  "How much Foundation earned from this buy now, set once accepted"
+  foundationProtocolFeeInETH: BigDecimal
 }
