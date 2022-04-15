@@ -35,7 +35,9 @@ describe("Market / auction / invalidateAuction", () => {
   describe("On `buy`", () => {
     beforeEach(async () => {
       // When someone accepts the buy price, the auction is invalidated since the owner has changed
-      tx = await market.connect(collector).buyV2(nft.address, tokenId, price, ethers.constants.AddressZero, { value: price });
+      tx = await market
+        .connect(collector)
+        .buyV2(nft.address, tokenId, price, ethers.constants.AddressZero, { value: price });
     });
 
     it("Emits ReserveAuctionInvalidated", async () => {

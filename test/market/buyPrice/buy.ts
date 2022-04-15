@@ -31,7 +31,9 @@ describe("market / buyPrice / buy", function () {
 
   describe("`buy`", () => {
     beforeEach(async () => {
-      tx = await market.connect(collector).buyV2(nft.address, tokenId, price, ethers.constants.AddressZero, { value: price });
+      tx = await market
+        .connect(collector)
+        .buyV2(nft.address, tokenId, price, ethers.constants.AddressZero, { value: price });
     });
 
     it("Emits BuyPriceAccepted", async () => {
