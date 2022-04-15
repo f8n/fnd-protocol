@@ -97,6 +97,8 @@ dataSources:
           handler: handleBuyPriceInvalidated
         - event: BuyPriceAccepted(indexed address,indexed uint256,indexed address,address,uint256,uint256,uint256)
           handler: handleBuyPriceAccepted
+        - event: BuyReferralPaid(indexed address,indexed uint256,address,uint256,uint256)
+          handler: handleBuyReferralPaid
       file: ./src/mappings/nftMarket.ts
 
   - kind: ethereum/contract

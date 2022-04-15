@@ -15,6 +15,7 @@ import {
   BuyPriceCanceled,
   BuyPriceInvalidated,
   BuyPriceSet,
+  BuyReferralPaid,
   OfferAccepted,
   OfferCanceledByAdmin,
   OfferInvalidated,
@@ -31,7 +32,7 @@ import {
 import { toETH } from "../shared/conversions";
 import { loadOrCreateNFT } from "./nft";
 import { loadOrCreateAccount } from "../shared/accounts";
-import { BASIS_POINTS, ONE_BIG_INT, ZERO_BIG_DECIMAL, ZERO_BIG_INT } from "../shared/constants";
+import { BASIS_POINTS, ONE_BIG_INT, ZERO_ADDRESS_STRING, ZERO_BIG_DECIMAL, ZERO_BIG_INT } from "../shared/constants";
 import { recordNftEvent, removePreviousTransferEvent } from "../shared/events";
 import { getLogId } from "../shared/ids";
 import { loadLatestOffer, outbidOrExpirePreviousOffer } from "../shared/offers";
@@ -125,7 +126,7 @@ export function handleReserveAuctionBidPlaced(event: ReserveAuctionBidPlaced): v
   // Calculate the expected revenue for this bid
   let foundationFee: BigInt;
   let creatorRev: BigInt;
-  let ownerRev: BigInt;
+  let sellerRev: BigInt;
   // getFees is failing in Figment only, this try/else block works around that issue
   let fees = marketContractDeprecatedAPIs.try_getFees(
     Address.fromString(nft.nftContract),
@@ -133,30 +134,30 @@ export function handleReserveAuctionBidPlaced(event: ReserveAuctionBidPlaced): v
     event.params.amount,
   );
   if (!fees.reverted) {
-    // Fees 0: primaryF8NFee, 1: creatorFee, 2: ownerRevenue
+    // Fees 0: primaryF8NFee, 1: creatorFee, 2: sellerRevenue
     foundationFee = fees.value.value0;
     creatorRev = fees.value.value1;
-    ownerRev = fees.value.value2;
+    sellerRev = fees.value.value2;
   } else {
     // Estimate fees
     if (auction.isPrimarySale) {
       foundationFee = event.params.amount.times(BigInt.fromI32(1500)).div(BASIS_POINTS);
       creatorRev = event.params.amount.times(BigInt.fromI32(8500)).div(BASIS_POINTS);
-      ownerRev = ZERO_BIG_INT;
+      sellerRev = ZERO_BIG_INT;
     } else {
       foundationFee = event.params.amount.times(BigInt.fromI32(500)).div(BASIS_POINTS);
       creatorRev = event.params.amount.times(BigInt.fromI32(1000)).div(BASIS_POINTS);
-      ownerRev = event.params.amount.times(BigInt.fromI32(8500)).div(BASIS_POINTS);
+      sellerRev = event.params.amount.times(BigInt.fromI32(8500)).div(BASIS_POINTS);
     }
   }
 
   auction.foundationRevenueInETH = toETH(foundationFee);
   if (auction.seller == nft.creator) {
-    auction.creatorRevenueInETH = toETH(creatorRev.plus(ownerRev));
+    auction.creatorRevenueInETH = toETH(creatorRev.plus(sellerRev));
     auction.ownerRevenueInETH = ZERO_BIG_DECIMAL;
   } else {
     auction.creatorRevenueInETH = toETH(creatorRev);
-    auction.ownerRevenueInETH = toETH(ownerRev);
+    auction.ownerRevenueInETH = toETH(sellerRev);
   }
 
   // Add in the new pending revenue
@@ -419,13 +420,13 @@ export function handlePrivateSaleFinalized(event: PrivateSaleFinalized): void {
   privateSale.seller = seller.id;
   privateSale.buyer = buyer.id;
   if (seller.id == nft.creator) {
-    privateSale.creatorRevenueInETH = toETH(event.params.creatorFee.plus(event.params.ownerRev));
+    privateSale.creatorRevenueInETH = toETH(event.params.creatorFee.plus(event.params.sellerRev));
     privateSale.ownerRevenueInETH = ZERO_BIG_DECIMAL;
   } else {
     privateSale.creatorRevenueInETH = toETH(event.params.creatorFee);
-    privateSale.ownerRevenueInETH = toETH(event.params.ownerRev);
+    privateSale.ownerRevenueInETH = toETH(event.params.sellerRev);
   }
-  privateSale.foundationRevenueInETH = toETH(event.params.f8nFee);
+  privateSale.foundationRevenueInETH = toETH(event.params.protocolFee);
   privateSale.amountInETH = privateSale.creatorRevenueInETH
     .plus(privateSale.foundationRevenueInETH)
     .plus(privateSale.ownerRevenueInETH);
@@ -510,8 +511,8 @@ export function handleOfferAccepted(event: OfferAccepted): void {
   offer.dateAccepted = event.block.timestamp;
   offer.transactionHashAccepted = event.transaction.hash;
   offer.creatorRevenueInETH = toETH(event.params.creatorFee);
-  offer.foundationRevenueInETH = toETH(event.params.f8nFee);
-  offer.ownerRevenueInETH = toETH(event.params.ownerRev);
+  offer.foundationRevenueInETH = toETH(event.params.protocolFee);
+  offer.ownerRevenueInETH = toETH(event.params.sellerRev);
   offer.isPrimarySale = nft.isFirstSale && offer.seller == nft.creator;
   offer.save();
   removePreviousTransferEvent(event); // Only applicable if the NFT was escrowed
@@ -614,8 +615,15 @@ export function handleBuyPriceAccepted(event: BuyPriceAccepted): void {
   buyNow.dateAccepted = event.block.timestamp;
   buyNow.transactionHashAccepted = event.transaction.hash;
   buyNow.creatorRevenueInETH = toETH(event.params.creatorFee);
-  buyNow.foundationRevenueInETH = toETH(event.params.f8nFee);
-  buyNow.ownerRevenueInETH = toETH(event.params.ownerRev);
+  buyNow.foundationRevenueInETH = toETH(event.params.protocolFee);
+  buyNow.ownerRevenueInETH = toETH(event.params.sellerRev);
+  if (!buyNow.buyReferrerSellerFee) {
+    buyNow.buyReferrerSellerFee = toETH(ZERO_BIG_INT);
+  }
+  if (!buyNow.buyReferrerProtocolFee) {
+    buyNow.buyReferrerProtocolFee = toETH(ZERO_BIG_INT);
+  }
+  buyNow.foundationProtocolFeeInETH = toETH(event.params.protocolFee).minus(buyNow.buyReferrerProtocolFee!); // eslint-disable-line @typescript-eslint/no-non-null-assertion
   buyNow.isPrimarySale = nft.isFirstSale && buyNow.seller == nft.creator;
   buyNow.save();
 
@@ -696,4 +704,19 @@ export function handleBuyPriceCanceled(event: BuyPriceCanceled): void {
     null,
     buyNow,
   );
+}
+
+export function handleBuyReferralPaid(event: BuyReferralPaid): void {
+  let nft = loadOrCreateNFT(event.params.nftContract, event.params.tokenId, event);
+  let buyNow = loadLatestBuyNow(nft);
+  if (!buyNow) {
+    return;
+  }
+  buyNow.buyReferrer = loadOrCreateAccount(event.params.buyReferrer).id;
+  buyNow.buyReferrerProtocolFee = toETH(event.params.buyReferrerProtocolFee);
+  buyNow.buyReferrerSellerFee = toETH(event.params.buyReferrerSellerFee);
+  if (event.params.buyReferrer.toHex() != ZERO_ADDRESS_STRING) {
+    buyNow.buyReferrer = loadOrCreateAccount(event.params.buyReferrer).id;
+  }
+  buyNow.save();
 }
