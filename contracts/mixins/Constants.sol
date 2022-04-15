@@ -12,10 +12,10 @@ abstract contract Constants {
   uint256 internal constant BASIS_POINTS = 10000;
 
   /**
-   * @notice Cap the number of royalty recipients to 5.
+   * @notice Cap the number of royalty recipients.
    * @dev A cap is required to ensure gas costs are not too high when a sale is settled.
    */
-  uint256 internal constant MAX_ROYALTY_RECIPIENTS_INDEX = 4;
+  uint256 internal constant MAX_ROYALTY_RECIPIENTS = 5;
 
   /**
    * @notice The minimum increase of 10% required when making an offer or placing a bid.

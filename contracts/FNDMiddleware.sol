@@ -55,11 +55,6 @@ import "./interfaces/ens/IENS.sol";
 import "./interfaces/ens/IPublicResolver.sol";
 import "./interfaces/ens/IReverseRegistrar.sol";
 
-error FNDMiddleware_Contract_Is_Not_ERC721();
-error FNDMiddleware_No_Royalty_Recipients_Defined();
-error FNDMiddleware_Royalty_Recipient_Address_0();
-error FNDMiddleware_Royalty_Recipient_Not_Receivable(address recipient);
-
 /**
  * @title Convenience methods to ease integration with other contracts.
  * @notice This will aggregate calls and format the output per the needs of our frontend or other consumers.
@@ -68,7 +63,7 @@ contract FNDMiddleware is Constants {
   using AddressUpgradeable for address;
   using AddressUpgradeable for address payable;
   using Strings for uint256;
-  using ERC165Checker for address;
+  using OZERC165Checker for address;
 
   struct Fee {
     uint256 percentInBasisPoints;
@@ -109,25 +104,26 @@ contract FNDMiddleware is Constants {
     public
     view
     returns (
-      FeeWithRecipient memory foundation,
+      FeeWithRecipient memory protocol,
       Fee memory creator,
       FeeWithRecipient memory owner,
       RevSplit[] memory creatorRevSplit
     )
   {
-    foundation.recipient = market.getFoundationTreasury();
+    // Note that the protocol fee returned does not account for the referrals (which are not known until sale).
+    protocol.recipient = market.getFoundationTreasury();
     address payable[] memory creatorRecipients;
     uint256[] memory creatorShares;
     uint256 creatorRev;
     {
       address payable ownerAddress;
-      uint256 foundationFee;
-      uint256 ownerRev;
-      (foundationFee, creatorRev, creatorRecipients, creatorShares, ownerRev, ownerAddress) = market
+      uint256 protocolFee;
+      uint256 sellerRev;
+      (protocolFee, creatorRev, creatorRecipients, creatorShares, sellerRev, ownerAddress) = market
         .getFeesAndRecipients(nftContract, tokenId, price);
-      foundation.amountInWei = foundationFee;
+      protocol.amountInWei = protocolFee;
       creator.amountInWei = creatorRev;
-      owner.amountInWei = ownerRev;
+      owner.amountInWei = sellerRev;
       owner.recipient = ownerAddress;
       if (creatorShares.length == 0) {
         creatorShares = new uint256[](creatorRecipients.length);
@@ -138,16 +134,16 @@ contract FNDMiddleware is Constants {
     }
     uint256 creatorRevBP;
     {
-      uint256 foundationFeeBP;
-      uint256 ownerRevBP;
-      (foundationFeeBP, creatorRevBP, , , ownerRevBP, ) = market.getFeesAndRecipients(
+      uint256 protocolFeeBP;
+      uint256 sellerRevBP;
+      (protocolFeeBP, creatorRevBP, , , sellerRevBP, ) = market.getFeesAndRecipients(
         nftContract,
         tokenId,
         BASIS_POINTS
       );
-      foundation.percentInBasisPoints = foundationFeeBP;
+      protocol.percentInBasisPoints = protocolFeeBP;
       creator.percentInBasisPoints = creatorRevBP;
-      owner.percentInBasisPoints = ownerRevBP;
+      owner.percentInBasisPoints = sellerRevBP;
     }
 
     // Normalize shares to 10%
@@ -251,27 +247,31 @@ contract FNDMiddleware is Constants {
   /**
    * @notice Checks an NFT to confirm it will function correctly with our marketplace.
    * @dev This should be called with as `call` to simulate the tx; never `sendTransaction`.
+   * @return 0 if the NFT is supported, otherwise a hash of the error reason.
    */
-  function probeNFT(address nftContract, uint256 tokenId) external payable {
+  function probeNFT(address nftContract, uint256 tokenId) external payable returns (bytes32) {
     if (!nftContract.supportsInterface(type(IERC721).interfaceId)) {
-      revert FNDMiddleware_Contract_Is_Not_ERC721();
+      return keccak256("Not an ERC721");
     }
     (, , , RevSplit[] memory creatorRevSplit) = getFees(nftContract, tokenId, BASIS_POINTS);
     if (creatorRevSplit.length == 0) {
-      revert FNDMiddleware_No_Royalty_Recipients_Defined();
+      return keccak256("No royalty recipients");
     }
     for (uint256 i = 0; i < creatorRevSplit.length; ++i) {
       address recipient = creatorRevSplit[i].recipient;
       if (recipient == address(0)) {
-        revert FNDMiddleware_Royalty_Recipient_Address_0();
+        return keccak256("address(0) recipient");
       }
       // Sending > 1 to help confirm when the recipient is a contract forwarding to other addresses
+      // Silk Road by Ezra Miller requires > 100 wei to when testing payments
       // solhint-disable-next-line avoid-low-level-calls
-      (bool success, ) = recipient.call{ value: 10, gas: SEND_VALUE_GAS_LIMIT_MULTIPLE_RECIPIENTS }("");
+      (bool success, ) = recipient.call{ value: 1000, gas: SEND_VALUE_GAS_LIMIT_MULTIPLE_RECIPIENTS }("");
       if (!success) {
-        revert FNDMiddleware_Royalty_Recipient_Not_Receivable(recipient);
+        return keccak256("Recipient not receivable");
       }
     }
+
+    return 0x0;
   }
 
   function getAccountInfo(address account)

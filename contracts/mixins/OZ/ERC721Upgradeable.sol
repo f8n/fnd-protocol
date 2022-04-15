@@ -30,7 +30,7 @@ import "../ERC165UpgradeableGap.sol";
  * @title ERC721 Non-Fungible Token Standard basic implementation
  * @dev see https://eips.ethereum.org/EIPS/eip-721
  */
-contract ERC721Upgradeable is
+contract OZERC721Upgradeable is
   Initializable,
   ContextUpgradeable,
   ERC165UpgradeableGap,
@@ -41,14 +41,14 @@ contract ERC721Upgradeable is
 {
   using AddressUpgradeable for address;
   using EnumerableSet for EnumerableSet.UintSet;
-  using EnumerableMap for EnumerableMap.UintToAddressMap;
+  using OZEnumerableMap for OZEnumerableMap.UintToAddressMap;
   using Strings for uint256;
 
   // Mapping from holder address to their (enumerable) set of owned tokens
   mapping(address => EnumerableSet.UintSet) private _holderTokens;
 
   // Enumerable mapping from token ids to their owners
-  EnumerableMap.UintToAddressMap private _tokenOwners;
+  OZEnumerableMap.UintToAddressMap private _tokenOwners;
 
   // Mapping from token ID to approved address
   mapping(uint256 => address) private _tokenApprovals;

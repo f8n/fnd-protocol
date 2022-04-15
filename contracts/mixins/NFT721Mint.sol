@@ -15,7 +15,7 @@ import "./NFT721ProxyCall.sol";
  */
 abstract contract NFT721Mint is
   Initializable,
-  ERC721Upgradeable,
+  OZERC721Upgradeable,
   NFT721ProxyCall,
   NFT721Creator,
   NFT721Market,
@@ -150,7 +150,7 @@ abstract contract NFT721Mint is
   /**
    * @dev Explicit override to address compile errors.
    */
-  function _burn(uint256 tokenId) internal virtual override(ERC721Upgradeable, NFT721Creator, NFT721Metadata) {
+  function _burn(uint256 tokenId) internal virtual override(OZERC721Upgradeable, NFT721Creator, NFT721Metadata) {
     super._burn(tokenId);
   }
 
@@ -170,7 +170,7 @@ abstract contract NFT721Mint is
     public
     view
     virtual
-    override(ERC721Upgradeable, NFT721Creator, NFT721Market)
+    override(OZERC721Upgradeable, NFT721Creator, NFT721Market)
     returns (bool)
   {
     return super.supportsInterface(interfaceId);

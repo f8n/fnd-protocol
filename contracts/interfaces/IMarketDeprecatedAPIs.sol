@@ -32,6 +32,6 @@ interface IMarketDeprecatedAPIs {
     returns (
       uint256 foundationFee,
       uint256 creatorRev,
-      uint256 ownerRev
+      uint256 sellerRev
     );
 }

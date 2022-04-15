@@ -33,7 +33,7 @@ pragma solidity ^0.8.0;
  * As of v3.0.0, only maps of type `uint256 -> address` (`UintToAddressMap`) are
  * supported.
  */
-library EnumerableMap {
+library OZEnumerableMap {
   // To implement this library for multiple types with as little code
   // repetition as possible, we write it in terms of a generic Map type with
   // bytes32 keys and values.

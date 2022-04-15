@@ -13,7 +13,7 @@ import "./FoundationTreasuryNode.sol";
  * @title Allows each token to be associated with a creator.
  * @notice Also manages the payment address for each NFT, allowing royalties to be split with collaborators.
  */
-abstract contract NFT721Creator is FoundationTreasuryNode, ERC721Upgradeable, ITokenCreator, NFT721ProxyCall {
+abstract contract NFT721Creator is FoundationTreasuryNode, OZERC721Upgradeable, ITokenCreator, NFT721ProxyCall {
   using AccountMigrationLibrary for address;
   using BytesLibrary for bytes;
 

@@ -50,23 +50,23 @@ abstract contract NFTMarketOffer is FoundationTreasuryNode, NFTMarketCore, Reent
   /**
    * @notice Emitted when an offer is accepted,
    * indicating that the NFT has been transferred and revenue from the sale distributed.
-   * @dev The accepted total offer amount is `f8nFee` + `creatorFee` + `ownerRev`.
+   * @dev The accepted total offer amount is `protocolFee` + `creatorFee` + `sellerRev`.
    * @param nftContract The address of the NFT contract.
    * @param tokenId The id of the NFT.
    * @param buyer The address of the collector that made the offer which was accepted.
    * @param seller The address of the seller which accepted the offer.
-   * @param f8nFee The amount of ETH that was sent to Foundation for this sale.
+   * @param protocolFee The amount of ETH that was sent to Foundation for this sale.
    * @param creatorFee The amount of ETH that was sent to the creator for this sale.
-   * @param ownerRev The amount of ETH that was sent to the owner for this sale.
+   * @param sellerRev The amount of ETH that was sent to the owner for this sale.
    */
   event OfferAccepted(
     address indexed nftContract,
     uint256 indexed tokenId,
     address indexed buyer,
     address seller,
-    uint256 f8nFee,
+    uint256 protocolFee,
     uint256 creatorFee,
-    uint256 ownerRev
+    uint256 sellerRev
   );
   /**
    * @notice Emitted when an offer is canceled by a Foundation admin.
@@ -268,14 +268,15 @@ abstract contract NFTMarketOffer is FoundationTreasuryNode, NFTMarketCore, Reent
     }
 
     // Distribute revenue for this sale leveraging the ETH received from the FETH contract in the line above.
-    (uint256 f8nFee, uint256 creatorFee, uint256 ownerRev) = _distributeFunds(
+    (uint256 protocolFee, uint256 creatorFee, uint256 sellerRev) = _distributeFunds(
       nftContract,
       tokenId,
       payable(msg.sender),
-      offer.amount
+      offer.amount,
+      payable(0)
     );
 
-    emit OfferAccepted(nftContract, tokenId, offer.buyer, msg.sender, f8nFee, creatorFee, ownerRev);
+    emit OfferAccepted(nftContract, tokenId, offer.buyer, msg.sender, protocolFee, creatorFee, sellerRev);
   }
 
   /**

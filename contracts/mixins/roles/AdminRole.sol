@@ -9,9 +9,9 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
  * @title Defines a role for Foundation admin accounts.
  * @dev Wraps the default admin role from OpenZeppelin's AccessControl for easy integration.
  */
-abstract contract AdminRole is Initializable, AccessControlUpgradeable {
+abstract contract AdminRole is Initializable, OZAccessControlUpgradeable {
   function _initializeAdminRole(address admin) internal onlyInitializing {
-    AccessControlUpgradeable.__AccessControl_init();
+    OZAccessControlUpgradeable.__AccessControl_init();
     // Grant the role to a specified account
     _setupRole(DEFAULT_ADMIN_ROLE, admin);
   }

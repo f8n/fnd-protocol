@@ -22,6 +22,7 @@ abstract contract SendValueWithFallbackWithdraw is
   FoundationTreasuryNode,
   NFTMarketCore,
   ReentrancyGuardUpgradeable,
+  // This is not used directly, but required for the linearization of NFTMarketFees.
   NFTMarketCreators
 {
   using AddressUpgradeable for address payable;
@@ -56,6 +57,19 @@ abstract contract SendValueWithFallbackWithdraw is
       feth.depositFor{ value: amount }(user);
       emit WithdrawalToFETH(user, amount);
     }
+  }
+
+  function _trySendValue(
+    address payable user,
+    uint256 amount,
+    uint256 gasLimit
+  ) internal returns (bool success) {
+    if (amount == 0) {
+      return false;
+    }
+    // Cap the gas to prevent consuming all available gas to block a tx from completing successfully
+    // solhint-disable-next-line avoid-low-level-calls
+    (success, ) = user.call{ value: amount, gas: gasLimit }("");
   }
 
   /**
