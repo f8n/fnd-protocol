@@ -125,6 +125,25 @@ Buy an NFT from a private sale.
 | r | bytes32 | The r value of the EIP-712 signature. |
 | s | bytes32 | The s value of the EIP-712 signature. |
 
+### buyV2
+
+```solidity
+function buyV2(address nftContract, uint256 tokenId, uint256 maxPrice, address payable referrer) external payable
+```
+
+Buy the NFT at the set buy price. `msg.value` must be &lt;= `maxPrice` and any delta will be taken from the account&#39;s available FETH balance.
+
+*`maxPrice` protects the buyer in case a the price is increased but allows the transaction to continue when the price is reduced (and any surplus funds provided are refunded).*
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| nftContract | address | The address of the NFT contract. |
+| tokenId | uint256 | The id of the NFT. |
+| maxPrice | uint256 | The maximum price to pay for the NFT. |
+| referrer | address payable | The address of the referrer. |
+
 ### cancelBuyPrice
 
 ```solidity
@@ -219,7 +238,7 @@ Returns the buy price details for an NFT if one is available.
 ### getFeesAndRecipients
 
 ```solidity
-function getFeesAndRecipients(address nftContract, uint256 tokenId, uint256 price) external view returns (uint256 foundationFee, uint256 creatorRev, address payable[] creatorRecipients, uint256[] creatorShares, uint256 ownerRev, address payable owner)
+function getFeesAndRecipients(address nftContract, uint256 tokenId, uint256 price) external view returns (uint256 protocolFee, uint256 creatorRev, address payable[] creatorRecipients, uint256[] creatorShares, uint256 sellerRev, address payable owner)
 ```
 
 Returns how funds will be distributed for a sale at the given price point.
@@ -238,12 +257,12 @@ Returns how funds will be distributed for a sale at the given price point.
 
 | Name | Type | Description |
 |---|---|---|
-| foundationFee | uint256 | How much will be sent to the Foundation treasury. |
+| protocolFee | uint256 | How much will be sent to the Foundation treasury. |
 | creatorRev | uint256 | How much will be sent across all the `creatorRecipients` defined. |
 | creatorRecipients | address payable[] | The addresses of the recipients to receive a portion of the creator fee. |
 | creatorShares | uint256[] | The percentage of the creator fee to be distributed to each `creatorRecipient`. If there is only one `creatorRecipient`, this may be an empty array. Otherwise `creatorShares.length` == `creatorRecipients.length`. |
-| ownerRev | uint256 | How much will be sent to the owner/seller of the NFT. If the NFT is being sold by the creator, this may be 0 and the full revenue will appear as `creatorRev`. |
-| owner | address payable | The address of the owner of the NFT. If `ownerRev` is 0, this may be `address(0)`. |
+| sellerRev | uint256 | How much will be sent to the owner/seller of the NFT. If the NFT is being sold by the creator, this may be 0 and the full revenue will appear as `creatorRev`. |
+| owner | address payable | The address of the owner of the NFT. If `sellerRev` is 0, this may be `address(0)`. |
 
 ### getFethAddress
 
@@ -521,7 +540,7 @@ If an auction has been created but has not yet received bids, the reservePrice m
 ### BuyPriceAccepted
 
 ```solidity
-event BuyPriceAccepted(address indexed nftContract, uint256 indexed tokenId, address indexed seller, address buyer, uint256 f8nFee, uint256 creatorFee, uint256 ownerRev)
+event BuyPriceAccepted(address indexed nftContract, uint256 indexed tokenId, address indexed seller, address buyer, uint256 protocolFee, uint256 creatorFee, uint256 sellerRev)
 ```
 
 Emitted when an NFT is bought by accepting the buy price, indicating that the NFT has been transferred and revenue from the sale distributed.
@@ -536,9 +555,9 @@ Emitted when an NFT is bought by accepting the buy price, indicating that the NF
 | tokenId `indexed` | uint256 | undefined |
 | seller `indexed` | address | undefined |
 | buyer  | address | undefined |
-| f8nFee  | uint256 | undefined |
+| protocolFee  | uint256 | undefined |
 | creatorFee  | uint256 | undefined |
-| ownerRev  | uint256 | undefined |
+| sellerRev  | uint256 | undefined |
 
 ### BuyPriceCanceled
 
@@ -593,10 +612,30 @@ Emitted when a buy price is set by the owner of an NFT.
 | seller `indexed` | address | undefined |
 | price  | uint256 | undefined |
 
+### BuyReferralPaid
+
+```solidity
+event BuyReferralPaid(address indexed nftContract, uint256 indexed tokenId, address buyReferrer, uint256 buyReferrerProtocolFee, uint256 buyReferrerSellerFee)
+```
+
+Emitted when a NFT sold with a referrer.
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| nftContract `indexed` | address | undefined |
+| tokenId `indexed` | uint256 | undefined |
+| buyReferrer  | address | undefined |
+| buyReferrerProtocolFee  | uint256 | undefined |
+| buyReferrerSellerFee  | uint256 | undefined |
+
 ### OfferAccepted
 
 ```solidity
-event OfferAccepted(address indexed nftContract, uint256 indexed tokenId, address indexed buyer, address seller, uint256 f8nFee, uint256 creatorFee, uint256 ownerRev)
+event OfferAccepted(address indexed nftContract, uint256 indexed tokenId, address indexed buyer, address seller, uint256 protocolFee, uint256 creatorFee, uint256 sellerRev)
 ```
 
 Emitted when an offer is accepted, indicating that the NFT has been transferred and revenue from the sale distributed.
@@ -611,9 +650,9 @@ Emitted when an offer is accepted, indicating that the NFT has been transferred 
 | tokenId `indexed` | uint256 | undefined |
 | buyer `indexed` | address | undefined |
 | seller  | address | undefined |
-| f8nFee  | uint256 | undefined |
+| protocolFee  | uint256 | undefined |
 | creatorFee  | uint256 | undefined |
-| ownerRev  | uint256 | undefined |
+| sellerRev  | uint256 | undefined |
 
 ### OfferCanceledByAdmin
 
@@ -673,7 +712,7 @@ Emitted when an offer is made.
 ### PrivateSaleFinalized
 
 ```solidity
-event PrivateSaleFinalized(address indexed nftContract, uint256 indexed tokenId, address indexed seller, address buyer, uint256 f8nFee, uint256 creatorFee, uint256 ownerRev, uint256 deadline)
+event PrivateSaleFinalized(address indexed nftContract, uint256 indexed tokenId, address indexed seller, address buyer, uint256 protocolFee, uint256 creatorFee, uint256 sellerRev, uint256 deadline)
 ```
 
 Emitted when an NFT is sold in a private sale.
@@ -688,9 +727,9 @@ Emitted when an NFT is sold in a private sale.
 | tokenId `indexed` | uint256 | undefined |
 | seller `indexed` | address | undefined |
 | buyer  | address | undefined |
-| f8nFee  | uint256 | undefined |
+| protocolFee  | uint256 | undefined |
 | creatorFee  | uint256 | undefined |
-| ownerRev  | uint256 | undefined |
+| sellerRev  | uint256 | undefined |
 | deadline  | uint256 | undefined |
 
 ### ReserveAuctionBidPlaced
@@ -770,7 +809,7 @@ Emitted when an NFT is listed for auction.
 ### ReserveAuctionFinalized
 
 ```solidity
-event ReserveAuctionFinalized(uint256 indexed auctionId, address indexed seller, address indexed bidder, uint256 f8nFee, uint256 creatorFee, uint256 ownerRev)
+event ReserveAuctionFinalized(uint256 indexed auctionId, address indexed seller, address indexed bidder, uint256 protocolFee, uint256 creatorFee, uint256 sellerRev)
 ```
 
 Emitted when an auction that has already ended is finalized, indicating that the NFT has been transferred and revenue from the sale distributed.
@@ -784,9 +823,9 @@ Emitted when an auction that has already ended is finalized, indicating that the
 | auctionId `indexed` | uint256 | undefined |
 | seller `indexed` | address | undefined |
 | bidder `indexed` | address | undefined |
-| f8nFee  | uint256 | undefined |
+| protocolFee  | uint256 | undefined |
 | creatorFee  | uint256 | undefined |
-| ownerRev  | uint256 | undefined |
+| sellerRev  | uint256 | undefined |
 
 ### ReserveAuctionInvalidated
 

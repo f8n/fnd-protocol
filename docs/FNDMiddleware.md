@@ -38,7 +38,7 @@ function getAccountInfo(address account) external view returns (uint256 ethBalan
 ### getFees
 
 ```solidity
-function getFees(address nftContract, uint256 tokenId, uint256 price) external view returns (struct FNDMiddleware.FeeWithRecipient foundation, struct FNDMiddleware.Fee creator, struct FNDMiddleware.FeeWithRecipient owner, struct FNDMiddleware.RevSplit[] creatorRevSplit)
+function getFees(address nftContract, uint256 tokenId, uint256 price) external view returns (struct FNDMiddleware.FeeWithRecipient protocol, struct FNDMiddleware.Fee creator, struct FNDMiddleware.FeeWithRecipient owner, struct FNDMiddleware.RevSplit[] creatorRevSplit)
 ```
 
 
@@ -57,7 +57,7 @@ function getFees(address nftContract, uint256 tokenId, uint256 price) external v
 
 | Name | Type | Description |
 |---|---|---|
-| foundation | FNDMiddleware.FeeWithRecipient | undefined |
+| protocol | FNDMiddleware.FeeWithRecipient | undefined |
 | creator | FNDMiddleware.Fee | undefined |
 | owner | FNDMiddleware.FeeWithRecipient | undefined |
 | creatorRevSplit | FNDMiddleware.RevSplit[] | undefined |
@@ -120,7 +120,7 @@ Retrieves details related to the NFT in the FND Market.
 ### probeNFT
 
 ```solidity
-function probeNFT(address nftContract, uint256 tokenId) external payable
+function probeNFT(address nftContract, uint256 tokenId) external payable returns (bytes32)
 ```
 
 Checks an NFT to confirm it will function correctly with our marketplace.
@@ -134,58 +134,12 @@ Checks an NFT to confirm it will function correctly with our marketplace.
 | nftContract | address | undefined |
 | tokenId | uint256 | undefined |
 
-
-
-
-## Errors
-
-### FNDMiddleware_Contract_Is_Not_ERC721
-
-```solidity
-error FNDMiddleware_Contract_Is_Not_ERC721()
-```
-
-
-
-
-
-
-### FNDMiddleware_No_Royalty_Recipients_Defined
-
-```solidity
-error FNDMiddleware_No_Royalty_Recipients_Defined()
-```
-
-
-
-
-
-
-### FNDMiddleware_Royalty_Recipient_Address_0
-
-```solidity
-error FNDMiddleware_Royalty_Recipient_Address_0()
-```
-
-
-
-
-
-
-### FNDMiddleware_Royalty_Recipient_Not_Receivable
-
-```solidity
-error FNDMiddleware_Royalty_Recipient_Not_Receivable(address recipient)
-```
-
-
-
-
-
-#### Parameters
+#### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| recipient | address | undefined |
+| _0 | bytes32 | 0 if the NFT is supported, otherwise a hash of the error reason. |
+
+
 
 
