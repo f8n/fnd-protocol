@@ -24,7 +24,7 @@ abstract contract NFTMarketCreators is
   Constants,
   ReentrancyGuardUpgradeable // Adding this unused mixin to help with linearization
 {
-  using ERC165Checker for address;
+  using OZERC165Checker for address;
 
   IRoyaltyRegistry private immutable royaltyRegistry;
 

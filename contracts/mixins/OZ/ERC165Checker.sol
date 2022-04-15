@@ -17,7 +17,7 @@ import "@openzeppelin/contracts/utils/introspection/IERC165.sol";
  * `revert` if an interface is not supported. It is up to the caller to decide
  * what to do in these cases.
  */
-library ERC165Checker {
+library OZERC165Checker {
   // As per the EIP-165 spec, no interface should ever match 0xffffffff
   bytes4 private constant _INTERFACE_ID_INVALID = 0xffffffff;
 

@@ -44,23 +44,23 @@ abstract contract NFTMarketBuyPrice is NFTMarketCore, NFTMarketFees {
   /**
    * @notice Emitted when an NFT is bought by accepting the buy price,
    * indicating that the NFT has been transferred and revenue from the sale distributed.
-   * @dev The total buy price that was accepted is `f8nFee` + `creatorFee` + `ownerRev`.
+   * @dev The total buy price that was accepted is `protocolFee` + `creatorFee` + `sellerRev`.
    * @param nftContract The address of the NFT contract.
    * @param tokenId The id of the NFT.
    * @param buyer The address of the collector that purchased the NFT using `buy`.
    * @param seller The address of the seller which originally set the buy price.
-   * @param f8nFee The amount of ETH that was sent to Foundation for this sale.
+   * @param protocolFee The amount of ETH that was sent to Foundation for this sale.
    * @param creatorFee The amount of ETH that was sent to the creator for this sale.
-   * @param ownerRev The amount of ETH that was sent to the owner for this sale.
+   * @param sellerRev The amount of ETH that was sent to the owner for this sale.
    */
   event BuyPriceAccepted(
     address indexed nftContract,
     uint256 indexed tokenId,
     address indexed seller,
     address buyer,
-    uint256 f8nFee,
+    uint256 protocolFee,
     uint256 creatorFee,
-    uint256 ownerRev
+    uint256 sellerRev
   );
   /**
    * @notice Emitted when the buy price is removed by the owner of an NFT.
@@ -103,6 +103,25 @@ abstract contract NFTMarketBuyPrice is NFTMarketCore, NFTMarketFees {
     uint256 tokenId,
     uint256 maxPrice
   ) external payable {
+    buyV2(nftContract, tokenId, maxPrice, payable(0));
+  }
+
+  /**
+   * @notice Buy the NFT at the set buy price.
+   * `msg.value` must be <= `maxPrice` and any delta will be taken from the account's available FETH balance.
+   * @dev `maxPrice` protects the buyer in case a the price is increased but allows the transaction to continue
+   * when the price is reduced (and any surplus funds provided are refunded).
+   * @param nftContract The address of the NFT contract.
+   * @param tokenId The id of the NFT.
+   * @param maxPrice The maximum price to pay for the NFT.
+   * @param referrer The address of the referrer.
+   */
+  function buyV2(
+    address nftContract,
+    uint256 tokenId,
+    uint256 maxPrice,
+    address payable referrer
+  ) public payable {
     BuyPrice storage buyPrice = nftContractToTokenIdToBuyPrice[nftContract][tokenId];
     if (buyPrice.price > maxPrice) {
       revert NFTMarketBuyPrice_Cannot_Buy_At_Lower_Price(buyPrice.price);
@@ -110,7 +129,7 @@ abstract contract NFTMarketBuyPrice is NFTMarketCore, NFTMarketFees {
       revert NFTMarketBuyPrice_Cannot_Buy_Unset_Price();
     }
 
-    _buy(nftContract, tokenId);
+    _buy(nftContract, tokenId, referrer);
   }
 
   /**
@@ -199,7 +218,7 @@ abstract contract NFTMarketBuyPrice is NFTMarketCore, NFTMarketFees {
       return false;
     }
 
-    _buy(nftContract, tokenId);
+    _buy(nftContract, tokenId, payable(0));
     return true;
   }
 
@@ -220,7 +239,11 @@ abstract contract NFTMarketBuyPrice is NFTMarketCore, NFTMarketFees {
    * @notice Process the purchase of an NFT at the current buy price.
    * @dev The caller must confirm that the seller != address(0) before calling this function.
    */
-  function _buy(address nftContract, uint256 tokenId) private nonReentrant {
+  function _buy(
+    address nftContract,
+    uint256 tokenId,
+    address payable referrer
+  ) private nonReentrant {
     BuyPrice memory buyPrice = nftContractToTokenIdToBuyPrice[nftContract][tokenId];
 
     // Remove the buy now price
@@ -254,14 +277,15 @@ abstract contract NFTMarketBuyPrice is NFTMarketCore, NFTMarketFees {
     _transferFromEscrow(nftContract, tokenId, msg.sender, address(0));
 
     // Distribute revenue for this sale.
-    (uint256 f8nFee, uint256 creatorFee, uint256 ownerRev) = _distributeFunds(
+    (uint256 protocolFee, uint256 creatorFee, uint256 sellerRev) = _distributeFunds(
       nftContract,
       tokenId,
       buyPrice.seller,
-      buyPrice.price
+      buyPrice.price,
+      referrer
     );
 
-    emit BuyPriceAccepted(nftContract, tokenId, buyPrice.seller, msg.sender, f8nFee, creatorFee, ownerRev);
+    emit BuyPriceAccepted(nftContract, tokenId, buyPrice.seller, msg.sender, protocolFee, creatorFee, sellerRev);
   }
 
   /**

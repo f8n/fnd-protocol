@@ -146,21 +146,22 @@ abstract contract NFTMarketReserveAuction is
   /**
    * @notice Emitted when an auction that has already ended is finalized,
    * indicating that the NFT has been transferred and revenue from the sale distributed.
-   * @dev The amount of the highest bid / final sale price for this auction is `f8nFee` + `creatorFee` + `ownerRev`.
+   * @dev The amount of the highest bid / final sale price for this auction
+   * is `protocolFee` + `creatorFee` + `sellerRev`.
    * @param auctionId The id of the auction that was finalized.
    * @param seller The address of the seller.
    * @param bidder The address of the highest bidder that won the NFT.
-   * @param f8nFee The amount of ETH that was sent to Foundation for this sale.
+   * @param protocolFee The amount of ETH that was sent to Foundation for this sale.
    * @param creatorFee The amount of ETH that was sent to the creator for this sale.
-   * @param ownerRev The amount of ETH that was sent to the owner for this sale.
+   * @param sellerRev The amount of ETH that was sent to the owner for this sale.
    */
   event ReserveAuctionFinalized(
     uint256 indexed auctionId,
     address indexed seller,
     address indexed bidder,
-    uint256 f8nFee,
+    uint256 protocolFee,
     uint256 creatorFee,
-    uint256 ownerRev
+    uint256 sellerRev
   );
   /**
    * @notice Emitted when an auction is invalidated due to other market activity.
@@ -462,14 +463,15 @@ abstract contract NFTMarketReserveAuction is
     }
 
     // Distribute revenue for this sale.
-    (uint256 f8nFee, uint256 creatorFee, uint256 ownerRev) = _distributeFunds(
+    (uint256 protocolFee, uint256 creatorFee, uint256 sellerRev) = _distributeFunds(
       auction.nftContract,
       auction.tokenId,
       auction.seller,
-      auction.amount
+      auction.amount,
+      payable(0)
     );
 
-    emit ReserveAuctionFinalized(auctionId, auction.seller, auction.bidder, f8nFee, creatorFee, ownerRev);
+    emit ReserveAuctionFinalized(auctionId, auction.seller, auction.bidder, protocolFee, creatorFee, sellerRev);
   }
 
   /**

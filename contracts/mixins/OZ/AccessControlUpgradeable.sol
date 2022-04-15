@@ -52,7 +52,7 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
  * grant and revoke this role. Extra precautions should be taken to secure
  * accounts that have been granted it.
  */
-abstract contract AccessControlUpgradeable is Initializable, ContextUpgradeable {
+abstract contract OZAccessControlUpgradeable is Initializable, ContextUpgradeable {
   function __AccessControl_init() internal onlyInitializing {
     __Context_init_unchained();
     __AccessControl_init_unchained();

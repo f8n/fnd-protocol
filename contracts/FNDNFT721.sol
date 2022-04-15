@@ -62,7 +62,7 @@ contract FNDNFT721 is
   FoundationTreasuryNode,
   ERC165UpgradeableGap,
   ERC165,
-  ERC721Upgradeable,
+  OZERC721Upgradeable,
   NFT721Core,
   NFT721ProxyCall,
   NFT721Creator,
@@ -79,7 +79,7 @@ contract FNDNFT721 is
    * @dev This farms the initialize call out to inherited contracts as needed.
    */
   function initialize() external initializer {
-    ERC721Upgradeable.__ERC721_init();
+    OZERC721Upgradeable.__ERC721_init();
     NFT721Mint._initializeNFT721Mint();
   }
 
@@ -100,14 +100,14 @@ contract FNDNFT721 is
   /**
    * @dev This is a no-op, just an explicit override to address compile errors due to inheritance.
    */
-  function _burn(uint256 tokenId) internal override(ERC721Upgradeable, NFT721Creator, NFT721Metadata, NFT721Mint) {
+  function _burn(uint256 tokenId) internal override(OZERC721Upgradeable, NFT721Creator, NFT721Metadata, NFT721Mint) {
     super._burn(tokenId);
   }
 
   function supportsInterface(bytes4 interfaceId)
     public
     view
-    override(ERC165, NFT721Mint, ERC721Upgradeable, NFT721Creator, NFT721Market)
+    override(ERC165, NFT721Mint, OZERC721Upgradeable, NFT721Creator, NFT721Market)
     returns (bool)
   {
     return super.supportsInterface(interfaceId);

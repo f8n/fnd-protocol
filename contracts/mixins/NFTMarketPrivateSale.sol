@@ -48,14 +48,14 @@ abstract contract NFTMarketPrivateSale is NFTMarketFees {
 
   /**
    * @notice Emitted when an NFT is sold in a private sale.
-   * @dev The total amount of this sale is `f8nFee` + `creatorFee` + `ownerRev`.
+   * @dev The total amount of this sale is `protocolFee` + `creatorFee` + `sellerRev`.
    * @param nftContract The address of the NFT contract.
    * @param tokenId The ID of the NFT.
    * @param seller The address of the seller.
    * @param buyer The address of the buyer.
-   * @param f8nFee The amount of ETH that was sent to Foundation for this sale.
+   * @param protocolFee The amount of ETH that was sent to Foundation for this sale.
    * @param creatorFee The amount of ETH that was sent to the creator for this sale.
-   * @param ownerRev The amount of ETH that was sent to the owner for this sale.
+   * @param sellerRev The amount of ETH that was sent to the owner for this sale.
    * @param deadline When the private sale offer was set to expire.
    */
   event PrivateSaleFinalized(
@@ -63,9 +63,9 @@ abstract contract NFTMarketPrivateSale is NFTMarketFees {
     uint256 indexed tokenId,
     address indexed seller,
     address buyer,
-    uint256 f8nFee,
+    uint256 protocolFee,
     uint256 creatorFee,
-    uint256 ownerRev,
+    uint256 sellerRev,
     uint256 deadline
   );
 
@@ -199,9 +199,15 @@ abstract contract NFTMarketPrivateSale is NFTMarketFees {
     IERC721(nftContract).transferFrom(seller, msg.sender, tokenId);
 
     // Distribute revenue for this sale.
-    (uint256 f8nFee, uint256 creatorFee, uint256 ownerRev) = _distributeFunds(nftContract, tokenId, seller, amount);
+    (uint256 protocolFee, uint256 creatorFee, uint256 sellerRev) = _distributeFunds(
+      nftContract,
+      tokenId,
+      seller,
+      amount,
+      payable(address(0))
+    );
 
-    emit PrivateSaleFinalized(nftContract, tokenId, seller, msg.sender, f8nFee, creatorFee, ownerRev, deadline);
+    emit PrivateSaleFinalized(nftContract, tokenId, seller, msg.sender, protocolFee, creatorFee, sellerRev, deadline);
   }
 
   /**
