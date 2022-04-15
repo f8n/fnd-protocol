@@ -17,21 +17,27 @@ Note that our full test suite is not included here at this time. The tests are m
 ## Integrations
 
 #### Why Should I Integrate?
+
 Integrators can tap into the [lucrative](https://dune.xyz/foundation/foundation) FND Market and be rewarded for the volume and liquidity they generate on the blockchain layer.
 
 #### What Type of Rewards Do I Receive?
+
 As a starting point, we offer a kick-back on our BuyNow feature. Any BuyNow initiated will get 20% of the FND Protocol Fee (1% of the total sale amount).
 
 #### How Are Rewards Paid Out?
+
 Rewards (in ETH) will be automatically deposited to the referrer address provided as part of the buy transaction.
 
 #### What’s Next?
-BuyNow is our first kick-back offering, we’re planning to expand this program our other market tools and even new incentive mechanisms. 
+
+BuyNow is our first kick-back offering, we’re planning to expand this program our other market tools and even new incentive mechanisms.
 
 #### Final Notes
+
 None of the above rates/mechanisms should be interpreted as final and are subject to change at anytime.
 
 ### Frontend Integration
+
 Contracts from this repo are published to [`@f8n/fnd-protocol`](https://www.npmjs.com/package/@f8n/fnd-protocol).
 
 To get you started here’s an example BuyNow call with a referral incentive address.
@@ -49,8 +55,8 @@ const txOptions: PayableOverrides = {
 await nftMarketContract.buyV2(...txArgs, txOptions);
 ```
 
-
 ### Smart Contract Integration
+
 See our [examples repo](https://github.com/f8n/fnd-protocol-examples) to see how you can build on these contracts.
 
 ### Backend Integration
