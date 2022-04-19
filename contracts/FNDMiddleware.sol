@@ -101,7 +101,7 @@ contract FNDMiddleware is Constants {
     uint256 tokenId,
     uint256 price
   )
-    public
+    external
     view
     returns (
       FeeWithRecipient memory protocol,
@@ -253,7 +253,17 @@ contract FNDMiddleware is Constants {
     if (!nftContract.supportsInterface(type(IERC721).interfaceId)) {
       return keccak256("Not an ERC721");
     }
-    (, , , RevSplit[] memory creatorRevSplit) = getFees(nftContract, tokenId, BASIS_POINTS);
+    RevSplit[] memory creatorRevSplit;
+    try this.getFees(nftContract, tokenId, BASIS_POINTS) returns (
+      FeeWithRecipient memory,
+      Fee memory,
+      FeeWithRecipient memory,
+      RevSplit[] memory _creatorRevSplit
+    ) {
+      creatorRevSplit = _creatorRevSplit;
+    } catch {
+      return keccak256("Failed to getFees");
+    }
     if (creatorRevSplit.length == 0) {
       return keccak256("No royalty recipients");
     }
