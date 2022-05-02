@@ -3075,10 +3075,10 @@ graphql@15.5.0:
   resolved "https://registry.yarnpkg.com/graphql/-/graphql-15.5.0.tgz#39d19494dbe69d1ea719915b578bf920344a69d5"
   integrity sha512-OmaM7y0kaK31NKG31q4YbD2beNYa6jBBKtMFT6gLYJljHLJr42IqJ8KX08u3Li/0ifzTU5HjmoOOrwa5BRLeDA==
 
-graphql@16.3.0:
-  version "16.3.0"
-  resolved "https://registry.yarnpkg.com/graphql/-/graphql-16.3.0.tgz#a91e24d10babf9e60c706919bb182b53ccdffc05"
-  integrity sha512-xm+ANmA16BzCT5pLjuXySbQVFwH3oJctUVdy81w1sV0vBU0KgDdBGtxQOUd5zqOBk/JayAFeG8Dlmeq74rjm/A==
+graphql@16.4.0:
+  version "16.4.0"
+  resolved "https://registry.yarnpkg.com/graphql/-/graphql-16.4.0.tgz#bb10b1b4683045dedcb67000eb4ad134a36c59e6"
+  integrity sha512-tYDNcRvKCcfHREZYje3v33NSrSD/ZpbWWdPtBtUUuXx9NCo/2QDxYzNqCnMvfsrnbwRpEHMovVrPu/ERoLrIRg==
 
 har-schema@^2.0.0:
   version "2.0.0"
