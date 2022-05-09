@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+## 2.2.0
+
+### Market
+
+- [Bid Referrals](https://github.com/f8n/fnd-contracts/pull/1782): adds `placeBidV2` with referral incentives.
+- [Offer Referrals](https://github.com/f8n/fnd-contracts/pull/1790): adds `makeOfferV2` with referral incentives.
+- Auction gas savings: don't store duration/extension.
+
 ## 2.1.1
 
 ### Middleware
