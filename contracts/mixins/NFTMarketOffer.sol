@@ -37,11 +37,16 @@ abstract contract NFTMarketOffer is FoundationTreasuryNode, NFTMarketCore, Reent
     uint32 expiration;
     /// @notice The amount, in wei, of the highest offer.
     uint96 amount;
-    // 128 bits are available in slot 1
-
+    /// @notice First slot (of 16B) used for the offerReferrerAddress.
+    // The offerReferrerAddress is the address used to pay the
+    // referrer on an accepted offer.
+    uint128 offerReferrerAddressSlot0;
     // Slot 2: When the buyer changes, both slots need updating
     /// @notice The address of the collector who made this offer.
     address buyer;
+    /// @notice Second slot (of 4B) used for the offerReferrerAddress.
+    uint32 offerReferrerAddressSlot1;
+    // 96 bits (12B) are available in slot 1.
   }
 
   /// @notice Stores the highest offer for each NFT.
@@ -185,16 +190,18 @@ abstract contract NFTMarketOffer is FoundationTreasuryNode, NFTMarketCore, Reent
    * @param nftContract The address of the NFT contract.
    * @param tokenId The id of the NFT.
    * @param amount The amount to offer for this NFT.
+   * @param referrer The refrerrer address for the offer.
    * @return expiration The timestamp for when this offer will expire.
    * This is provided as a return value in case another contract would like to leverage this information,
    * user's should refer to the expiration in the `OfferMade` event log.
    * If the buy price is accepted instead, `0` is returned as the expiration since that's n/a.
    */
-  function makeOffer(
+  function makeOfferV2(
     address nftContract,
     uint256 tokenId,
-    uint256 amount
-  ) external payable returns (uint256 expiration) {
+    uint256 amount,
+    address payable referrer
+  ) public payable returns (uint256 expiration) {
     // If there is a buy price set at this price or lower, accept that instead.
     if (_autoAcceptBuyPrice(nftContract, tokenId, amount)) {
       // If the buy price is accepted, `0` is returned as the expiration since that's n/a.
@@ -238,8 +245,25 @@ abstract contract NFTMarketOffer is FoundationTreasuryNode, NFTMarketCore, Reent
     offer.expiration = uint32(expiration);
     // `amount` is capped by the ETH provided, which cannot realistically overflow 96 bits.
     offer.amount = uint96(amount);
+    // Set offerReferrerAddressSlot0 to the first 16B of the referrer address.
+    // By shifting the referrer 32 bits to the right we obtain the first 16B.
+    offer.offerReferrerAddressSlot0 = uint128(uint160(address(referrer)) >> 32);
+    // Set offerReferrerAddressSlot1 to the last 4B of the referrer address.
+    // By casting the referrer address to 32bits we discard the first 16B.
+    offer.offerReferrerAddressSlot1 = uint32(uint160(address(referrer)));
 
     emit OfferMade(nftContract, tokenId, msg.sender, amount, expiration);
+  }
+
+  /**
+   * @notice [DEPRECATED] Please use `makeOfferV2`.
+   */
+  function makeOffer(
+    address nftContract,
+    uint256 tokenId,
+    uint256 amount
+  ) external payable returns (uint256 expiration) {
+    expiration = makeOfferV2(nftContract, tokenId, amount, payable(0));
   }
 
   /**
@@ -273,7 +297,7 @@ abstract contract NFTMarketOffer is FoundationTreasuryNode, NFTMarketCore, Reent
       tokenId,
       payable(msg.sender),
       offer.amount,
-      payable(0)
+      _getOfferReferrerFromSlots(offer.offerReferrerAddressSlot0, offer.offerReferrerAddressSlot1)
     );
 
     emit OfferAccepted(nftContract, tokenId, offer.buyer, msg.sender, protocolFee, creatorFee, sellerRev);
@@ -384,6 +408,33 @@ abstract contract NFTMarketOffer is FoundationTreasuryNode, NFTMarketCore, Reent
 
     // An offer was found and it has not yet expired.
     return (offer.buyer, offer.expiration, offer.amount);
+  }
+
+  /**
+   * @notice Returns the current highest offer's referral for an NFT.
+   * @dev Default value of `payable(0)` is returned if
+   * there is no offer, the offer has expired or does not have a referral.
+   * @param nftContract The address of the NFT contract.
+   * @param tokenId The id of the NFT.
+   * @return referrer The payable address of the referrer for the offer.
+   */
+  function getOfferReferrer(address nftContract, uint256 tokenId) external view returns (address payable referrer) {
+    Offer storage offer = nftContractToIdToOffer[nftContract][tokenId];
+    if (offer.expiration < block.timestamp) {
+      // Offer not found or has expired
+      return payable(0);
+    }
+    return _getOfferReferrerFromSlots(offer.offerReferrerAddressSlot0, offer.offerReferrerAddressSlot1);
+  }
+
+  function _getOfferReferrerFromSlots(uint128 offerReferrerAddressSlot0, uint32 offerReferrerAddressSlot1)
+    private
+    pure
+    returns (address payable referrer)
+  {
+    // Stitch offerReferrerAddressSlot0 and offerReferrerAddressSlot1 to obtain the payable offerReferrerAddress.
+    // Left shift offerReferrerAddressSlot0 by 32 bits OR it with offerReferrerAddressSlot1.
+    referrer = payable(address((uint160(offerReferrerAddressSlot0) << 32) | uint160(offerReferrerAddressSlot1)));
   }
 
   /**
