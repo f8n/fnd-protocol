@@ -54,7 +54,7 @@ abstract contract NFTMarketReserveAuction is
   NFTMarketFees,
   NFTMarketAuction
 {
-  /// @notice Stores the auction configuration for a specific NFT.
+  /// @notice The auction configuration for a specific NFT.
   struct ReserveAuction {
     /// @notice The address of the NFT contract.
     address nftContract;
@@ -77,11 +77,41 @@ abstract contract NFTMarketReserveAuction is
     uint256 amount;
   }
 
+  /// @notice Stores the auction configuration for a specific NFT.
+  /// @dev This allows us to modify the storage struct without changing external APIs.
+  struct ReserveAuctionStorage {
+    /// @notice The address of the NFT contract.
+    address nftContract;
+    /// @notice The id of the NFT.
+    uint256 tokenId;
+    /// @notice The owner of the NFT which listed it in auction.
+    address payable seller;
+    /// @notice First slot (of 12B) used for the bidReferrerAddress.
+    /// The bidReferrerAddress is the address used to pay the referrer on finalize.
+    /// @dev This approach is used in order to pack storage, saving gas.
+    uint96 bidReferrerAddressSlot0;
+    /// @dev This field is no longer used.
+    uint256 __gap_was_duration;
+    /// @dev This field is no longer used.
+    uint256 __gap_was_extensionDuration;
+    /// @notice The time at which this auction will not accept any new bids.
+    /// @dev This is `0` until the first bid is placed.
+    uint256 endTime;
+    /// @notice The current highest bidder in this auction.
+    /// @dev This is `address(0)` until the first bid is placed.
+    address payable bidder;
+    /// @notice Second slot (of 8B) used for the bidReferrerAddress.
+    uint64 bidReferrerAddressSlot1;
+    /// @notice The latest price of the NFT in this auction.
+    /// @dev This is set to the reserve price, and then to the highest bid once the auction has started.
+    uint256 amount;
+  }
+
   /// @notice The auction configuration for a specific auction id.
   mapping(address => mapping(uint256 => uint256)) private nftContractToTokenIdToAuctionId;
   /// @notice The auction id for a specific NFT.
   /// @dev This is deleted when an auction is finalized or canceled.
-  mapping(uint256 => ReserveAuction) private auctionIdToAuction;
+  mapping(uint256 => ReserveAuctionStorage) private auctionIdToAuction;
 
   /**
    * @dev Removing old unused variables in an upgrade safe way. Was:
@@ -216,7 +246,7 @@ abstract contract NFTMarketReserveAuction is
     if (bytes(reason).length == 0) {
       revert NFTMarketReserveAuction_Cannot_Admin_Cancel_Without_Reason();
     }
-    ReserveAuction memory auction = auctionIdToAuction[auctionId];
+    ReserveAuctionStorage memory auction = auctionIdToAuction[auctionId];
     if (auction.amount == 0) {
       revert NFTMarketReserveAuction_Cannot_Cancel_Nonexistent_Auction();
     }
@@ -241,7 +271,7 @@ abstract contract NFTMarketReserveAuction is
    * @param auctionId The id of the auction to cancel.
    */
   function cancelReserveAuction(uint256 auctionId) external nonReentrant {
-    ReserveAuction memory auction = auctionIdToAuction[auctionId];
+    ReserveAuctionStorage memory auction = auctionIdToAuction[auctionId];
     if (auction.seller != msg.sender) {
       revert NFTMarketReserveAuction_Only_Owner_Can_Update_Auction(auction.seller);
     }
@@ -283,16 +313,11 @@ abstract contract NFTMarketReserveAuction is
 
     // Store the auction details
     nftContractToTokenIdToAuctionId[nftContract][tokenId] = auctionId;
-    auctionIdToAuction[auctionId] = ReserveAuction(
-      nftContract,
-      tokenId,
-      payable(msg.sender),
-      DURATION,
-      EXTENSION_DURATION,
-      0, // endTime is only known once the reserve price is met
-      payable(0), // bidder is only known once a bid has been placed
-      reservePrice
-    );
+    ReserveAuctionStorage storage auction = auctionIdToAuction[auctionId];
+    auction.nftContract = nftContract;
+    auction.tokenId = tokenId;
+    auction.seller = payable(msg.sender);
+    auction.amount = reservePrice;
 
     emit ReserveAuctionCreated(msg.sender, nftContract, tokenId, DURATION, EXTENSION_DURATION, reservePrice, auctionId);
   }
@@ -315,11 +340,11 @@ abstract contract NFTMarketReserveAuction is
    * If this is the first bid on the auction, the countdown will begin.
    * If there is already an outstanding bid, the previous bidder will be refunded at this time
    * and if the bid is placed in the final moments of the auction, the countdown may be extended.
-   * @dev This API is deprecated and will be removed in the future, `placeBidOf` should be used instead.
+   * @dev This API is deprecated and will be removed in the future, `placeBidV2` should be used instead.
    * @param auctionId The id of the auction to bid on.
    */
   function placeBid(uint256 auctionId) external payable {
-    placeBidOf(auctionId, msg.value);
+    placeBidV2(auctionId, msg.value, payable(0));
   }
 
   /**
@@ -333,8 +358,12 @@ abstract contract NFTMarketReserveAuction is
    * @param amount The amount to bid, if this is more than `msg.value` funds will be withdrawn from your FETH balance.
    */
   /* solhint-disable-next-line code-complexity */
-  function placeBidOf(uint256 auctionId, uint256 amount) public payable nonReentrant {
-    ReserveAuction storage auction = auctionIdToAuction[auctionId];
+  function placeBidV2(
+    uint256 auctionId,
+    uint256 amount,
+    address payable referrer
+  ) public payable nonReentrant {
+    ReserveAuctionStorage storage auction = auctionIdToAuction[auctionId];
 
     if (auction.amount == 0) {
       // No auction found
@@ -345,6 +374,13 @@ abstract contract NFTMarketReserveAuction is
     }
 
     uint256 endTime = auction.endTime;
+
+    // Store the bid referral
+    if (referrer != address(0) || endTime != 0) {
+      auction.bidReferrerAddressSlot0 = uint96(uint160(address(referrer)) >> 64);
+      auction.bidReferrerAddressSlot1 = uint64(uint160(address(referrer)));
+    }
+
     if (endTime == 0) {
       // This is the first bid, kicking off the auction.
 
@@ -424,7 +460,7 @@ abstract contract NFTMarketReserveAuction is
    * @param reservePrice The new reserve price for this auction.
    */
   function updateReserveAuction(uint256 auctionId, uint256 reservePrice) external onlyValidAuctionConfig(reservePrice) {
-    ReserveAuction storage auction = auctionIdToAuction[auctionId];
+    ReserveAuctionStorage storage auction = auctionIdToAuction[auctionId];
     if (auction.seller != msg.sender) {
       revert NFTMarketReserveAuction_Only_Owner_Can_Update_Auction(auction.seller);
     } else if (auction.endTime != 0) {
@@ -447,7 +483,7 @@ abstract contract NFTMarketReserveAuction is
    * sets a buy price or lists it in a new auction.
    */
   function _finalizeReserveAuction(uint256 auctionId, bool keepInEscrow) private {
-    ReserveAuction memory auction = auctionIdToAuction[auctionId];
+    ReserveAuctionStorage memory auction = auctionIdToAuction[auctionId];
 
     if (auction.endTime >= block.timestamp) {
       revert NFTMarketReserveAuction_Cannot_Finalize_Auction_In_Progress(auction.endTime);
@@ -468,7 +504,7 @@ abstract contract NFTMarketReserveAuction is
       auction.tokenId,
       auction.seller,
       auction.amount,
-      payable(0)
+      payable(address((uint160(auction.bidReferrerAddressSlot0) << 64) | uint160(auction.bidReferrerAddressSlot1)))
     );
 
     emit ReserveAuctionFinalized(auctionId, auction.seller, auction.bidder, protocolFee, creatorFee, sellerRev);
@@ -489,7 +525,7 @@ abstract contract NFTMarketReserveAuction is
   ) internal virtual override {
     uint256 auctionId = nftContractToTokenIdToAuctionId[nftContract][tokenId];
     if (auctionId != 0) {
-      ReserveAuction storage auction = auctionIdToAuction[auctionId];
+      ReserveAuctionStorage storage auction = auctionIdToAuction[auctionId];
       if (auction.endTime == 0) {
         // The auction has not received any bids yet so it may be invalided.
 
@@ -550,7 +586,7 @@ abstract contract NFTMarketReserveAuction is
       return;
     }
     // Using storage saves gas since most of the data is not needed
-    ReserveAuction storage auction = auctionIdToAuction[auctionId];
+    ReserveAuctionStorage storage auction = auctionIdToAuction[auctionId];
     if (auction.endTime == 0) {
       // Reserve price set, confirm the seller is a match
       if (auction.seller != msg.sender) {
@@ -574,7 +610,7 @@ abstract contract NFTMarketReserveAuction is
    * @return minimum The minimum amount for a bid to be accepted.
    */
   function getMinBidAmount(uint256 auctionId) external view returns (uint256 minimum) {
-    ReserveAuction storage auction = auctionIdToAuction[auctionId];
+    ReserveAuctionStorage storage auction = auctionIdToAuction[auctionId];
     if (auction.endTime == 0) {
       return auction.amount;
     }
@@ -584,10 +620,19 @@ abstract contract NFTMarketReserveAuction is
   /**
    * @notice Returns auction details for a given auctionId.
    * @param auctionId The id of the auction to lookup.
-   * @return auction The auction details.
    */
   function getReserveAuction(uint256 auctionId) external view returns (ReserveAuction memory auction) {
-    return auctionIdToAuction[auctionId];
+    ReserveAuctionStorage storage auctionStorage = auctionIdToAuction[auctionId];
+    auction = ReserveAuction(
+      auctionStorage.nftContract,
+      auctionStorage.tokenId,
+      auctionStorage.seller,
+      DURATION,
+      EXTENSION_DURATION,
+      auctionStorage.endTime,
+      auctionStorage.bidder,
+      auctionStorage.amount
+    );
   }
 
   /**
@@ -599,6 +644,16 @@ abstract contract NFTMarketReserveAuction is
    */
   function getReserveAuctionIdFor(address nftContract, uint256 tokenId) external view returns (uint256 auctionId) {
     auctionId = nftContractToTokenIdToAuctionId[nftContract][tokenId];
+  }
+
+  /**
+   * @notice Returns the referrer for the current highest bid in the auction, or address(0).
+   */
+  function getReserveAuctionBidReferrer(uint256 auctionId) external view returns (address payable referrer) {
+    ReserveAuctionStorage storage auction = auctionIdToAuction[auctionId];
+    referrer = payable(
+      address((uint160(auction.bidReferrerAddressSlot0) << 64) | uint160(auction.bidReferrerAddressSlot1))
+    );
   }
 
   /**
