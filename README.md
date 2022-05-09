@@ -22,7 +22,7 @@ Integrators can tap into the [lucrative](https://dune.xyz/foundation/foundation)
 
 #### What Type of Rewards Do I Receive?
 
-As a starting point, we offer a kick-back on our BuyNow feature. Any BuyNow initiated will get 20% of the FND Protocol Fee (1% of the total sale amount).
+We offer buyyer side on all our market tools (BuyNow, Auctions, Offers). Any buy initiated will get 20% of the FND Protocol Fee (1% of the total sale amount).
 
 #### How Are Rewards Paid Out?
 
@@ -30,7 +30,7 @@ Rewards (in ETH) will be automatically deposited to the referrer address provide
 
 #### What’s Next?
 
-BuyNow is our first kick-back offering, we’re planning to expand this program our other market tools and even new incentive mechanisms.
+We’re planning to expand referral programs to our seller side listings.
 
 #### Final Notes
 
@@ -53,6 +53,18 @@ const txOptions: PayableOverrides = {
       value: buyNowPrice
     };
 await nftMarketContract.buyV2(...txArgs, txOptions);
+```
+
+The above example can be extended for Offers and Auctions as well:
+```
+// Offers.
+const txArgsForOffer: MakeOfferArgs = [...]
+await nftMarketContract.makeOfferV2(...txArgsForOffer, txOptions);
+
+// Auctions.
+const txArgsForBids: MakeOfferArgs = [...]
+await nftMarketContract.placeBidV2(...txArgsForBids, txOptions);
+
 ```
 
 ### Smart Contract Integration
