@@ -63,8 +63,8 @@ const txArgsForOffer: MakeOfferArgs = [...];
 await nftMarketContract.makeOfferV2(...txArgsForOffer, txOptions);
 
 // Auctions.
-const txArgsForBids: MakeOfferArgs = [...];
-await nftMarketContract.placeBidV2(...txArgsForBids, txOptions);
+const txArgsForBid: BidArgs = [...];
+await nftMarketContract.placeBidV2(...txArgsForBid, txOptions);
 
 ```
 
