@@ -56,6 +56,7 @@ await nftMarketContract.buyV2(...txArgs, txOptions);
 ```
 
 The above example can be extended for Offers and Auctions as well:
+
 ```
 // Offers.
 const txArgsForOffer: MakeOfferArgs = [...];

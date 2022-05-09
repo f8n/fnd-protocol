@@ -368,6 +368,29 @@ Returns details about the current highest offer for an NFT.
 | expiration | uint256 | The timestamp that the current highest offer expires. Returns `0` if there is no offer or the most recent offer has expired. |
 | amount | uint256 | The amount being offered for this NFT. Returns `0` if there is no offer or the most recent offer has expired. |
 
+### getOfferReferrer
+
+```solidity
+function getOfferReferrer(address nftContract, uint256 tokenId) external view returns (address payable referrer)
+```
+
+Returns the current highest offer&#39;s referral for an NFT.
+
+*Default value of `payable(0)` is returned if there is no offer, the offer has expired or does not have a referral.*
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| nftContract | address | The address of the NFT contract. |
+| tokenId | uint256 | The id of the NFT. |
+
+#### Returns
+
+| Name | Type | Description |
+|---|---|---|
+| referrer | address payable | The payable address of the referrer for the offer. |
+
 ### getReserveAuction
 
 ```solidity
@@ -388,7 +411,29 @@ Returns auction details for a given auctionId.
 
 | Name | Type | Description |
 |---|---|---|
-| auction | NFTMarketReserveAuction.ReserveAuction | The auction details. |
+| auction | NFTMarketReserveAuction.ReserveAuction | undefined |
+
+### getReserveAuctionBidReferrer
+
+```solidity
+function getReserveAuctionBidReferrer(uint256 auctionId) external view returns (address payable referrer)
+```
+
+Returns the referrer for the current highest bid in the auction, or address(0).
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| auctionId | uint256 | undefined |
+
+#### Returns
+
+| Name | Type | Description |
+|---|---|---|
+| referrer | address payable | undefined |
 
 ### getReserveAuctionIdFor
 
@@ -447,6 +492,30 @@ Called once to configure the contract after the initial proxy deployment.
 function makeOffer(address nftContract, uint256 tokenId, uint256 amount) external payable returns (uint256 expiration)
 ```
 
+[DEPRECATED] Please use `makeOfferV2`.
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| nftContract | address | undefined |
+| tokenId | uint256 | undefined |
+| amount | uint256 | undefined |
+
+#### Returns
+
+| Name | Type | Description |
+|---|---|---|
+| expiration | uint256 | undefined |
+
+### makeOfferV2
+
+```solidity
+function makeOfferV2(address nftContract, uint256 tokenId, uint256 amount, address payable referrer) external payable returns (uint256 expiration)
+```
+
 Make an offer for any NFT which is valid for 24-25 hours. The funds will be locked in the FETH token contract and become available once the offer is outbid or has expired.
 
 *An offer may be made for an NFT before it is minted, although we generally not recommend you do that. If there is a buy price set at this price or lower, that will be accepted instead of making an offer. `msg.value` must be &lt;= `amount` and any delta will be taken from the account&#39;s available FETH balance.*
@@ -458,6 +527,7 @@ Make an offer for any NFT which is valid for 24-25 hours. The funds will be lock
 | nftContract | address | The address of the NFT contract. |
 | tokenId | uint256 | The id of the NFT. |
 | amount | uint256 | The amount to offer for this NFT. |
+| referrer | address payable | The refrerrer address for the offer. |
 
 #### Returns
 
@@ -473,7 +543,7 @@ function placeBid(uint256 auctionId) external payable
 
 Place a bid in an auction. A bidder may place a bid which is at least the value defined by `getMinBidAmount`. If this is the first bid on the auction, the countdown will begin. If there is already an outstanding bid, the previous bidder will be refunded at this time and if the bid is placed in the final moments of the auction, the countdown may be extended.
 
-*This API is deprecated and will be removed in the future, `placeBidOf` should be used instead.*
+*This API is deprecated and will be removed in the future, `placeBidV2` should be used instead.*
 
 #### Parameters
 
@@ -481,10 +551,10 @@ Place a bid in an auction. A bidder may place a bid which is at least the value 
 |---|---|---|
 | auctionId | uint256 | The id of the auction to bid on. |
 
-### placeBidOf
+### placeBidV2
 
 ```solidity
-function placeBidOf(uint256 auctionId, uint256 amount) external payable
+function placeBidV2(uint256 auctionId, uint256 amount, address payable referrer) external payable
 ```
 
 Place a bid in an auction. A bidder may place a bid which is at least the amount defined by `getMinBidAmount`. If this is the first bid on the auction, the countdown will begin. If there is already an outstanding bid, the previous bidder will be refunded at this time and if the bid is placed in the final moments of the auction, the countdown may be extended.
@@ -497,6 +567,7 @@ Place a bid in an auction. A bidder may place a bid which is at least the amount
 |---|---|---|
 | auctionId | uint256 | The id of the auction to bid on. |
 | amount | uint256 | The amount to bid, if this is more than `msg.value` funds will be withdrawn from your FETH balance. |
+| referrer | address payable | undefined |
 
 ### setBuyPrice
 
