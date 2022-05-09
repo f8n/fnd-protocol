@@ -632,6 +632,22 @@ Emitted when a NFT sold with a referrer.
 | buyReferrerProtocolFee  | uint256 | undefined |
 | buyReferrerSellerFee  | uint256 | undefined |
 
+### Initialized
+
+```solidity
+event Initialized(uint8 version)
+```
+
+
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| version  | uint8 | undefined |
+
 ### OfferAccepted
 
 ```solidity
