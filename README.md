@@ -22,7 +22,7 @@ Integrators can tap into the [lucrative](https://dune.xyz/foundation/foundation)
 
 #### What Type of Rewards Do I Receive?
 
-We offer buyyer side on all our market tools (BuyNow, Auctions, Offers). Any buy initiated will get 20% of the FND Protocol Fee (1% of the total sale amount).
+We offer buyer side incentives on all our market tools (BuyNow, Auctions, Offers). Any NFT purchase initiated with a referral will get 20% of the FND Protocol Fee (1% of the total sale amount).
 
 #### How Are Rewards Paid Out?
 
@@ -58,11 +58,11 @@ await nftMarketContract.buyV2(...txArgs, txOptions);
 The above example can be extended for Offers and Auctions as well:
 ```
 // Offers.
-const txArgsForOffer: MakeOfferArgs = [...]
+const txArgsForOffer: MakeOfferArgs = [...];
 await nftMarketContract.makeOfferV2(...txArgsForOffer, txOptions);
 
 // Auctions.
-const txArgsForBids: MakeOfferArgs = [...]
+const txArgsForBids: MakeOfferArgs = [...];
 await nftMarketContract.placeBidV2(...txArgsForBids, txOptions);
 
 ```
