@@ -231,6 +231,22 @@ Emitted when ETH is transferred to a recipient through this split contract.
 | account `indexed` | address | The account which received payment. |
 | amount  | uint256 | The amount of ETH payment sent to this recipient. |
 
+### Initialized
+
+```solidity
+event Initialized(uint8 version)
+```
+
+
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| version  | uint8 | undefined |
+
 ### PercentSplitCreated
 
 ```solidity

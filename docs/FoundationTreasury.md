@@ -250,6 +250,22 @@ Emitted when funds are withdrawn from this contract.
 | to `indexed` | address | undefined |
 | amount  | uint256 | undefined |
 
+### Initialized
+
+```solidity
+event Initialized(uint8 version)
+```
+
+
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| version  | uint8 | undefined |
+
 ### RoleAdminChanged
 
 ```solidity

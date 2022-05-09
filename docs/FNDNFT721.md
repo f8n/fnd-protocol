@@ -874,6 +874,22 @@ Emitted when the base URI used by NFTs created by this contract is updated.
 |---|---|---|
 | baseURI  | string | undefined |
 
+### Initialized
+
+```solidity
+event Initialized(uint8 version)
+```
+
+
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| version  | uint8 | undefined |
+
 ### Minted
 
 ```solidity

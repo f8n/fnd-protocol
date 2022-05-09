@@ -857,6 +857,22 @@ Emitted when the owner of this collection is changed through account migration.
 | originalAddress `indexed` | address | The address which was previously the owner. |
 | newAddress `indexed` | address | The new address which is now the owner. |
 
+### Initialized
+
+```solidity
+event Initialized(uint8 version)
+```
+
+
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| version  | uint8 | undefined |
+
 ### MaxTokenIdUpdated
 
 ```solidity
