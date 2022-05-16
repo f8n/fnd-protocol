@@ -235,6 +235,31 @@ Returns the buy price details for an NFT if one is available.
 | seller | address | The address of the owner that listed a buy price for this NFT. Returns `address(0)` if there is no buy price set for this NFT. |
 | price | uint256 | The price of the NFT. Returns `0` if there is no buy price set for this NFT. |
 
+### getCreatorAndImmutableRoyalties
+
+```solidity
+function getCreatorAndImmutableRoyalties(address nftContract, uint256 tokenId) external view returns (address payable creator, address payable[] recipients, uint256[] splitPerRecipientInBasisPoints)
+```
+
+For internal use only.
+
+*This function is external to allow using try/catch but is not intended for external use. This checks the token creator and if ERC2981 royalties are defined by the NFT contract, allowing this standard to define immutable royalties that cannot be later changed via the royalty registry.*
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| nftContract | address | undefined |
+| tokenId | uint256 | undefined |
+
+#### Returns
+
+| Name | Type | Description |
+|---|---|---|
+| creator | address payable | undefined |
+| recipients | address payable[] | undefined |
+| splitPerRecipientInBasisPoints | uint256[] | undefined |
+
 ### getFeesAndRecipients
 
 ```solidity
@@ -342,6 +367,30 @@ Returns the minimum amount a collector must offer for this NFT in order for the 
 | Name | Type | Description |
 |---|---|---|
 | minimum | uint256 | The minimum amount that must be offered for this NFT. |
+
+### getMutableRoyalties
+
+```solidity
+function getMutableRoyalties(address nftContract, uint256 tokenId) external view returns (address payable[] recipients, uint256[] splitPerRecipientInBasisPoints)
+```
+
+For internal use only.
+
+*This function is external to allow using try/catch but is not intended for external use. This checks for royalties defined in the royalty registry or via a non-standard royalty API.*
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| nftContract | address | undefined |
+| tokenId | uint256 | undefined |
+
+#### Returns
+
+| Name | Type | Description |
+|---|---|---|
+| recipients | address payable[] | undefined |
+| splitPerRecipientInBasisPoints | uint256[] | undefined |
 
 ### getOffer
 
@@ -1131,10 +1180,10 @@ error NFTMarketCore_Seller_Not_Found()
 
 
 
-### NFTMarketCreators_Address_Does_Not_Support_IRoyaltyRegistry
+### NFTMarketFees_Address_Does_Not_Support_IRoyaltyRegistry
 
 ```solidity
-error NFTMarketCreators_Address_Does_Not_Support_IRoyaltyRegistry()
+error NFTMarketFees_Address_Does_Not_Support_IRoyaltyRegistry()
 ```
 
 

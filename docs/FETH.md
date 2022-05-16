@@ -6,7 +6,7 @@
 
 FETH is an [ERC-20 token](https://eips.ethereum.org/EIPS/eip-20) modeled after [WETH9](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2#code). It has the added ability to lockup tokens for 24-25 hours - during this time they may not be transferred or withdrawn, except by our market contract which requested the lockup in the first place.
 
-*Locked balances are rounded up to the next hour. They are grouped by the expiration time of the lockup into what we refer to as a lockup &quot;bucket&quot;. At any time there may be up to 25 buckets but never more than that which prevents loops from exhausting gas limits. FETH is an upgradeable contract. Overtime we will progressively decentralize, potentially giving upgrade permissions to a DOA ownership or removing the permissions entirely.*
+*Locked balances are rounded up to the next hour. They are grouped by the expiration time of the lockup into what we refer to as a lockup &quot;bucket&quot;. At any time there may be up to 25 buckets but never more than that which prevents loops from exhausting gas limits. FETH is an upgradeable contract. Overtime we will progressively decentralize, potentially giving upgrade permissions to a DAO ownership or removing the permissions entirely.*
 
 ## Methods
 
