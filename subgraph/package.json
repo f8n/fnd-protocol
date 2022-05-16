@@ -24,7 +24,7 @@
     "@graphprotocol/graph-cli": "0.29.2",
     "@graphprotocol/graph-ts": "0.26.0",
     "@graphql-codegen/cli": "2.6.2",
-    "@graphql-codegen/typescript": "2.4.10",
+    "@graphql-codegen/typescript": "2.4.11",
     "@types/mustache": "^4.1.2",
     "@types/yargs": "^17.0.10",
     "graphql": "16.4.0",
