@@ -3,10 +3,7 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol";
 
-import "./FoundationTreasuryNode.sol";
-import "./NFTMarketCore.sol";
 import "./NFTMarketFees.sol";
 
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
@@ -27,7 +24,7 @@ error NFTMarketOffer_Provided_Contract_And_TokenId_Count_Must_Match();
  * @title Allows collectors to make an offer for an NFT, valid for 24-25 hours.
  * @notice Funds are escrowed in the FETH ERC-20 token contract.
  */
-abstract contract NFTMarketOffer is FoundationTreasuryNode, NFTMarketCore, ReentrancyGuardUpgradeable, NFTMarketFees {
+abstract contract NFTMarketOffer is NFTMarketFees {
   using AddressUpgradeable for address;
 
   /// @notice Stores offer details for a specific NFT.

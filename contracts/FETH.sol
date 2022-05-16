@@ -81,7 +81,7 @@ error FETH_Transfer_To_FETH_Not_Allowed();
  * They are grouped by the expiration time of the lockup into what we refer to as a lockup "bucket".
  * At any time there may be up to 25 buckets but never more than that which prevents loops from exhausting gas limits.
  * FETH is an upgradeable contract. Overtime we will progressively decentralize, potentially giving upgrade permissions
- * to a DOA ownership or removing the permissions entirely.
+ * to a DAO ownership or removing the permissions entirely.
  */
 contract FETH {
   using AddressUpgradeable for address payable;

@@ -3,9 +3,7 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol";
 
-import "./NFTMarketCore.sol";
 import "./NFTMarketFees.sol";
 
 /// @param buyPrice The current buy price set for this NFT.
@@ -25,7 +23,7 @@ error NFTMarketBuyPrice_Seller_Mismatch(address seller);
  * @title Allows sellers to set a buy price of their NFTs that may be accepted and instantly transferred to the buyer.
  * @notice NFTs with a buy price set are escrowed in the market contract.
  */
-abstract contract NFTMarketBuyPrice is NFTMarketCore, NFTMarketFees {
+abstract contract NFTMarketBuyPrice is NFTMarketFees {
   using AddressUpgradeable for address payable;
 
   /// @notice Stores the buy price details for a specific NFT.

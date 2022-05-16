@@ -215,23 +215,11 @@ contract FNDMiddleware is Constants {
     // Bubble the creator to the first position in `creatorRevSplit`
     {
       address creatorAddress;
-      try ITokenCreator(nftContract).tokenCreator{ gas: READ_ONLY_GAS_LIMIT }(tokenId) returns (
-        address payable _creator
-      ) {
-        creatorAddress = _creator;
+      try this.getTokenCreator(nftContract, tokenId) returns (address _creatorAddress) {
+        creatorAddress = _creatorAddress;
       } catch // solhint-disable-next-line no-empty-blocks
       {
-        // Fall through
-      }
 
-      // 7th priority: owner from contract or override
-      try IOwnable(nftContract).owner{ gas: READ_ONLY_GAS_LIMIT }() returns (address _owner) {
-        if (_owner != address(0)) {
-          creatorAddress = _owner;
-        }
-      } catch // solhint-disable-next-line no-empty-blocks
-      {
-        // Fall through
       }
       if (creatorAddress != address(0)) {
         for (uint256 i = 1; i < creatorRevSplit.length; ++i) {
@@ -241,6 +229,27 @@ contract FNDMiddleware is Constants {
           }
         }
       }
+    }
+  }
+
+  function getTokenCreator(address nftContract, uint256 tokenId) external view returns (address creatorAddress) {
+    try ITokenCreator(nftContract).tokenCreator{ gas: READ_ONLY_GAS_LIMIT }(tokenId) returns (
+      address payable _creator
+    ) {
+      return _creator;
+    } catch // solhint-disable-next-line no-empty-blocks
+    {
+      // Fall through
+    }
+
+    // 7th priority: owner from contract or override
+    try IOwnable(nftContract).owner{ gas: READ_ONLY_GAS_LIMIT }() returns (address _owner) {
+      if (_owner != address(0)) {
+        return _owner;
+      }
+    } catch // solhint-disable-next-line no-empty-blocks
+    {
+      // Fall through
     }
   }
 
@@ -607,31 +616,23 @@ contract FNDMiddleware is Constants {
 
   /**
    * @notice Converts an address into a string.
-   * @dev From https://ethereum.stackexchange.com/questions/8346/convert-address-to-string
+   * @dev From https://github.com/code-423n4/2022-05-cally/blob/main/contracts/src/CallyNft.sol
    */
-  function _toAsciiString(address x) private pure returns (string memory) {
+  function _toAsciiString(address account) private pure returns (string memory) {
     unchecked {
-      bytes memory s = new bytes(42);
-      s[0] = "0";
-      s[1] = "x";
-      for (uint256 i = 0; i < 20; ++i) {
-        bytes1 b = bytes1(uint8(uint256(uint160(x)) / (2**(8 * (19 - i)))));
-        bytes1 hi = bytes1(uint8(b) / 16);
-        bytes1 lo = bytes1(uint8(b) - 16 * uint8(hi));
-        s[2 * i + 2] = _char(hi);
-        s[2 * i + 3] = _char(lo);
-      }
-      return string(s);
-    }
-  }
+      bytes memory data = abi.encodePacked(account);
 
-  /**
-   * @notice Converts a byte to a UTF-8 character.
-   */
-  function _char(bytes1 b) private pure returns (bytes1 c) {
-    unchecked {
-      if (uint8(b) < 10) return bytes1(uint8(b) + 0x30);
-      else return bytes1(uint8(b) + 0x57);
+      bytes memory alphabet = "0123456789abcdef";
+
+      bytes memory str = new bytes(2 + data.length * 2);
+      str[0] = "0";
+      str[1] = "x";
+      for (uint256 i = 0; i < data.length; ++i) {
+        str[2 + i * 2] = alphabet[uint256(uint8(data[i] >> 4))];
+        str[3 + i * 2] = alphabet[uint256(uint8(data[i] & 0x0f))];
+      }
+
+      return string(str);
     }
   }
 }

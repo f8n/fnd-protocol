@@ -49,7 +49,6 @@ import "./mixins/FoundationTreasuryNode.sol";
 import "./mixins/NFTMarketAuction.sol";
 import "./mixins/NFTMarketBuyPrice.sol";
 import "./mixins/NFTMarketCore.sol";
-import "./mixins/NFTMarketCreators.sol";
 import "./mixins/NFTMarketFees.sol";
 import "./mixins/NFTMarketOffer.sol";
 import "./mixins/NFTMarketPrivateSale.sol";
@@ -71,7 +70,6 @@ contract FNDNFTMarket is
   FoundationTreasuryNode,
   NFTMarketCore,
   ReentrancyGuardUpgradeable,
-  NFTMarketCreators,
   SendValueWithFallbackWithdraw,
   NFTMarketFees,
   NFTMarketAuction,
@@ -98,7 +96,7 @@ contract FNDNFTMarket is
   )
     FoundationTreasuryNode(treasury)
     NFTMarketCore(feth)
-    NFTMarketCreators(royaltyRegistry)
+    NFTMarketFees(royaltyRegistry)
     NFTMarketReserveAuction(duration)
     NFTMarketPrivateSale(marketProxyAddress) // solhint-disable-next-line no-empty-blocks
   {}

@@ -2,13 +2,21 @@
 
 ## Unreleased
 
+- TBD
+
+## 2.2.1
+
+### Market
+
+- [Try try catch](https://github.com/f8n/fnd-contracts/pull/1838) so that contracts with a fallback function or unsupported return types do not cause the NFT to get stuck in escrow.
+
 ## 2.2.0
 
 ### Market
 
-- [Bid Referrals](https://github.com/f8n/fnd-contracts/pull/1782): adds `placeBidV2` with referral incentives and `getReserveAuctionBidReferrer`.
-- [Offer Referrals](https://github.com/f8n/fnd-contracts/pull/1790): adds `makeOfferV2` with referral incentives and `getOfferReferrer`.
-- Auction gas savings: don't store duration/extension.
+- [Bid Referrals](https://github.com/f8n/fnd-contracts/pull/1782): adds `placeBidV2` with referral incentives.
+- [Offer Referrals](https://github.com/f8n/fnd-contracts/pull/1790): adds `makeOfferV2` with referral incentives.
+- Auction gas savings: don't store duration/extension. https://github.com/f8n/fnd-contracts/pull/1793
 
 ## 2.1.1
 
