@@ -117,6 +117,29 @@ Retrieves details related to the NFT in the FND Market.
 | offerBuyer | address | undefined |
 | offerExpiration | uint256 | undefined |
 
+### getTokenCreator
+
+```solidity
+function getTokenCreator(address nftContract, uint256 tokenId) external view returns (address creatorAddress)
+```
+
+
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| nftContract | address | undefined |
+| tokenId | uint256 | undefined |
+
+#### Returns
+
+| Name | Type | Description |
+|---|---|---|
+| creatorAddress | address | undefined |
+
 ### probeNFT
 
 ```solidity

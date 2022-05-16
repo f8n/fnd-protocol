@@ -2,14 +2,8 @@
 
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol";
-
-import "./Constants.sol";
-import "./FoundationTreasuryNode.sol";
 import "./NFTMarketAuction.sol";
-import "./NFTMarketCore.sol";
 import "./NFTMarketFees.sol";
-import "./SendValueWithFallbackWithdraw.sol";
 
 /// @param auctionId The already listed auctionId for this NFT.
 error NFTMarketReserveAuction_Already_Listed(uint256 auctionId);
@@ -45,15 +39,7 @@ error NFTMarketReserveAuction_Too_Much_Value_Provided();
  * @dev There is room to optimize the storage for auctions, significantly reducing gas costs.
  * This may be done in the future, but for now it will remain as is in order to ease upgrade compatibility.
  */
-abstract contract NFTMarketReserveAuction is
-  Constants,
-  FoundationTreasuryNode,
-  NFTMarketCore,
-  ReentrancyGuardUpgradeable,
-  SendValueWithFallbackWithdraw,
-  NFTMarketFees,
-  NFTMarketAuction
-{
+abstract contract NFTMarketReserveAuction is NFTMarketFees, NFTMarketAuction {
   /// @notice The auction configuration for a specific NFT.
   struct ReserveAuction {
     /// @notice The address of the NFT contract.

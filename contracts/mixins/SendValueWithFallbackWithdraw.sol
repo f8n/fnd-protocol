@@ -5,9 +5,7 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol";
 
-import "./FoundationTreasuryNode.sol";
 import "./NFTMarketCore.sol";
-import "./NFTMarketCreators.sol";
 
 error SendValueWithFallbackWithdraw_No_Funds_Available();
 
@@ -18,13 +16,7 @@ error SendValueWithFallbackWithdraw_No_Funds_Available();
  * @dev This mixin was recently switched to escrow funds in FETH.
  * Once we have confirmed all pending balances have been withdrawn, we can remove the escrow tracking here.
  */
-abstract contract SendValueWithFallbackWithdraw is
-  FoundationTreasuryNode,
-  NFTMarketCore,
-  ReentrancyGuardUpgradeable,
-  // This is not used directly, but required for the linearization of NFTMarketFees.
-  NFTMarketCreators
-{
+abstract contract SendValueWithFallbackWithdraw is NFTMarketCore, ReentrancyGuardUpgradeable {
   using AddressUpgradeable for address payable;
 
   /// @dev Tracks the amount of ETH that is stored in escrow for future withdrawal.
@@ -77,5 +69,5 @@ abstract contract SendValueWithFallbackWithdraw is
    * variables without shifting down storage in the inheritance chain.
    * See https://docs.openzeppelin.com/contracts/4.x/upgradeable#storage_gaps
    */
-  uint256[499] private __gap;
+  uint256[999] private __gap;
 }
