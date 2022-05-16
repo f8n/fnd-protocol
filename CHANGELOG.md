@@ -8,15 +8,15 @@
 
 ### Market
 
-- [Try try catch](https://github.com/f8n/fnd-contracts/pull/1838) so that contracts with a fallback function or unsupported return types do not cause the NFT to get stuck in escrow.
+- Try try catch so that contracts with a fallback function or unsupported return types do not cause the NFT to get stuck in escrow.
 
 ## 2.2.0
 
 ### Market
 
-- [Bid Referrals](https://github.com/f8n/fnd-contracts/pull/1782): adds `placeBidV2` with referral incentives.
-- [Offer Referrals](https://github.com/f8n/fnd-contracts/pull/1790): adds `makeOfferV2` with referral incentives.
-- Auction gas savings: don't store duration/extension. https://github.com/f8n/fnd-contracts/pull/1793
+- Bid Referrals: adds `placeBidV2` with referral incentives and `getReserveAuctionBidReferrer`.
+- Offer Referrals: adds `makeOfferV2` with referral incentives and `getOfferReferrer`.
+- Auction gas savings: don't store duration/extension.
 
 ## 2.1.1
 
@@ -32,7 +32,7 @@
 
 ### Market
 
-- [Buy referrals](https://github.com/f8n/fnd-contracts/pull/1726): adds `buyV2` with referral incentives.
+- Buy referrals: adds `buyV2` with referral incentives.
 - Royalties: ignore `royaltyInfo` from the NFT contract when the amount is 0 (does not impact the royalty override)
 - On placeBidOf, leverage FETH from an outstanding offer.
 - Remove withdraw from escrow (leaning on fallback to FETH instead).
@@ -49,7 +49,7 @@
 
 ### Middleware
 
-- `probeNFT` https://github.com/f8n/fnd-contracts/pull/1645
+- `probeNFT`
 
 ## 2.0.1
 
