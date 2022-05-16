@@ -30,7 +30,7 @@
     "graphql": "16.4.0",
     "graphql-request": "4.2.0",
     "graphql-tag": "2.12.6",
-    "matchstick-as": "0.4.2",
+    "matchstick-as": "0.4.3",
     "mustache": "4.2.0",
     "replace-in-file": "6.3.2",
     "yargs": "17.4.1"

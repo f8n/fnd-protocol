@@ -707,17 +707,10 @@
     which "2.0.2"
     yaml "1.9.2"
 
-"@graphprotocol/graph-ts@0.26.0":
+"@graphprotocol/graph-ts@0.26.0", "@graphprotocol/graph-ts@^0.26.0":
   version "0.26.0"
   resolved "https://registry.yarnpkg.com/@graphprotocol/graph-ts/-/graph-ts-0.26.0.tgz#576f995531eebaca4374901aeaff499219e382e8"
   integrity sha512-GW/emOJl+35MXgmIxTnUK7dJtPCaB9u5aAwoLVqJ8swogC794O92UrXMVrAJsherUriu+yI9bLMGmNPOIi60jw==
-  dependencies:
-    assemblyscript "0.19.10"
-
-"@graphprotocol/graph-ts@^0.24.1":
-  version "0.24.1"
-  resolved "https://registry.yarnpkg.com/@graphprotocol/graph-ts/-/graph-ts-0.24.1.tgz#50961b52b5383f9c5cf5e6e23fa039f24e729ddf"
-  integrity sha512-2vU4m5ZPQIqMlMce/z5vmOtGHRlRmcRhMfemS3NIwxCSxSBGVnX2zb7QBTzzdQKGwsAZdbz6V0okkOtvohELfQ==
   dependencies:
     assemblyscript "0.19.10"
 
@@ -4226,12 +4219,12 @@ map-cache@^0.2.0:
   resolved "https://registry.yarnpkg.com/map-cache/-/map-cache-0.2.2.tgz#c32abd0bd6525d9b051645bb4f26ac5dc98a0dbf"
   integrity sha1-wyq9C9ZSXZsFFkW7TyasXcmKDb8=
 
-matchstick-as@0.4.2:
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/matchstick-as/-/matchstick-as-0.4.2.tgz#d9b20af5890a1c0191a2b88936a1296d8113a90b"
-  integrity sha512-LbLWA9DLMgus/GIsT7fHxP9cdb/oLQFrjpj2dAcHd64X4wxrVs2VIyxoNlha6h+9lQWHBmdT8042Oi+/wh/idg==
+matchstick-as@0.4.3:
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/matchstick-as/-/matchstick-as-0.4.3.tgz#c35aba5d4da2524d3546c25183b72ff8d0d210d3"
+  integrity sha512-0rDobz0L8ainmnBo5pPj0vPwRBdzZz8WfTLUCId/KXJyoaumrgrdicTcuj46QAguD0gOY4j8vWNonE1OR3EFzg==
   dependencies:
-    "@graphprotocol/graph-ts" "^0.24.1"
+    "@graphprotocol/graph-ts" "^0.26.0"
     assemblyscript "^0.19.20"
     wabt "1.0.24"
 
