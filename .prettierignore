@@ -10,7 +10,6 @@ node_modules/
 typechain-types/
 .vscode/
 deployments/
-subgraph/generated/
 
 # files
 coverage.json

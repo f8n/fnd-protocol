@@ -1,11 +1,11 @@
-import { Address } from "@graphprotocol/graph-ts";
+import { Address, BigInt } from "@graphprotocol/graph-ts";
 import { Account, Feth, FethEscrow } from "../../generated/schema";
 import { ZERO_BIG_DECIMAL } from "./constants";
 
 interface EscrowEventParams {
   account: Address;
-  amount: bigint;
-  expiration: bigint;
+  amount: BigInt;
+  expiration: BigInt;
 }
 
 interface EscrowEvent {
