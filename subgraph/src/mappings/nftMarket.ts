@@ -20,7 +20,6 @@ import {
   OfferCanceledByAdmin,
   OfferInvalidated,
   OfferMade,
-  PrivateSaleFinalized,
   ReserveAuctionBidPlaced,
   ReserveAuctionCanceled,
   ReserveAuctionCanceledByAdmin,
@@ -39,7 +38,10 @@ import { loadLatestOffer, outbidOrExpirePreviousOffer } from "../shared/offers";
 import { recordSale } from "../shared/revenue";
 import { loadLatestBuyNow } from "../shared/buyNow";
 import { IMarketDeprecatedAPIs } from "../../generated/NFTMarketContract/IMarketDeprecatedAPIs";
-import { ReserveAuctionSellerMigrated } from "../../generated/MarketDeprecatedEvents/MarketDeprecatedEvents";
+import {
+  PrivateSaleFinalized,
+  ReserveAuctionSellerMigrated,
+} from "../../generated/MarketDeprecatedEvents/MarketDeprecatedEvents";
 
 function loadOrCreateNFTMarketContract(address: Address): NftMarketContract {
   let nftMarketContract = NftMarketContract.load(address.toHex());
@@ -296,6 +298,9 @@ export function handleReserveAuctionFinalized(event: ReserveAuctionFinalized): v
 
   auction.status = "Finalized";
   auction.dateFinalized = event.block.timestamp;
+  auction.ownerRevenueInETH = toETH(event.params.sellerRev);
+  auction.creatorRevenueInETH = toETH(event.params.creatorFee);
+  auction.foundationRevenueInETH = toETH(event.params.protocolFee);
   let currentBid = NftMarketBid.load(auction.highestBid as string) as NftMarketBid;
   currentBid.status = "FinalizedWinner";
   currentBid.dateLeftActiveStatus = event.block.timestamp;
@@ -322,6 +327,14 @@ export function handleReserveAuctionFinalized(event: ReserveAuctionFinalized): v
     creator.netRevenuePendingInETH = creator.netRevenuePendingInETH.minus(auction.creatorRevenueInETH as BigDecimal);
     creator.netSalesPendingInETH = creator.netSalesPendingInETH.minus(saleAmountInETH);
   }
+  if (!auction.buyReferrerSellerFee) {
+    auction.buyReferrerSellerFee = toETH(ZERO_BIG_INT);
+  }
+  if (!auction.buyReferrerProtocolFee) {
+    auction.buyReferrerProtocolFee = toETH(ZERO_BIG_INT);
+  }
+  auction.foundationProtocolFeeInETH = toETH(event.params.protocolFee).minus(auction.buyReferrerProtocolFee!); // eslint-disable-line @typescript-eslint/no-non-null-assertion
+
   owner.netRevenuePendingInETH = owner.netRevenuePendingInETH.minus(auction.ownerRevenueInETH as BigDecimal);
   nft.netRevenuePendingInETH = nft.netRevenuePendingInETH.minus(auction.creatorRevenueInETH as BigDecimal);
   nft.netSalesPendingInETH = nft.netSalesPendingInETH.minus(saleAmountInETH);
@@ -513,6 +526,14 @@ export function handleOfferAccepted(event: OfferAccepted): void {
   offer.creatorRevenueInETH = toETH(event.params.creatorFee);
   offer.foundationRevenueInETH = toETH(event.params.protocolFee);
   offer.ownerRevenueInETH = toETH(event.params.sellerRev);
+  if (!offer.buyReferrerSellerFee) {
+    offer.buyReferrerSellerFee = toETH(ZERO_BIG_INT);
+  }
+  if (!offer.buyReferrerProtocolFee) {
+    offer.buyReferrerProtocolFee = toETH(ZERO_BIG_INT);
+  }
+  offer.foundationProtocolFeeInETH = toETH(event.params.protocolFee).minus(offer.buyReferrerProtocolFee!); // eslint-disable-line @typescript-eslint/no-non-null-assertion
+
   offer.isPrimarySale = nft.isFirstSale && offer.seller == nft.creator;
   offer.save();
   removePreviousTransferEvent(event); // Only applicable if the NFT was escrowed
@@ -709,14 +730,38 @@ export function handleBuyPriceCanceled(event: BuyPriceCanceled): void {
 export function handleBuyReferralPaid(event: BuyReferralPaid): void {
   let nft = loadOrCreateNFT(event.params.nftContract, event.params.tokenId, event);
   let buyNow = loadLatestBuyNow(nft);
-  if (!buyNow) {
+  if (buyNow) {
+    buyNow.buyReferrerProtocolFee = toETH(event.params.buyReferrerProtocolFee);
+    buyNow.buyReferrerSellerFee = toETH(event.params.buyReferrerSellerFee);
+    if (event.params.buyReferrer.toHex() != ZERO_ADDRESS_STRING) {
+      buyNow.buyReferrer = loadOrCreateAccount(event.params.buyReferrer).id;
+    }
+    buyNow.save();
     return;
   }
-  buyNow.buyReferrer = loadOrCreateAccount(event.params.buyReferrer).id;
-  buyNow.buyReferrerProtocolFee = toETH(event.params.buyReferrerProtocolFee);
-  buyNow.buyReferrerSellerFee = toETH(event.params.buyReferrerSellerFee);
-  if (event.params.buyReferrer.toHex() != ZERO_ADDRESS_STRING) {
-    buyNow.buyReferrer = loadOrCreateAccount(event.params.buyReferrer).id;
+  let mostRecentActiveAuction = nft.mostRecentActiveAuction;
+  if (mostRecentActiveAuction) {
+    let auction = NftMarketAuction.load(mostRecentActiveAuction);
+    if (auction && auction.status == "Open") {
+      auction.buyReferrerProtocolFee = toETH(event.params.buyReferrerProtocolFee);
+      auction.buyReferrerSellerFee = toETH(event.params.buyReferrerSellerFee);
+      if (event.params.buyReferrer.toHex() != ZERO_ADDRESS_STRING) {
+        auction.buyReferrer = loadOrCreateAccount(event.params.buyReferrer).id;
+      }
+      auction.save();
+      return;
+    }
   }
-  buyNow.save();
+  // Offer lookup should be done last since an NFT bought
+  // using BuyNow/Auctions does not invalidate an open Offer.
+  let offer = loadLatestOffer(nft);
+  if (offer) {
+    offer.buyReferrerProtocolFee = toETH(event.params.buyReferrerProtocolFee);
+    offer.buyReferrerSellerFee = toETH(event.params.buyReferrerSellerFee);
+    if (event.params.buyReferrer.toHex() != ZERO_ADDRESS_STRING) {
+      offer.buyReferrer = loadOrCreateAccount(event.params.buyReferrer).id;
+    }
+    offer.save();
+    return;
+  }
 }
