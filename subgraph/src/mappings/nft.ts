@@ -1,4 +1,4 @@
-import { Address, BigInt, ethereum, store } from "@graphprotocol/graph-ts";
+import { Address, ethereum, store } from "@graphprotocol/graph-ts";
 import { PaymentAddressMigrated, TokenCreatorUpdated } from "../../generated/NFT721Contract/NFT721Contract";
 import {
   Approval,
@@ -37,11 +37,11 @@ export function loadOrCreateNFTContract(address: Address): NftContract {
   return nftContract as NftContract;
 }
 
-function getNFTId(address: Address, id: BigInt): string {
+function getNFTId(address: Address, id: bigint): string {
   return address.toHex() + "-" + id.toString();
 }
 
-export function loadOrCreateNFT(address: Address, id: BigInt, event: ethereum.Event): Nft {
+export function loadOrCreateNFT(address: Address, id: bigint, event: ethereum.Event): Nft {
   let nftId = getNFTId(address, id);
   let nft = Nft.load(nftId);
   if (!nft) {
@@ -191,7 +191,7 @@ export function handleTransfer(event: Transfer): void {
   nft.save();
 }
 
-function updateTokenIPFSPath(nft: Nft, tokenIPFSPath: string, _: BigInt): void {
+function updateTokenIPFSPath(nft: Nft, tokenIPFSPath: string, _: bigint): void {
   nft.tokenIPFSPath = tokenIPFSPath;
   nft.save();
 }

@@ -51,7 +51,7 @@ function loadOrCreateNFTMarketContract(address: Address): NftMarketContract {
   return nftMarketContract as NftMarketContract;
 }
 
-function loadAuction(marketAddress: Address, auctionId: BigInt): NftMarketAuction | null {
+function loadAuction(marketAddress: Address, auctionId: bigint): NftMarketAuction | null {
   return NftMarketAuction.load(marketAddress.toHex() + "-" + auctionId.toString());
 }
 
@@ -124,9 +124,9 @@ export function handleReserveAuctionBidPlaced(event: ReserveAuctionBidPlaced): v
   }
 
   // Calculate the expected revenue for this bid
-  let foundationFee: BigInt;
-  let creatorRev: BigInt;
-  let sellerRev: BigInt;
+  let foundationFee: bigint;
+  let creatorRev: bigint;
+  let sellerRev: bigint;
   // getFees is failing in Figment only, this try/else block works around that issue
   let fees = marketContractDeprecatedAPIs.try_getFees(
     Address.fromString(nft.nftContract),
