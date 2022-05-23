@@ -117,6 +117,28 @@ Retrieves details related to the NFT in the FND Market.
 | offerBuyer | address | undefined |
 | offerExpiration | uint256 | undefined |
 
+### getSplitShareLength
+
+```solidity
+function getSplitShareLength(address payable recipient) external view returns (uint256 count)
+```
+
+
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| recipient | address payable | undefined |
+
+#### Returns
+
+| Name | Type | Description |
+|---|---|---|
+| count | uint256 | undefined |
+
 ### getTokenCreator
 
 ```solidity
