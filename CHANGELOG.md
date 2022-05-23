@@ -1,8 +1,15 @@
 # Changelog
 
-## Unreleased
+## 2.2.3
 
-- TBD
+- Remove Private Sales
+- Try/catch `tokenCreator` so that other royalty APIs are checked for contracts with a fallback function.
+- Ignore `owner` when address(0)
+
+## 2.2.2
+
+- Middleware: Fix `probeNFT` for fallback function in the royalty recipient.
+- Upgrade to [solc 0.8.14](https://github.com/ethereum/solidity/releases/tag/v0.8.14)
 
 ## 2.2.1
 

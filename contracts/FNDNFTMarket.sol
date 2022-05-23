@@ -51,7 +51,7 @@ import "./mixins/NFTMarketBuyPrice.sol";
 import "./mixins/NFTMarketCore.sol";
 import "./mixins/NFTMarketFees.sol";
 import "./mixins/NFTMarketOffer.sol";
-import "./mixins/NFTMarketPrivateSale.sol";
+import "./mixins/NFTMarketPrivateSaleGap.sol";
 import "./mixins/NFTMarketReserveAuction.sol";
 import "./mixins/SendValueWithFallbackWithdraw.sol";
 
@@ -65,7 +65,6 @@ import "./mixins/SendValueWithFallbackWithdraw.sol";
  * respected by our market contract.
  */
 contract FNDNFTMarket is
-  Constants,
   Initializable,
   FoundationTreasuryNode,
   NFTMarketCore,
@@ -74,7 +73,7 @@ contract FNDNFTMarket is
   NFTMarketFees,
   NFTMarketAuction,
   NFTMarketReserveAuction,
-  NFTMarketPrivateSale,
+  NFTMarketPrivateSaleGap,
   NFTMarketBuyPrice,
   NFTMarketOffer
 {
@@ -85,20 +84,17 @@ contract FNDNFTMarket is
    * @param feth The FETH ERC-20 token contract address.
    * @param royaltyRegistry The Royalty Registry contract address.
    * @param duration The duration of the auction in seconds.
-   * @param marketProxyAddress The address of the proxy fronting this contract.
    */
   constructor(
     address payable treasury,
     address feth,
     address royaltyRegistry,
-    uint256 duration,
-    address marketProxyAddress
+    uint256 duration
   )
     FoundationTreasuryNode(treasury)
     NFTMarketCore(feth)
     NFTMarketFees(royaltyRegistry)
-    NFTMarketReserveAuction(duration)
-    NFTMarketPrivateSale(marketProxyAddress) // solhint-disable-next-line no-empty-blocks
+    NFTMarketReserveAuction(duration) // solhint-disable-next-line no-empty-blocks
   {}
 
   /**

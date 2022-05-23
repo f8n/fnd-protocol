@@ -7,6 +7,18 @@ pragma solidity ^0.8.0;
  * that the subgraph depends on for historical transactions.
  */
 contract MarketDeprecatedEvents {
+  // From NFTMarketPrivateSale
+  event PrivateSaleFinalized(
+    address indexed nftContract,
+    uint256 indexed tokenId,
+    address indexed seller,
+    address buyer,
+    uint256 protocolFee,
+    uint256 creatorFee,
+    uint256 sellerRev,
+    uint256 deadline
+  );
+
   // From NFTMarketReserveAuction
   /**
    * @notice Emitted when the seller for an auction has been changed to a new account.

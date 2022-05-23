@@ -15,14 +15,7 @@ import "./Constants.sol";
 /**
  * @title Holds a reference to the Foundation Market and communicates fees to marketplaces.
  */
-abstract contract NFT721Market is
-  IGetRoyalties,
-  IGetFees,
-  IRoyaltyInfo,
-  Constants,
-  FoundationTreasuryNode,
-  NFT721Creator
-{
+abstract contract NFT721Market is IGetRoyalties, IGetFees, IRoyaltyInfo, FoundationTreasuryNode, NFT721Creator {
   using AddressUpgradeable for address;
 
   /// @dev 10% of sales should go to the creator of the NFT.
