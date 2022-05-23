@@ -16,3 +16,5 @@ subgraph/generated
 subgraph/subgraph.yaml
 
 .DS_Store
+
+subgraph/graph-node/

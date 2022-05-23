@@ -108,7 +108,6 @@ export async function deployMarketAndFETH({
       feth.address,
       royaltyRegistry.address,
       ONE_DAY, // duration
-      marketProxy.address,
     ],
   })) as FNDNFTMarket;
   await market.initialize();

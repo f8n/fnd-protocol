@@ -1,10 +1,11 @@
 {
-  "name": "@f8n/fnd-protocol-subgraph",
-  "description": "Foundation subgraph",
-  "version": "2.0.0",
+  "name": "@f8n/f8n-contracts",
+  "description": "Contract, types, and subgraph for foundation",
+  "version": "1.5.0",
   "scripts": {
     "test": "graph test collection && graph test account",
     "build": "graph codegen && graph build",
+    "build:types": "graphql-codegen --config codegen.yml && ts-node ./scripts/makeSubgraphTypesOptional.ts",
     "prepare:goerli": "mustache config/goerli.js subgraph.template.yaml > subgraph.yaml",
     "deploy:goerli": "yarn prepare:goerli && yarn build && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ f8n/fnd-goerli && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ f8n/f8n-goerli && graph deploy FoundationContract --debug --ipfs https://graph--foundation-goerli-ipfs.datahub.figment.io/apikey/$FIGMENT_API_KEY --node https://graph--foundation-goerli-admin.datahub.figment.io/apikey/$FIGMENT_API_KEY",
     "prepare:mainnet": "mustache config/mainnet.js subgraph.template.yaml > subgraph.yaml",
@@ -21,8 +22,8 @@
     "diff:figment:goerli": "ts-node ./scripts/diffSubgraphs.ts -f fnd-goerli -t https://goerli-subgraph.foundation.app"
   },
   "devDependencies": {
-    "@graphprotocol/graph-cli": "0.30.0",
-    "@graphprotocol/graph-ts": "0.27.0",
+    "@graphprotocol/graph-cli": "0.29.2",
+    "@graphprotocol/graph-ts": "0.26.0",
     "@graphql-codegen/cli": "2.6.2",
     "@graphql-codegen/typescript": "2.4.11",
     "@types/mustache": "^4.1.2",

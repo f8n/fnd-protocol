@@ -82,49 +82,6 @@ Buy the NFT at the set buy price. `msg.value` must be &lt;= `maxPrice` and any d
 | tokenId | uint256 | The id of the NFT. |
 | maxPrice | uint256 | The maximum price to pay for the NFT. |
 
-### buyFromPrivateSale
-
-```solidity
-function buyFromPrivateSale(address nftContract, uint256 tokenId, uint256 deadline, uint8 v, bytes32 r, bytes32 s) external payable
-```
-
-Buy an NFT from a private sale.
-
-*This API is deprecated and will be removed in the future, `buyFromPrivateSaleFor` should be used instead. The seller signs a message approving the sale and then the buyer calls this function with the `msg.value` equal to the agreed upon price. If the seller is no longer the `ownerOf` this NFT or has removed approval for this contract, attempts to purchase from private sale will revert.*
-
-#### Parameters
-
-| Name | Type | Description |
-|---|---|---|
-| nftContract | address | The address of the NFT contract. |
-| tokenId | uint256 | The ID of the NFT. |
-| deadline | uint256 | The timestamp at which the offer to sell will expire. |
-| v | uint8 | The v value of the EIP-712 signature. |
-| r | bytes32 | The r value of the EIP-712 signature. |
-| s | bytes32 | The s value of the EIP-712 signature. |
-
-### buyFromPrivateSaleFor
-
-```solidity
-function buyFromPrivateSaleFor(address nftContract, uint256 tokenId, uint256 amount, uint256 deadline, uint8 v, bytes32 r, bytes32 s) external payable
-```
-
-Buy an NFT from a private sale.
-
-*The seller signs a message approving the sale and then the buyer calls this function with the `amount` equal to the agreed upon price. If the seller is no longer the `ownerOf` this NFT or has removed approval for this contract, attempts to purchase from private sale will revert.`amount` - `msg.value` is withdrawn from the bidder&#39;s FETH balance.*
-
-#### Parameters
-
-| Name | Type | Description |
-|---|---|---|
-| nftContract | address | The address of the NFT contract. |
-| tokenId | uint256 | The ID of the NFT. |
-| amount | uint256 | The amount to buy for, if this is more than `msg.value` funds will be withdrawn from your FETH balance. |
-| deadline | uint256 | The timestamp at which the offer to sell will expire. |
-| v | uint8 | The v value of the EIP-712 signature. |
-| r | bytes32 | The r value of the EIP-712 signature. |
-| s | bytes32 | The s value of the EIP-712 signature. |
-
 ### buyV2
 
 ```solidity
@@ -235,31 +192,6 @@ Returns the buy price details for an NFT if one is available.
 | seller | address | The address of the owner that listed a buy price for this NFT. Returns `address(0)` if there is no buy price set for this NFT. |
 | price | uint256 | The price of the NFT. Returns `0` if there is no buy price set for this NFT. |
 
-### getCreatorAndImmutableRoyalties
-
-```solidity
-function getCreatorAndImmutableRoyalties(address nftContract, uint256 tokenId) external view returns (address payable creator, address payable[] recipients, uint256[] splitPerRecipientInBasisPoints)
-```
-
-For internal use only.
-
-*This function is external to allow using try/catch but is not intended for external use. This checks the token creator and if ERC2981 royalties are defined by the NFT contract, allowing this standard to define immutable royalties that cannot be later changed via the royalty registry.*
-
-#### Parameters
-
-| Name | Type | Description |
-|---|---|---|
-| nftContract | address | undefined |
-| tokenId | uint256 | undefined |
-
-#### Returns
-
-| Name | Type | Description |
-|---|---|---|
-| creator | address payable | undefined |
-| recipients | address payable[] | undefined |
-| splitPerRecipientInBasisPoints | uint256[] | undefined |
-
 ### getFeesAndRecipients
 
 ```solidity
@@ -323,6 +255,30 @@ Gets the Foundation treasury contract.
 |---|---|---|
 | treasuryAddress | address payable | The address of the Foundation treasury contract. |
 
+### getImmutableRoyalties
+
+```solidity
+function getImmutableRoyalties(address nftContract, uint256 tokenId) external view returns (address payable[] recipients, uint256[] splitPerRecipientInBasisPoints)
+```
+
+For internal use only.
+
+*This function is external to allow using try/catch but is not intended for external use. If ERC2981 royalties (or getRoyalties) are defined by the NFT contract, allow this standard to define immutable royalties that cannot be later changed via the royalty registry.*
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| nftContract | address | undefined |
+| tokenId | uint256 | undefined |
+
+#### Returns
+
+| Name | Type | Description |
+|---|---|---|
+| recipients | address payable[] | undefined |
+| splitPerRecipientInBasisPoints | uint256[] | undefined |
+
 ### getMinBidAmount
 
 ```solidity
@@ -371,7 +327,7 @@ Returns the minimum amount a collector must offer for this NFT in order for the 
 ### getMutableRoyalties
 
 ```solidity
-function getMutableRoyalties(address nftContract, uint256 tokenId) external view returns (address payable[] recipients, uint256[] splitPerRecipientInBasisPoints)
+function getMutableRoyalties(address nftContract, uint256 tokenId, address payable creator) external view returns (address payable[] recipients, uint256[] splitPerRecipientInBasisPoints)
 ```
 
 For internal use only.
@@ -384,6 +340,7 @@ For internal use only.
 |---|---|---|
 | nftContract | address | undefined |
 | tokenId | uint256 | undefined |
+| creator | address payable | undefined |
 
 #### Returns
 
@@ -523,6 +480,29 @@ Returns the address of the registry allowing for royalty configuration overrides
 | Name | Type | Description |
 |---|---|---|
 | registry | address | The address of the royalty registry contract. |
+
+### getTokenCreator
+
+```solidity
+function getTokenCreator(address nftContract, uint256 tokenId) external view returns (address payable creator)
+```
+
+For internal use only.
+
+*This function is external to allow using try/catch but is not intended for external use. This checks the token creator.*
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| nftContract | address | undefined |
+| tokenId | uint256 | undefined |
+
+#### Returns
+
+| Name | Type | Description |
+|---|---|---|
+| creator | address payable | undefined |
 
 ### initialize
 
@@ -844,29 +824,6 @@ Emitted when an offer is made.
 | buyer `indexed` | address | undefined |
 | amount  | uint256 | undefined |
 | expiration  | uint256 | undefined |
-
-### PrivateSaleFinalized
-
-```solidity
-event PrivateSaleFinalized(address indexed nftContract, uint256 indexed tokenId, address indexed seller, address buyer, uint256 protocolFee, uint256 creatorFee, uint256 sellerRev, uint256 deadline)
-```
-
-Emitted when an NFT is sold in a private sale.
-
-
-
-#### Parameters
-
-| Name | Type | Description |
-|---|---|---|
-| nftContract `indexed` | address | undefined |
-| tokenId `indexed` | uint256 | undefined |
-| seller `indexed` | address | undefined |
-| buyer  | address | undefined |
-| protocolFee  | uint256 | undefined |
-| creatorFee  | uint256 | undefined |
-| sellerRev  | uint256 | undefined |
-| deadline  | uint256 | undefined |
 
 ### ReserveAuctionBidPlaced
 
@@ -1281,72 +1238,6 @@ error NFTMarketOffer_Provided_Contract_And_TokenId_Count_Must_Match()
 
 ```solidity
 error NFTMarketOffer_Reason_Required()
-```
-
-
-
-
-
-
-### NFTMarketPrivateSale_Can_Be_Offered_For_24Hrs_Max
-
-```solidity
-error NFTMarketPrivateSale_Can_Be_Offered_For_24Hrs_Max()
-```
-
-
-
-
-
-
-### NFTMarketPrivateSale_Proxy_Address_Is_Not_A_Contract
-
-```solidity
-error NFTMarketPrivateSale_Proxy_Address_Is_Not_A_Contract()
-```
-
-
-
-
-
-
-### NFTMarketPrivateSale_Sale_Expired
-
-```solidity
-error NFTMarketPrivateSale_Sale_Expired()
-```
-
-
-
-
-
-
-### NFTMarketPrivateSale_Signature_Canceled_Or_Already_Claimed
-
-```solidity
-error NFTMarketPrivateSale_Signature_Canceled_Or_Already_Claimed()
-```
-
-
-
-
-
-
-### NFTMarketPrivateSale_Signature_Verification_Failed
-
-```solidity
-error NFTMarketPrivateSale_Signature_Verification_Failed()
-```
-
-
-
-
-
-
-### NFTMarketPrivateSale_Too_Much_Value_Provided
-
-```solidity
-error NFTMarketPrivateSale_Too_Much_Value_Provided()
 ```
 
 

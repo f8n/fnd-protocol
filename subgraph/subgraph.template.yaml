@@ -79,8 +79,6 @@ dataSources:
           handler: handleReserveAuctionInvalidated
         - event: ReserveAuctionUpdated(indexed uint256,uint256)
           handler: handleReserveAuctionUpdated
-        - event: PrivateSaleFinalized(indexed address,indexed uint256,indexed address,address,uint256,uint256,uint256,uint256)
-          handler: handlePrivateSaleFinalized
         - event: OfferMade(indexed address,indexed uint256,indexed address,uint256,uint256)
           handler: handleOfferMade
         - event: OfferAccepted(indexed address,indexed uint256,indexed address,address,uint256,uint256,uint256)
@@ -126,6 +124,8 @@ dataSources:
       eventHandlers:
         - event: ReserveAuctionSellerMigrated(indexed uint256,indexed address,indexed address)
           handler: handleReserveAuctionSellerMigrated
+        - event: PrivateSaleFinalized(indexed address,indexed uint256,indexed address,address,uint256,uint256,uint256,uint256)
+          handler: handlePrivateSaleFinalized
       file: ./src/mappings/nftMarket.ts
 
   - kind: ethereum/contract

@@ -59,7 +59,7 @@ import "./interfaces/ens/IReverseRegistrar.sol";
  * @title Convenience methods to ease integration with other contracts.
  * @notice This will aggregate calls and format the output per the needs of our frontend or other consumers.
  */
-contract FNDMiddleware is Constants {
+contract FNDMiddleware {
   using AddressUpgradeable for address;
   using AddressUpgradeable for address payable;
   using Strings for uint256;
@@ -165,9 +165,7 @@ contract FNDMiddleware is Constants {
       for (uint256 i = 0; i < creatorRecipients.length; ++i) {
         // Check if the address is a percent split
         if (address(creatorRecipients[i]).isContract()) {
-          try PercentSplitETH(creatorRecipients[i]).getShareLength{ gas: READ_ONLY_GAS_LIMIT }() returns (
-            uint256 recipientCount
-          ) {
+          try this.getSplitShareLength(creatorRecipients[i]) returns (uint256 recipientCount) {
             creatorCount += recipientCount - 1;
           } catch // solhint-disable-next-line no-empty-blocks
           {
@@ -182,9 +180,7 @@ contract FNDMiddleware is Constants {
     uint256 revSplitIndex = 0;
     for (uint256 i = 0; i < creatorRecipients.length; ++i) {
       if (address(creatorRecipients[i]).isContract()) {
-        try PercentSplitETH(creatorRecipients[i]).getShareLength{ gas: READ_ONLY_GAS_LIMIT }() returns (
-          uint256 recipientCount
-        ) {
+        try this.getSplitShareLength(creatorRecipients[i]) returns (uint256 recipientCount) {
           uint256 totalSplitShares;
           for (uint256 splitIndex = 0; splitIndex < recipientCount; ++splitIndex) {
             uint256 share = PercentSplitETH(creatorRecipients[i]).getPercentInBasisPointsByIndex(splitIndex);
@@ -232,10 +228,12 @@ contract FNDMiddleware is Constants {
     }
   }
 
+  function getSplitShareLength(address payable recipient) external view returns (uint256 count) {
+    count = PercentSplitETH(recipient).getShareLength{ gas: READ_ONLY_GAS_LIMIT }();
+  }
+
   function getTokenCreator(address nftContract, uint256 tokenId) external view returns (address creatorAddress) {
-    try ITokenCreator(nftContract).tokenCreator{ gas: READ_ONLY_GAS_LIMIT }(tokenId) returns (
-      address payable _creator
-    ) {
+    try market.getTokenCreator{ gas: READ_ONLY_GAS_LIMIT }(nftContract, tokenId) returns (address payable _creator) {
       return _creator;
     } catch // solhint-disable-next-line no-empty-blocks
     {

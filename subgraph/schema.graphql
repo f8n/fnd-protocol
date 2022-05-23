@@ -317,6 +317,18 @@ type NftMarketAuction @entity {
 
   "The tx hash where this auction was invalidated, if applicable"
   transactionHashInvalidated: Bytes
+
+  "Referrer address for the winner bid, if applicable"
+  buyReferrer: Account
+
+  "Referral fee paid for the winner bid from protocol fee, if applicable"
+  buyReferrerProtocolFee: BigDecimal
+
+  "Referral fee paid for the winner bid from owner fee, if applicable"
+  buyReferrerSellerFee: BigDecimal
+
+  "How much Foundation earned from this auction"
+  foundationProtocolFeeInETH: BigDecimal
 }
 
 enum NftMarketBidStatus {
@@ -705,7 +717,7 @@ type NftMarketOffer @entity {
   "How much the creator earned from this offer, set once accepted"
   creatorRevenueInETH: BigDecimal
 
-  "How much Foundation earned from this offer, set once accepted"
+  "How much Protocol earned from this offer, set once accepted"
   foundationRevenueInETH: BigDecimal
 
   "How much the owner (if not the creator) earned from this offer, set once accepted"
@@ -719,6 +731,18 @@ type NftMarketOffer @entity {
 
   "The offer that outbid this offer, if applicable"
   offerOutbidBy: NftMarketOffer
+
+  "Referrer address for the accepted offer, if applicable"
+  buyReferrer: Account
+
+  "Referral fee paid for the accepted offer from protocol fee, if applicable"
+  buyReferrerProtocolFee: BigDecimal
+
+  "Referral fee paid for the accepted offer from owner fee, if applicable"
+  buyReferrerSellerFee: BigDecimal
+
+  "How much Foundation earned from this offer, set once accepted"
+  foundationProtocolFeeInETH: BigDecimal
 }
 
 enum NftMarketBuyNowStatus {
