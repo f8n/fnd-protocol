@@ -1,4 +1,4 @@
-import { BigDecimal, Bytes, ethereum, store } from "@graphprotocol/graph-ts";
+import { BigDecimal, BigInt, Bytes, ethereum, store } from "@graphprotocol/graph-ts";
 import {
   Account,
   Nft,
@@ -21,8 +21,8 @@ export function recordNftEvent(
   marketplace: string | null = null,
   amountInETH: BigDecimal | null = null,
   nftRecipient: Account | null = null,
-  dateOverride: bigint | null = null,
-  amountInTokens: bigint | null = null,
+  dateOverride: BigInt | null = null,
+  amountInTokens: BigInt | null = null,
   tokenAddress: Bytes | null = null,
   privateSale: PrivateSale | null = null,
   offer: NftMarketOffer | null = null,
@@ -35,7 +35,7 @@ export function recordNftEvent(
     historicalEvent.auction = auction.id;
   }
   if (dateOverride) {
-    historicalEvent.date = dateOverride as bigint;
+    historicalEvent.date = dateOverride as BigInt;
   } else {
     historicalEvent.date = event.block.timestamp;
   }
