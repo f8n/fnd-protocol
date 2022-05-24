@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.2.3.1
+
+- NPM package: add `subgraphEndpoints.js` with the URLs to use when querying subgraph.
+
 ## 2.2.3
 
 - Remove Private Sales
