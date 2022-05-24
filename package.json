@@ -1,7 +1,7 @@
 {
   "name": "@f8n/fnd-protocol",
   "description": "Foundation smart contracts",
-  "version": "2.2.4",
+  "version": "2.2.3.1",
   "scripts": {
     "build": "hardhat typechain",
     "clean": "hardhat clean",
