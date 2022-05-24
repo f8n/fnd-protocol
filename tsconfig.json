@@ -14,5 +14,5 @@
     "target": "es5"
   },
   "exclude": ["artifacts/**/*", "node_modules"],
-  "include": ["hardhat*.config.ts", "test/**/*", "addresses.js", "typechain-types/**/*", "subgraph/**/*"]
+  "include": ["hardhat*.config.ts", "test/**/*", "addresses.js", "subgraphEndpoints.js", "typechain-types/**/*", "subgraph/**/*"]
 }
