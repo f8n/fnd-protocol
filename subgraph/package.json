@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "@graphprotocol/graph-cli": "0.30.1",
-    "@graphprotocol/graph-ts": "0.26.0",
+    "@graphprotocol/graph-ts": "0.27.0",
     "@graphql-codegen/cli": "2.6.2",
     "@graphql-codegen/typescript": "2.4.11",
     "@types/mustache": "^4.1.2",
