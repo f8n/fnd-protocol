@@ -1,4 +1,4 @@
-![FND Github-Protocol](https://user-images.githubusercontent.com/14855515/161173574-4479b891-f0b1-4c95-8cf7-6e4ba06e36fb.png)
+<img width="1200" alt="Repo — Protocol" src="https://user-images.githubusercontent.com/14855515/171161481-4d745b25-b947-4df4-a801-179637d5ebe6.png">
 
 If you find a security issue impacting contracts deployed to mainnet, please report them via our [Immunefi bounty program](https://immunefi.com/bounty/foundation/).
 
