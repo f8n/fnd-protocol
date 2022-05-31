@@ -29,3 +29,4 @@ overrides:
   - files: subgraph/**/*.ts
     rules:
       prefer-const: 0
+      "@typescript-eslint/ban-types": 0
