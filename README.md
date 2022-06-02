@@ -12,9 +12,9 @@ Welcome to Foundation’s developer docs! Here you can learn about all of the wa
 
 How to get involved:&#x20;
 
-* Follow FoundationOS on [Twitter](https://twitter.com/FoundationOS) for announcements and updates on our docs and tools.
-* Explore our growing ecosystem of integrations at [os.foundation.app](https://os.foundation.app/).&#x20;
-* View our code on Github.
+- Follow FoundationOS on [Twitter](https://twitter.com/FoundationOS) for announcements and updates on our docs and tools.
+- Explore our growing ecosystem of integrations at [os.foundation.app](https://os.foundation.app/).&#x20;
+- View our code on Github.
 
 ## Integrations FAQ
 
@@ -81,9 +81,9 @@ Foundation is fully on-chain and the easiest way to retrieve any event emitted f
 
 To integrate you can use the endpoints below:
 
-* **playground:** https://thegraph.com/hosted-service/subgraph/f8n/fnd
-* **mainnet:** https://api.thegraph.com/subgraphs/name/f8n/fnd
-* **goerli:** https://api.thegraph.com/subgraphs/name/f8n/fnd-goerli
+- **playground:** https://thegraph.com/hosted-service/subgraph/f8n/fnd
+- **mainnet:** https://api.thegraph.com/subgraphs/name/f8n/fnd
+- **goerli:** https://api.thegraph.com/subgraphs/name/f8n/fnd-goerli
 
 To get you started here are some example queries:
 
