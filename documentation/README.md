@@ -93,7 +93,7 @@ Where possible we should be consistent on the size of fields used. Even if it of
 * Math in Solidity always operates in 256 bit form, so best to cast to the smaller size only at the time of storage.
 * Solidity does not check for overflows when down casting, explicit checks should be added when assumptions are made about user inputs.
 
-### Recommendations:
+### Recommendations
 
 * ETH: uint96
   * Circulating supply is currently 119,440,269 ETH (119440269000000000000000000 wei / 1.2 \* 10^26).
