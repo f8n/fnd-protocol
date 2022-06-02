@@ -1,7 +1,7 @@
 # Table of contents
 
 * [Getting Started](README.md)
-* [Docs](docs/README.md)
+* [Documentation](docs/README.md)
   * [CollectionContract](docs/CollectionContract.md)
   * [FETH](docs/FETH.md)
   * [FNDCollectionFactory](docs/FNDCollectionFactory.md)
