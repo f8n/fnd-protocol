@@ -34,7 +34,7 @@ module.exports = {
     69: {
       multisig: "0x4E9463f606aD1D9a56c6d46ae8E17ed1485b4341",
       ens: "0x6E5Ac2516ae3B867Ed56858d9CcA0AD81055081c",
-      percentSplitV2: "0x9ecf56A2B0845B5682d40c4355fdA030F5Dd7ED9",
+      percentSplit: "0x9ecf56A2B0845B5682d40c4355fdA030F5Dd7ED9",
       royaltyRegistry: "0x3e62EFF64391AC9ED4173d380D3606C7A0937faA",
       proxyAdminAddress: "0xb6598b879B1E192237f403CBf1cA600343f87f5c",
       treasury: "0xe29B74EC1BeE56a83d2B193c67156Cd6Ca88B011",
