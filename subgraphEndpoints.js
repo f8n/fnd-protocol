@@ -5,5 +5,6 @@ module.exports = {
   },
   staging: {
     5: "https://api.thegraph.com/subgraphs/name/f8n/fnd-goerli",
+    69: "https://api.thegraph.com/subgraphs/name/f8n/f8n/fnd-optimism-kovan",
   },
 };
