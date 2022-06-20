@@ -22,7 +22,7 @@
     "diff:figment:goerli": "ts-node ./scripts/diffSubgraphs.ts -f fnd-goerli -t https://goerli-subgraph.foundation.app"
   },
   "devDependencies": {
-    "@graphprotocol/graph-cli": "0.30.1",
+    "@graphprotocol/graph-cli": "0.30.4",
     "@graphprotocol/graph-ts": "0.27.0",
     "@graphql-codegen/cli": "2.6.2",
     "@graphql-codegen/typescript": "2.5.1",
