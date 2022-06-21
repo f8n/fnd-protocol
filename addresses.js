@@ -31,5 +31,18 @@ module.exports = {
       feth: "0xf73Ad14f849cd9a0a1fc14Ad1A01650a9FDdE79F",
       middleware: "0x3436838C494fb6D8Ee9d5B97cFf0E54af5447EB3",
     },
+    69: {
+      multisig: "0x4E9463f606aD1D9a56c6d46ae8E17ed1485b4341",
+      ens: "0x6E5Ac2516ae3B867Ed56858d9CcA0AD81055081c",
+      percentSplit: "0x9ecf56A2B0845B5682d40c4355fdA030F5Dd7ED9",
+      royaltyRegistry: "0x3e62EFF64391AC9ED4173d380D3606C7A0937faA",
+      proxyAdminAddress: "0xb6598b879B1E192237f403CBf1cA600343f87f5c",
+      treasury: "0xe29B74EC1BeE56a83d2B193c67156Cd6Ca88B011",
+      nftMarket: "0x3A9A856c3d94D37A8F523832e9ab27F7324891bC",
+      feth: "0xcb7EF2C0B738d30630234cdc0BD52abFb310f2f7",
+      proxy: "0x7Dd0c2f62F922311CB4bD37647b14d4e023bA134",
+      collectionFactory: "0xf3147Ba3D9253E807EE9E62458D139d2aE2B6713",
+      middleware: "0x4AF738F957e1c37A6FBCD7bcAD72AbDfcd03f041",
+    },
   },
 };
