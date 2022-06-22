@@ -20,7 +20,7 @@ Note that our full test suite is not included here at this time. The tests are m
 
 Integrators can tap into the [lucrative](https://dune.xyz/foundation/foundation) FND Market and be rewarded for the volume and liquidity they generate on the blockchain layer.
 
-#### What Type of Rewards Do I Receive?
+#### What Type of Rewards Do I Receive
 
 We offer buyer side incentives on all our market tools (BuyNow, Auctions, Offers). Any NFT purchase initiated with a referral will get 20% of the FND Protocol Fee (1% of the total sale amount).
 
