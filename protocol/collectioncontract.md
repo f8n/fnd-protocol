@@ -18,12 +18,12 @@ _This will gracefully skip any NFTs that have been burned or transferred._
 
 #### Parameters
 
-| Name            | Type            | Description                                                                                                                   |
-| --------------- | --------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| ownedTokenIds   | uint256[]       | The tokenIds of the NFTs owned by the original address to be migrated to the new account.                                     |
-| originalAddress | address         | The original account address to be migrated.                                                                                  |
-| newAddress      | address payable | The new address for the account.                                                                                              |
-| signature       | bytes           | Message `I authorize Foundation to migrate my account to ${newAccount.address.toLowerCase()}` signed by the original account. |
+| Name            | Type              | Description                                                                                                                   |
+| --------------- | ----------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| ownedTokenIds   | `uint256[]`       | The tokenIds of the NFTs owned by the original address to be migrated to the new account.                                     |
+| originalAddress | `address`         | The original account address to be migrated.                                                                                  |
+| newAddress      | `address payable` | The new address for the account.                                                                                              |
+| signature       | `bytes`           | Message `I authorize Foundation to migrate my account to ${newAccount.address.toLowerCase()}` signed by the original account. |
 
 ### adminAccountMigrationForPaymentAddresses
 
@@ -35,15 +35,15 @@ Allows a split recipient and Foundation to work together in order to update the 
 
 #### Parameters
 
-| Name                      | Type            | Description                                                                                                                   |
-| ------------------------- | --------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| paymentAddressTokenIds    | uint256[]       | The token IDs for the NFTs to have their payment address migrated.                                                            |
-| paymentAddressFactory     | address         | The contract which was used to generate the payment address being migrated.                                                   |
-| paymentAddressCallData    | bytes           | The original call data used to generate the payment address being migrated.                                                   |
-| addressLocationInCallData | uint256         | The position where the account to migrate begins in the call data.                                                            |
-| originalAddress           | address         | The original account address to be migrated.                                                                                  |
-| newAddress                | address payable | The new address for the account.                                                                                              |
-| signature                 | bytes           | Message `I authorize Foundation to migrate my account to ${newAccount.address.toLowerCase()}` signed by the original account. |
+| Name                      | Type              | Description                                                                                                                   |
+| ------------------------- | ----------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| paymentAddressTokenIds    | `uint256[]`       | The token IDs for the NFTs to have their payment address migrated.                                                            |
+| paymentAddressFactory     | `address`         | The contract which was used to generate the payment address being migrated.                                                   |
+| paymentAddressCallData    | `bytes`           | The original call data used to generate the payment address being migrated.                                                   |
+| addressLocationInCallData | `uint256`         | The position where the account to migrate begins in the call data.                                                            |
+| originalAddress           | `address`         | The original account address to be migrated.                                                                                  |
+| newAddress                | `address payable` | The new address for the account.                                                                                              |
+| signature                 | `bytes`           | Message `I authorize Foundation to migrate my account to ${newAccount.address.toLowerCase()}` signed by the original account. |
 
 ### approve
 
@@ -55,10 +55,10 @@ _See {IERC721-approve}._
 
 #### Parameters
 
-| Name    | Type    | Description |
-| ------- | ------- | ----------- |
-| to      | address | undefined   |
-| tokenId | uint256 | undefined   |
+| Name    | Type      |
+| ------- | --------- |
+| to      | `address` |
+| tokenId | `uint256` |
 
 ### balanceOf
 
@@ -70,15 +70,15 @@ _See {IERC721-balanceOf}._
 
 #### Parameters
 
-| Name  | Type    | Description |
-| ----- | ------- | ----------- |
-| owner | address | undefined   |
+| Name  | Type      |
+| ----- | --------- |
+| owner | `address` |
 
 #### Returns
 
-| Name | Type    | Description |
-| ---- | ------- | ----------- |
-| \_0  | uint256 | undefined   |
+| Name | Type      |
+| ---- | --------- |
+| \_0  | `uint256` |
 
 ### baseURI
 
@@ -90,9 +90,9 @@ Get the base URI used for all NFTs in this collection.
 
 #### Returns
 
-| Name | Type   | Description   |
-| ---- | ------ | ------------- |
-| uri  | string | The base URI. |
+| Name | Type     | Description   |
+| ---- | -------- | ------------- |
+| uri  | `string` | The base URI. |
 
 ### burn
 
@@ -104,9 +104,9 @@ Allows the creator to burn if they currently own the NFT.
 
 #### Parameters
 
-| Name    | Type    | Description                     |
-| ------- | ------- | ------------------------------- |
-| tokenId | uint256 | The tokenId of the NFT to burn. |
+| Name    | Type      | Description                     |
+| ------- | --------- | ------------------------------- |
+| tokenId | `uint256` | The tokenId of the NFT to burn. |
 
 ### collectionFactory
 
@@ -120,9 +120,9 @@ _This is used to read common config._
 
 #### Returns
 
-| Name | Type                        | Description |
-| ---- | --------------------------- | ----------- |
-| \_0  | contract ICollectionFactory | undefined   |
+| Name | Type                          |
+| ---- | ----------------------------- |
+| \_0  | `contract ICollectionFactory` |
 
 ### getApproved
 
@@ -134,15 +134,15 @@ _See {IERC721-getApproved}._
 
 #### Parameters
 
-| Name    | Type    | Description |
-| ------- | ------- | ----------- |
-| tokenId | uint256 | undefined   |
+| Name    | Type      |
+| ------- | --------- |
+| tokenId | `uint256` |
 
 #### Returns
 
-| Name | Type    | Description |
-| ---- | ------- | ----------- |
-| \_0  | address | undefined   |
+| Name | Type      |
+| ---- | --------- |
+| \_0  | `address` |
 
 ### getFeeBps
 
@@ -156,15 +156,15 @@ _The tokenId param is ignored since all NFTs return the same value._
 
 #### Parameters
 
-| Name | Type    | Description |
-| ---- | ------- | ----------- |
-| \_0  | uint256 | undefined   |
+| Name | Type      |
+| ---- | --------- |
+| \_0  | `uint256` |
 
 #### Returns
 
-| Name              | Type      | Description                                                      |
-| ----------------- | --------- | ---------------------------------------------------------------- |
-| feesInBasisPoints | uint256[] | The array of fees to be sent to each recipient, in basis points. |
+| Name              | Type        | Description                                                      |
+| ----------------- | ----------- | ---------------------------------------------------------------- |
+| feesInBasisPoints | `uint256[]` | The array of fees to be sent to each recipient, in basis points. |
 
 ### getFeeRecipients
 
@@ -176,15 +176,15 @@ Returns an array of recipient addresses to which royalties for secondary sales s
 
 #### Parameters
 
-| Name    | Type    | Description                                               |
-| ------- | ------- | --------------------------------------------------------- |
-| tokenId | uint256 | The tokenId of the NFT to get the royalty recipients for. |
+| Name    | Type      | Description                                               |
+| ------- | --------- | --------------------------------------------------------- |
+| tokenId | `uint256` | The tokenId of the NFT to get the royalty recipients for. |
 
 #### Returns
 
-| Name       | Type              | Description                                              |
-| ---------- | ----------------- | -------------------------------------------------------- |
-| recipients | address payable[] | An array of addresses to which royalties should be sent. |
+| Name       | Type                | Description                                              |
+| ---------- | ------------------- | -------------------------------------------------------- |
+| recipients | `address payable[]` | An array of addresses to which royalties should be sent. |
 
 ### getHasMintedCID
 
@@ -196,15 +196,15 @@ Checks if the creator has already minted a given NFT using this collection contr
 
 #### Parameters
 
-| Name     | Type   | Description           |
-| -------- | ------ | --------------------- |
-| tokenCID | string | The CID to check for. |
+| Name     | Type     | Description           |
+| -------- | -------- | --------------------- |
+| tokenCID | `string` | The CID to check for. |
 
 #### Returns
 
-| Name          | Type | Description                                                  |
-| ------------- | ---- | ------------------------------------------------------------ |
-| hasBeenMinted | bool | True if the creator has already minted an NFT with this CID. |
+| Name          | Type   | Description                                                  |
+| ------------- | ------ | ------------------------------------------------------------ |
+| hasBeenMinted | `bool` | True if the creator has already minted an NFT with this CID. |
 
 ### getRoyalties
 
@@ -218,16 +218,16 @@ _The data is the same as when calling getFeeRecipients and getFeeBps separately.
 
 #### Parameters
 
-| Name    | Type    | Description                                      |
-| ------- | ------- | ------------------------------------------------ |
-| tokenId | uint256 | The tokenId of the NFT to get the royalties for. |
+| Name    | Type      | Description                                      |
+| ------- | --------- | ------------------------------------------------ |
+| tokenId | `uint256` | The tokenId of the NFT to get the royalties for. |
 
 #### Returns
 
-| Name              | Type              | Description                                              |
-| ----------------- | ----------------- | -------------------------------------------------------- |
-| recipients        | address payable[] | An array of addresses to which royalties should be sent. |
-| feesInBasisPoints | uint256[]         | The array of fees to be sent to each recipient address.  |
+| Name              | Type                | Description                                              |
+| ----------------- | ------------------- | -------------------------------------------------------- |
+| recipients        | `address payable[]` | An array of addresses to which royalties should be sent. |
+| feesInBasisPoints | `uint256[]`         | The array of fees to be sent to each recipient address.  |
 
 ### getTokenCreatorPaymentAddress
 
@@ -241,15 +241,15 @@ _The payment address may be assigned for each individual NFT, if not defined the
 
 #### Parameters
 
-| Name    | Type    | Description                                      |
-| ------- | ------- | ------------------------------------------------ |
-| tokenId | uint256 | The tokenId of the NFT to get the royalties for. |
+| Name    | Type      | Description                                      |
+| ------- | --------- | ------------------------------------------------ |
+| tokenId | `uint256` | The tokenId of the NFT to get the royalties for. |
 
 #### Returns
 
-| Name                       | Type            | Description                                                    |
-| -------------------------- | --------------- | -------------------------------------------------------------- |
-| tokenCreatorPaymentAddress | address payable | The address to use for royalty payments for sales of this NFT. |
+| Name                       | Type              | Description                                                    |
+| -------------------------- | ----------------- | -------------------------------------------------------------- |
+| tokenCreatorPaymentAddress | `address payable` | The address to use for royalty payments for sales of this NFT. |
 
 ### initialize
 
@@ -261,11 +261,11 @@ Called by the factory on creation.
 
 #### Parameters
 
-| Name      | Type            | Description                              |
-| --------- | --------------- | ---------------------------------------- |
-| \_creator | address payable | The creator of this collection contract. |
-| \_name    | string          | The name of this collection.             |
-| \_symbol  | string          | The symbol for this collection.          |
+| Name      | Type              | Description                              |
+| --------- | ----------------- | ---------------------------------------- |
+| \_creator | `address payable` | The creator of this collection contract. |
+| \_name    | `string`          | The name of this collection.             |
+| \_symbol  | `string`          | The symbol for this collection.          |
 
 ### isApprovedForAll
 
@@ -277,16 +277,16 @@ _See {IERC721-isApprovedForAll}._
 
 #### Parameters
 
-| Name     | Type    | Description |
-| -------- | ------- | ----------- |
-| owner    | address | undefined   |
-| operator | address | undefined   |
+| Name     | Type      |
+| -------- | --------- |
+| owner    | `address` |
+| operator | `address` |
 
 #### Returns
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| \_0  | bool | undefined   |
+| Name | Type   |
+| ---- | ------ |
+| \_0  | `bool` |
 
 ### latestTokenId
 
@@ -300,9 +300,9 @@ _Minting starts at tokenId 1. Each mint will use this value + 1._
 
 #### Returns
 
-| Name | Type    | Description |
-| ---- | ------- | ----------- |
-| \_0  | uint256 | undefined   |
+| Name | Type      |
+| ---- | --------- |
+| \_0  | `uint256` |
 
 ### maxTokenId
 
@@ -310,15 +310,15 @@ _Minting starts at tokenId 1. Each mint will use this value + 1._
 function maxTokenId() external view returns (uint256)
 ```
 
-The max tokenId which can be minted, or 0 if there&#39;s no limit.
+The max tokenId which can be minted, or 0 if there's no limit.
 
 _This value may be set at any time, but once set it cannot be increased._
 
 #### Returns
 
-| Name | Type    | Description |
-| ---- | ------- | ----------- |
-| \_0  | uint256 | undefined   |
+| Name | Type      |
+| ---- | --------- |
+| \_0  | `uint256` |
 
 ### mint
 
@@ -330,15 +330,15 @@ Allows the owner to mint an NFT defined by its metadata path.
 
 #### Parameters
 
-| Name     | Type   | Description                 |
-| -------- | ------ | --------------------------- |
-| tokenCID | string | The CID of the NFT to mint. |
+| Name     | Type     | Description                 |
+| -------- | -------- | --------------------------- |
+| tokenCID | `string` | The CID of the NFT to mint. |
 
 #### Returns
 
-| Name    | Type    | Description                          |
-| ------- | ------- | ------------------------------------ |
-| tokenId | uint256 | The tokenId of the newly minted NFT. |
+| Name    | Type      | Description                          |
+| ------- | --------- | ------------------------------------ |
+| tokenId | `uint256` | The tokenId of the newly minted NFT. |
 
 ### mintAndApprove
 
@@ -352,16 +352,16 @@ _This can be used by creators the first time they mint an NFT to save having to 
 
 #### Parameters
 
-| Name     | Type    | Description                                                      |
-| -------- | ------- | ---------------------------------------------------------------- |
-| tokenCID | string  | The CID of the NFT to mint.                                      |
-| operator | address | The address to set as the operator for this collection contract. |
+| Name     | Type      | Description                                                      |
+| -------- | --------- | ---------------------------------------------------------------- |
+| tokenCID | `string`  | The CID of the NFT to mint.                                      |
+| operator | `address` | The address to set as the operator for this collection contract. |
 
 #### Returns
 
-| Name    | Type    | Description                          |
-| ------- | ------- | ------------------------------------ |
-| tokenId | uint256 | The tokenId of the newly minted NFT. |
+| Name    | Type      | Description                          |
+| ------- | --------- | ------------------------------------ |
+| tokenId | `uint256` | The tokenId of the newly minted NFT. |
 
 ### mintWithCreatorPaymentAddress
 
@@ -373,16 +373,16 @@ Allows the owner to mint an NFT and have creator revenue/royalties sent to an al
 
 #### Parameters
 
-| Name                       | Type            | Description                                        |
-| -------------------------- | --------------- | -------------------------------------------------- |
-| tokenCID                   | string          | The CID of the NFT to mint.                        |
-| tokenCreatorPaymentAddress | address payable | The royalty recipient address to use for this NFT. |
+| Name                       | Type              | Description                                        |
+| -------------------------- | ----------------- | -------------------------------------------------- |
+| tokenCID                   | `string`          | The CID of the NFT to mint.                        |
+| tokenCreatorPaymentAddress | `address payable` | The royalty recipient address to use for this NFT. |
 
 #### Returns
 
-| Name    | Type    | Description                          |
-| ------- | ------- | ------------------------------------ |
-| tokenId | uint256 | The tokenId of the newly minted NFT. |
+| Name    | Type      | Description                          |
+| ------- | --------- | ------------------------------------ |
+| tokenId | `uint256` | The tokenId of the newly minted NFT. |
 
 ### mintWithCreatorPaymentAddressAndApprove
 
@@ -396,17 +396,17 @@ _This can be used by creators the first time they mint an NFT to save having to 
 
 #### Parameters
 
-| Name                       | Type            | Description                                                      |
-| -------------------------- | --------------- | ---------------------------------------------------------------- |
-| tokenCID                   | string          | The CID of the NFT to mint.                                      |
-| tokenCreatorPaymentAddress | address payable | The royalty recipient address to use for this NFT.               |
-| operator                   | address         | The address to set as the operator for this collection contract. |
+| Name                       | Type              | Description                                                      |
+| -------------------------- | ----------------- | ---------------------------------------------------------------- |
+| tokenCID                   | `string`          | The CID of the NFT to mint.                                      |
+| tokenCreatorPaymentAddress | `address payable` | The royalty recipient address to use for this NFT.               |
+| operator                   | `address`         | The address to set as the operator for this collection contract. |
 
 #### Returns
 
-| Name    | Type    | Description                          |
-| ------- | ------- | ------------------------------------ |
-| tokenId | uint256 | The tokenId of the newly minted NFT. |
+| Name    | Type      | Description                          |
+| ------- | --------- | ------------------------------------ |
+| tokenId | `uint256` | The tokenId of the newly minted NFT. |
 
 ### mintWithCreatorPaymentFactory
 
@@ -418,17 +418,17 @@ Allows the owner to mint an NFT and have creator revenue/royalties sent to an al
 
 #### Parameters
 
-| Name                   | Type    | Description                                                             |
-| ---------------------- | ------- | ----------------------------------------------------------------------- |
-| tokenCID               | string  | The CID of the NFT to mint.                                             |
-| paymentAddressFactory  | address | The contract to call which will return the address to use for payments. |
-| paymentAddressCallData | bytes   | The call details to sent to the factory provided.                       |
+| Name                   | Type      | Description                                                             |
+| ---------------------- | --------- | ----------------------------------------------------------------------- |
+| tokenCID               | `string`  | The CID of the NFT to mint.                                             |
+| paymentAddressFactory  | `address` | The contract to call which will return the address to use for payments. |
+| paymentAddressCallData | `bytes`   | The call details to sent to the factory provided.                       |
 
 #### Returns
 
-| Name    | Type    | Description                          |
-| ------- | ------- | ------------------------------------ |
-| tokenId | uint256 | The tokenId of the newly minted NFT. |
+| Name    | Type      | Description                          |
+| ------- | --------- | ------------------------------------ |
+| tokenId | `uint256` | The tokenId of the newly minted NFT. |
 
 ### mintWithCreatorPaymentFactoryAndApprove
 
@@ -442,18 +442,18 @@ _This can be used by creators the first time they mint an NFT to save having to 
 
 #### Parameters
 
-| Name                   | Type    | Description                                                             |
-| ---------------------- | ------- | ----------------------------------------------------------------------- |
-| tokenCID               | string  | The CID of the NFT to mint.                                             |
-| paymentAddressFactory  | address | The contract to call which will return the address to use for payments. |
-| paymentAddressCallData | bytes   | The call details to sent to the factory provided.                       |
-| operator               | address | The address to set as the operator for this collection contract.        |
+| Name                   | Type      | Description                                                             |
+| ---------------------- | --------- | ----------------------------------------------------------------------- |
+| tokenCID               | `string`  | The CID of the NFT to mint.                                             |
+| paymentAddressFactory  | `address` | The contract to call which will return the address to use for payments. |
+| paymentAddressCallData | `bytes`   | The call details to sent to the factory provided.                       |
+| operator               | `address` | The address to set as the operator for this collection contract.        |
 
 #### Returns
 
-| Name    | Type    | Description                          |
-| ------- | ------- | ------------------------------------ |
-| tokenId | uint256 | The tokenId of the newly minted NFT. |
+| Name    | Type      | Description                          |
+| ------- | --------- | ------------------------------------ |
+| tokenId | `uint256` | The tokenId of the newly minted NFT. |
 
 ### name
 
@@ -465,9 +465,9 @@ _See {IERC721Metadata-name}._
 
 #### Returns
 
-| Name | Type   | Description |
-| ---- | ------ | ----------- |
-| \_0  | string | undefined   |
+| Name | Type     |
+| ---- | -------- |
+| \_0  | `string` |
 
 ### owner
 
@@ -479,9 +479,9 @@ The owner/creator of this NFT collection.
 
 #### Returns
 
-| Name | Type            | Description |
-| ---- | --------------- | ----------- |
-| \_0  | address payable | undefined   |
+| Name | Type              |
+| ---- | ----------------- |
+| \_0  | `address payable` |
 
 ### ownerOf
 
@@ -493,15 +493,15 @@ _See {IERC721-ownerOf}._
 
 #### Parameters
 
-| Name    | Type    | Description |
-| ------- | ------- | ----------- |
-| tokenId | uint256 | undefined   |
+| Name    | Type      |
+| ------- | --------- |
+| tokenId | `uint256` |
 
 #### Returns
 
-| Name | Type    | Description |
-| ---- | ------- | ----------- |
-| \_0  | address | undefined   |
+| Name | Type      |
+| ---- | --------- |
+| \_0  | `address` |
 
 ### royaltyInfo
 
@@ -513,17 +513,17 @@ Returns the receiver and the amount to be sent for a secondary sale.
 
 #### Parameters
 
-| Name      | Type    | Description                                                         |
-| --------- | ------- | ------------------------------------------------------------------- |
-| tokenId   | uint256 | The tokenId of the NFT to get the royalty recipient and amount for. |
-| salePrice | uint256 | The total price of the sale.                                        |
+| Name      | Type      | Description                                                         |
+| --------- | --------- | ------------------------------------------------------------------- |
+| tokenId   | `uint256` | The tokenId of the NFT to get the royalty recipient and amount for. |
+| salePrice | `uint256` | The total price of the sale.                                        |
 
 #### Returns
 
-| Name          | Type    | Description                                             |
-| ------------- | ------- | ------------------------------------------------------- |
-| receiver      | address | The royalty recipient address for this sale.            |
-| royaltyAmount | uint256 | The total amount that should be sent to the `receiver`. |
+| Name          | Type      | Description                                             |
+| ------------- | --------- | ------------------------------------------------------- |
+| receiver      | `address` | The royalty recipient address for this sale.            |
+| royaltyAmount | `uint256` | The total amount that should be sent to the `receiver`. |
 
 ### safeTransferFrom
 
@@ -535,11 +535,11 @@ _See {IERC721-safeTransferFrom}._
 
 #### Parameters
 
-| Name    | Type    | Description |
-| ------- | ------- | ----------- |
-| from    | address | undefined   |
-| to      | address | undefined   |
-| tokenId | uint256 | undefined   |
+| Name    | Type      |
+| ------- | --------- |
+| from    | `address` |
+| to      | `address` |
+| tokenId | `uint256` |
 
 ### safeTransferFrom
 
@@ -551,12 +551,12 @@ _See {IERC721-safeTransferFrom}._
 
 #### Parameters
 
-| Name    | Type    | Description |
-| ------- | ------- | ----------- |
-| from    | address | undefined   |
-| to      | address | undefined   |
-| tokenId | uint256 | undefined   |
-| \_data  | bytes   | undefined   |
+| Name    | Type      |
+| ------- | --------- |
+| from    | `address` |
+| to      | `address` |
+| tokenId | `uint256` |
+| \_data  | `bytes`   |
 
 ### selfDestruct
 
@@ -576,10 +576,10 @@ _See {IERC721-setApprovalForAll}._
 
 #### Parameters
 
-| Name     | Type    | Description |
-| -------- | ------- | ----------- |
-| operator | address | undefined   |
-| approved | bool    | undefined   |
+| Name     | Type      |
+| -------- | --------- |
+| operator | `address` |
+| approved | `bool`    |
 
 ### supportsInterface
 
@@ -591,15 +591,15 @@ _Checks the supported royalty interfaces._
 
 #### Parameters
 
-| Name        | Type   | Description |
-| ----------- | ------ | ----------- |
-| interfaceId | bytes4 | undefined   |
+| Name        | Type     |
+| ----------- | -------- |
+| interfaceId | `bytes4` |
 
 #### Returns
 
-| Name               | Type | Description |
-| ------------------ | ---- | ----------- |
-| interfaceSupported | bool | undefined   |
+| Name               | Type   |
+| ------------------ | ------ |
+| interfaceSupported | `bool` |
 
 ### symbol
 
@@ -611,9 +611,9 @@ _See {IERC721Metadata-symbol}._
 
 #### Returns
 
-| Name | Type   | Description |
-| ---- | ------ | ----------- |
-| \_0  | string | undefined   |
+| Name | Type     |
+| ---- | -------- |
+| \_0  | `string` |
 
 ### tokenCreator
 
@@ -627,15 +627,15 @@ _The tokenId param is ignored since all NFTs return the same value._
 
 #### Parameters
 
-| Name | Type    | Description |
-| ---- | ------- | ----------- |
-| \_0  | uint256 | undefined   |
+| Name | Type      |
+| ---- | --------- |
+| \_0  | `uint256` |
 
 #### Returns
 
-| Name    | Type            | Description                     |
-| ------- | --------------- | ------------------------------- |
-| creator | address payable | The creator of this collection. |
+| Name    | Type              | Description                     |
+| ------- | ----------------- | ------------------------------- |
+| creator | `address payable` | The creator of this collection. |
 
 ### tokenURI
 
@@ -647,15 +647,15 @@ A distinct URI to the asset for a given NFT.
 
 #### Parameters
 
-| Name    | Type    | Description                                |
-| ------- | ------- | ------------------------------------------ |
-| tokenId | uint256 | The tokenId of the NFT to get the URI for. |
+| Name    | Type      | Description                                |
+| ------- | --------- | ------------------------------------------ |
+| tokenId | `uint256` | The tokenId of the NFT to get the URI for. |
 
 #### Returns
 
-| Name | Type   | Description           |
-| ---- | ------ | --------------------- |
-| uri  | string | The URI for this NFT. |
+| Name | Type     | Description           |
+| ---- | -------- | --------------------- |
+| uri  | `string` | The URI for this NFT. |
 
 ### totalSupply
 
@@ -669,9 +669,9 @@ _From the ERC-721 enumerable standard._
 
 #### Returns
 
-| Name   | Type    | Description                                              |
-| ------ | ------- | -------------------------------------------------------- |
-| supply | uint256 | The total number of NFTs still tracked by this contract. |
+| Name   | Type      | Description                                              |
+| ------ | --------- | -------------------------------------------------------- |
+| supply | `uint256` | The total number of NFTs still tracked by this contract. |
 
 ### transferFrom
 
@@ -683,11 +683,11 @@ _See {IERC721-transferFrom}._
 
 #### Parameters
 
-| Name    | Type    | Description |
-| ------- | ------- | ----------- |
-| from    | address | undefined   |
-| to      | address | undefined   |
-| tokenId | uint256 | undefined   |
+| Name    | Type      |
+| ------- | --------- |
+| from    | `address` |
+| to      | `address` |
+| tokenId | `uint256` |
 
 ### updateBaseURI
 
@@ -699,9 +699,9 @@ Allows the owner to assign a baseURI to use for the tokenURI instead of the defa
 
 #### Parameters
 
-| Name            | Type   | Description                                              |
-| --------------- | ------ | -------------------------------------------------------- |
-| baseURIOverride | string | The new base URI to use for all NFTs in this collection. |
+| Name            | Type     | Description                                              |
+| --------------- | -------- | -------------------------------------------------------- |
+| baseURIOverride | `string` | The new base URI to use for all NFTs in this collection. |
 
 ### updateMaxTokenId
 
@@ -715,9 +715,9 @@ _Once this value has been set, it may be decreased but can never be increased._
 
 #### Parameters
 
-| Name         | Type    | Description                                                                            |
-| ------------ | ------- | -------------------------------------------------------------------------------------- |
-| \_maxTokenId | uint256 | The max tokenId to set, all NFTs must have a tokenId less than or equal to this value. |
+| Name         | Type      | Description                                                                            |
+| ------------ | --------- | -------------------------------------------------------------------------------------- |
+| \_maxTokenId | `uint256` | The max tokenId to set, all NFTs must have a tokenId less than or equal to this value. |
 
 ## Events
 
@@ -729,11 +729,11 @@ event Approval(address indexed owner, address indexed approved, uint256 indexed 
 
 #### Parameters
 
-| Name               | Type    | Description |
-| ------------------ | ------- | ----------- |
-| owner `indexed`    | address | undefined   |
-| approved `indexed` | address | undefined   |
-| tokenId `indexed`  | uint256 | undefined   |
+| Name               | Type      |
+| ------------------ | --------- |
+| owner `indexed`    | `address` |
+| approved `indexed` | `address` |
+| tokenId `indexed`  | `uint256` |
 
 ### ApprovalForAll
 
@@ -743,11 +743,11 @@ event ApprovalForAll(address indexed owner, address indexed operator, bool appro
 
 #### Parameters
 
-| Name               | Type    | Description |
-| ------------------ | ------- | ----------- |
-| owner `indexed`    | address | undefined   |
-| operator `indexed` | address | undefined   |
-| approved           | bool    | undefined   |
+| Name               | Type      |
+| ------------------ | --------- |
+| owner `indexed`    | `address` |
+| operator `indexed` | `address` |
+| approved           | `bool`    |
 
 ### BaseURIUpdated
 
@@ -759,9 +759,9 @@ Emitted when the owner changes the base URI to be used for NFTs in this collecti
 
 #### Parameters
 
-| Name    | Type   | Description              |
-| ------- | ------ | ------------------------ |
-| baseURI | string | The new base URI to use. |
+| Name    | Type     | Description              |
+| ------- | -------- | ------------------------ |
+| baseURI | `string` | The new base URI to use. |
 
 ### CreatorMigrated
 
@@ -773,10 +773,10 @@ Emitted when the owner of this collection is changed through account migration.
 
 #### Parameters
 
-| Name                      | Type    | Description                                 |
-| ------------------------- | ------- | ------------------------------------------- |
-| originalAddress `indexed` | address | The address which was previously the owner. |
-| newAddress `indexed`      | address | The new address which is now the owner.     |
+| Name                      | Type      | Description                                 |
+| ------------------------- | --------- | ------------------------------------------- |
+| originalAddress `indexed` | `address` | The address which was previously the owner. |
+| newAddress `indexed`      | `address` | The new address which is now the owner.     |
 
 ### Initialized
 
@@ -786,9 +786,9 @@ event Initialized(uint8 version)
 
 #### Parameters
 
-| Name    | Type  | Description |
-| ------- | ----- | ----------- |
-| version | uint8 | undefined   |
+| Name    | Type    |
+| ------- | ------- |
+| version | `uint8` |
 
 ### MaxTokenIdUpdated
 
@@ -800,9 +800,9 @@ Emitted when the max tokenId supported by this collection is defined.
 
 #### Parameters
 
-| Name                 | Type    | Description                                                                                            |
-| -------------------- | ------- | ------------------------------------------------------------------------------------------------------ |
-| maxTokenId `indexed` | uint256 | The new max tokenId. All NFTs in this collection will have a tokenId less than or equal to this value. |
+| Name                 | Type      | Description                                                                                            |
+| -------------------- | --------- | ------------------------------------------------------------------------------------------------------ |
+| maxTokenId `indexed` | `uint256` | The new max tokenId. All NFTs in this collection will have a tokenId less than or equal to this value. |
 
 ### Minted
 
@@ -814,12 +814,12 @@ Emitted when a new NFT is minted.
 
 #### Parameters
 
-| Name                      | Type    | Description                                                                                  |
-| ------------------------- | ------- | -------------------------------------------------------------------------------------------- |
-| creator `indexed`         | address | The address of the collection owner at this time this NFT was minted.                        |
-| tokenId `indexed`         | uint256 | The tokenId of the newly minted NFT.                                                         |
-| indexedTokenCID `indexed` | string  | The CID of the newly minted NFT, indexed to enable watching for mint events by the tokenCID. |
-| tokenCID                  | string  | The actual CID of the newly minted NFT.                                                      |
+| Name                      | Type      | Description                                                                                  |
+| ------------------------- | --------- | -------------------------------------------------------------------------------------------- |
+| creator `indexed`         | `address` | The address of the collection owner at this time this NFT was minted.                        |
+| tokenId `indexed`         | `uint256` | The tokenId of the newly minted NFT.                                                         |
+| indexedTokenCID `indexed` | `string`  | The CID of the newly minted NFT, indexed to enable watching for mint events by the tokenCID. |
+| tokenCID                  | `string`  | The actual CID of the newly minted NFT.                                                      |
 
 ### NFTOwnerMigrated
 
@@ -831,11 +831,11 @@ Emitted when the owner of an NFT is changed through account migration.
 
 #### Parameters
 
-| Name                      | Type    | Description                                   |
-| ------------------------- | ------- | --------------------------------------------- |
-| tokenId `indexed`         | uint256 | The tokenId of the NFT which was transferred. |
-| originalAddress `indexed` | address | The address which was previously the owner.   |
-| newAddress `indexed`      | address | The new address which is now the owner.       |
+| Name                      | Type      | Description                                   |
+| ------------------------- | --------- | --------------------------------------------- |
+| tokenId `indexed`         | `uint256` | The tokenId of the NFT which was transferred. |
+| originalAddress `indexed` | `address` | The address which was previously the owner.   |
+| newAddress `indexed`      | `address` | The new address which is now the owner.       |
 
 ### PaymentAddressMigrated
 
@@ -847,13 +847,13 @@ Emitted when the payment address for an NFT is changed through account migration
 
 #### Parameters
 
-| Name                      | Type    | Description                                                          |
-| ------------------------- | ------- | -------------------------------------------------------------------- |
-| tokenId `indexed`         | uint256 | The tokenId of the NFT which had the payment address changed.        |
-| originalAddress `indexed` | address | The original recipient address for royalties that is being migrated. |
-| newAddress `indexed`      | address | The new recipient address for royalties.                             |
-| originalPaymentAddress    | address | The original payment address for royalty payments.                   |
-| newPaymentAddress         | address | The new payment address used to split royalty payments.              |
+| Name                      | Type      | Description                                                          |
+| ------------------------- | --------- | -------------------------------------------------------------------- |
+| tokenId `indexed`         | `uint256` | The tokenId of the NFT which had the payment address changed.        |
+| originalAddress `indexed` | `address` | The original recipient address for royalties that is being migrated. |
+| newAddress `indexed`      | `address` | The new recipient address for royalties.                             |
+| originalPaymentAddress    | `address` | The original payment address for royalty payments.                   |
+| newPaymentAddress         | `address` | The new payment address used to split royalty payments.              |
 
 ### SelfDestruct
 
@@ -865,9 +865,9 @@ Emitted when this collection is self destructed by the owner.
 
 #### Parameters
 
-| Name            | Type    | Description                                                           |
-| --------------- | ------- | --------------------------------------------------------------------- |
-| owner `indexed` | address | The collection owner at the time this collection was self destructed. |
+| Name            | Type      | Description                                                           |
+| --------------- | --------- | --------------------------------------------------------------------- |
+| owner `indexed` | `address` | The collection owner at the time this collection was self destructed. |
 
 ### TokenCreatorPaymentAddressSet
 
@@ -879,11 +879,11 @@ Emitted when the payment address for creator royalties is set.
 
 #### Parameters
 
-| Name                         | Type    | Description                                            |
-| ---------------------------- | ------- | ------------------------------------------------------ |
-| fromPaymentAddress `indexed` | address | The original address used for royalty payments.        |
-| toPaymentAddress `indexed`   | address | The new address used for royalty payments.             |
-| tokenId `indexed`            | uint256 | The NFT which had the royalty payment address updated. |
+| Name                         | Type      | Description                                            |
+| ---------------------------- | --------- | ------------------------------------------------------ |
+| fromPaymentAddress `indexed` | `address` | The original address used for royalty payments.        |
+| toPaymentAddress `indexed`   | `address` | The new address used for royalty payments.             |
+| tokenId `indexed`            | `uint256` | The NFT which had the royalty payment address updated. |
 
 ### Transfer
 
@@ -893,27 +893,27 @@ event Transfer(address indexed from, address indexed to, uint256 indexed tokenId
 
 #### Parameters
 
-| Name              | Type    | Description |
-| ----------------- | ------- | ----------- |
-| from `indexed`    | address | undefined   |
-| to `indexed`      | address | undefined   |
-| tokenId `indexed` | uint256 | undefined   |
+| Name              | Type      |
+| ----------------- | --------- |
+| from `indexed`    | `address` |
+| to `indexed`      | `address` |
+| tokenId `indexed` | `uint256` |
 
 ## Errors
 
-### AccountMigrationLibrary_Cannot_Migrate_Account_To_Itself
+### AccountMigrationLibrary\_Cannot\_Migrate\_Account\_To\_Itself
 
 ```solidity
 error AccountMigrationLibrary_Cannot_Migrate_Account_To_Itself()
 ```
 
-### AccountMigrationLibrary_Signature_Verification_Failed
+### AccountMigrationLibrary\_Signature\_Verification\_Failed
 
 ```solidity
 error AccountMigrationLibrary_Signature_Verification_Failed()
 ```
 
-### BytesLibrary_Expected_Address_Not_Found
+### BytesLibrary\_Expected\_Address\_Not\_Found
 
 ```solidity
 error BytesLibrary_Expected_Address_Not_Found()

@@ -16,15 +16,15 @@ Returns one of the admins by index.
 
 #### Parameters
 
-| Name  | Type    | Description                                                           |
-| ----- | ------- | --------------------------------------------------------------------- |
-| index | uint256 | The index of the admin to return from 0 to getAdminMemberCount() - 1. |
+| Name  | Type      | Description                                                           |
+| ----- | --------- | --------------------------------------------------------------------- |
+| index | `uint256` | The index of the admin to return from 0 to getAdminMemberCount() - 1. |
 
 #### Returns
 
-| Name    | Type    | Description               |
-| ------- | ------- | ------------------------- |
-| account | address | The address of the admin. |
+| Name    | Type      | Description               |
+| ------- | --------- | ------------------------- |
+| account | `address` | The address of the admin. |
 
 ### getAdminMemberCount
 
@@ -36,9 +36,9 @@ Checks how many accounts have been granted admin access.
 
 #### Returns
 
-| Name  | Type    | Description                               |
-| ----- | ------- | ----------------------------------------- |
-| count | uint256 | The number of accounts with admin access. |
+| Name  | Type      | Description                               |
+| ----- | --------- | ----------------------------------------- |
+| count | `uint256` | The number of accounts with admin access. |
 
 ### getOperatorMember
 
@@ -50,15 +50,15 @@ Returns one of the operator by index.
 
 #### Parameters
 
-| Name  | Type    | Description                                                                 |
-| ----- | ------- | --------------------------------------------------------------------------- |
-| index | uint256 | The index of the operator to return from 0 to getOperatorMemberCount() - 1. |
+| Name  | Type      | Description                                                                 |
+| ----- | --------- | --------------------------------------------------------------------------- |
+| index | `uint256` | The index of the operator to return from 0 to getOperatorMemberCount() - 1. |
 
 #### Returns
 
-| Name    | Type    | Description                  |
-| ------- | ------- | ---------------------------- |
-| account | address | The address of the operator. |
+| Name    | Type      | Description                  |
+| ------- | --------- | ---------------------------- |
+| account | `address` | The address of the operator. |
 
 ### getOperatorMemberCount
 
@@ -70,9 +70,9 @@ Checks how many accounts have been granted operator access.
 
 #### Returns
 
-| Name  | Type    | Description                                  |
-| ----- | ------- | -------------------------------------------- |
-| count | uint256 | The number of accounts with operator access. |
+| Name  | Type      | Description                                  |
+| ----- | --------- | -------------------------------------------- |
+| count | `uint256` | The number of accounts with operator access. |
 
 ### grantAdmin
 
@@ -86,9 +86,9 @@ _Only callable by admins as enforced by `grantRole`._
 
 #### Parameters
 
-| Name    | Type    | Description                 |
-| ------- | ------- | --------------------------- |
-| account | address | The address to be approved. |
+| Name    | Type      | Description                 |
+| ------- | --------- | --------------------------- |
+| account | `address` | The address to be approved. |
 
 ### grantOperator
 
@@ -102,9 +102,9 @@ _Only callable by admins as enforced by `grantRole`._
 
 #### Parameters
 
-| Name    | Type    | Description                 |
-| ------- | ------- | --------------------------- |
-| account | address | The address to be approved. |
+| Name    | Type      | Description                 |
+| ------- | --------- | --------------------------- |
+| account | `address` | The address to be approved. |
 
 ### initialize
 
@@ -116,9 +116,9 @@ Called one time after deployment to initialize the contract.
 
 #### Parameters
 
-| Name  | Type    | Description                              |
-| ----- | ------- | ---------------------------------------- |
-| admin | address | The account to add as the initial admin. |
+| Name  | Type      | Description                              |
+| ----- | --------- | ---------------------------------------- |
+| admin | `address` | The account to add as the initial admin. |
 
 ### isAdmin
 
@@ -132,15 +132,15 @@ _This call is used by the royalty registry contract._
 
 #### Parameters
 
-| Name    | Type    | Description           |
-| ------- | ------- | --------------------- |
-| account | address | The address to check. |
+| Name    | Type      | Description           |
+| ------- | --------- | --------------------- |
+| account | `address` | The address to check. |
 
 #### Returns
 
-| Name     | Type | Description                      |
-| -------- | ---- | -------------------------------- |
-| approved | bool | True if the account is an admin. |
+| Name     | Type   | Description                      |
+| -------- | ------ | -------------------------------- |
+| approved | `bool` | True if the account is an admin. |
 
 ### isOperator
 
@@ -152,15 +152,15 @@ Checks if the account provided is an operator.
 
 #### Parameters
 
-| Name    | Type    | Description           |
-| ------- | ------- | --------------------- |
-| account | address | The address to check. |
+| Name    | Type      | Description           |
+| ------- | --------- | --------------------- |
+| account | `address` | The address to check. |
 
 #### Returns
 
-| Name     | Type | Description                         |
-| -------- | ---- | ----------------------------------- |
-| approved | bool | True if the account is an operator. |
+| Name     | Type   | Description                         |
+| -------- | ------ | ----------------------------------- |
+| approved | `bool` | True if the account is an operator. |
 
 ### revokeAdmin
 
@@ -174,9 +174,9 @@ _Only callable by admins as enforced by `revokeRole`._
 
 #### Parameters
 
-| Name    | Type    | Description                                       |
-| ------- | ------- | ------------------------------------------------- |
-| account | address | The address to be removed from the approved list. |
+| Name    | Type      | Description                                       |
+| ------- | --------- | ------------------------------------------------- |
+| account | `address` | The address to be removed from the approved list. |
 
 ### revokeOperator
 
@@ -190,9 +190,9 @@ _Only callable by admins as enforced by `revokeRole`._
 
 #### Parameters
 
-| Name    | Type    | Description                                       |
-| ------- | ------- | ------------------------------------------------- |
-| account | address | The address to be removed from the approved list. |
+| Name    | Type      | Description                                       |
+| ------- | --------- | ------------------------------------------------- |
+| account | `address` | The address to be removed from the approved list. |
 
 ### withdrawFunds
 
@@ -204,10 +204,10 @@ Allows an admin to withdraw funds.
 
 #### Parameters
 
-| Name   | Type            | Description                                               |
-| ------ | --------------- | --------------------------------------------------------- |
-| to     | address payable | Address to receive the withdrawn funds                    |
-| amount | uint256         | Amount to withdrawal or 0 to withdraw all available funds |
+| Name   | Type              | Description                                               |
+| ------ | ----------------- | --------------------------------------------------------- |
+| to     | `address payable` | Address to receive the withdrawn funds                    |
+| amount | `uint256`         | Amount to withdrawal or 0 to withdraw all available funds |
 
 ## Events
 
@@ -221,10 +221,10 @@ Emitted when funds are withdrawn from this contract.
 
 #### Parameters
 
-| Name         | Type    | Description |
-| ------------ | ------- | ----------- |
-| to `indexed` | address | undefined   |
-| amount       | uint256 | undefined   |
+| Name         | Type      |
+| ------------ | --------- |
+| to `indexed` | `address` |
+| amount       | `uint256` |
 
 ### Initialized
 
@@ -234,9 +234,9 @@ event Initialized(uint8 version)
 
 #### Parameters
 
-| Name    | Type  | Description |
-| ------- | ----- | ----------- |
-| version | uint8 | undefined   |
+| Name    | Type    |
+| ------- | ------- |
+| version | `uint8` |
 
 ### RoleAdminChanged
 
@@ -246,11 +246,11 @@ event RoleAdminChanged(bytes32 indexed role, bytes32 indexed previousAdminRole, 
 
 #### Parameters
 
-| Name                        | Type    | Description |
-| --------------------------- | ------- | ----------- |
-| role `indexed`              | bytes32 | undefined   |
-| previousAdminRole `indexed` | bytes32 | undefined   |
-| newAdminRole `indexed`      | bytes32 | undefined   |
+| Name                        | Type      |
+| --------------------------- | --------- |
+| role `indexed`              | `bytes32` |
+| previousAdminRole `indexed` | `bytes32` |
+| newAdminRole `indexed`      | `bytes32` |
 
 ### RoleGranted
 
@@ -260,11 +260,11 @@ event RoleGranted(bytes32 indexed role, address indexed account, address indexed
 
 #### Parameters
 
-| Name              | Type    | Description |
-| ----------------- | ------- | ----------- |
-| role `indexed`    | bytes32 | undefined   |
-| account `indexed` | address | undefined   |
-| sender `indexed`  | address | undefined   |
+| Name              | Type      |
+| ----------------- | --------- |
+| role `indexed`    | `bytes32` |
+| account `indexed` | `address` |
+| sender `indexed`  | `address` |
 
 ### RoleRevoked
 
@@ -274,21 +274,21 @@ event RoleRevoked(bytes32 indexed role, address indexed account, address indexed
 
 #### Parameters
 
-| Name              | Type    | Description |
-| ----------------- | ------- | ----------- |
-| role `indexed`    | bytes32 | undefined   |
-| account `indexed` | address | undefined   |
-| sender `indexed`  | address | undefined   |
+| Name              | Type      |
+| ----------------- | --------- |
+| role `indexed`    | `bytes32` |
+| account `indexed` | `address` |
+| sender `indexed`  | `address` |
 
 ## Errors
 
-### CollateralManagement_Cannot_Withdraw_To_Address_Zero
+### CollateralManagement\_Cannot\_Withdraw\_To\_Address\_Zero
 
 ```solidity
 error CollateralManagement_Cannot_Withdraw_To_Address_Zero()
 ```
 
-### CollateralManagement_Cannot_Withdraw_To_Self
+### CollateralManagement\_Cannot\_Withdraw\_To\_Self
 
 ```solidity
 error CollateralManagement_Cannot_Withdraw_To_Self()

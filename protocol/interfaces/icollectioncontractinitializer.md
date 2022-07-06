@@ -10,8 +10,8 @@ function initialize(address payable _creator, string _name, string _symbol) exte
 
 #### Parameters
 
-| Name      | Type            | Description |
-| --------- | --------------- | ----------- |
-| \_creator | address payable | undefined   |
-| \_name    | string          | undefined   |
-| \_symbol  | string          | undefined   |
+| Name      | Type              |
+| --------- | ----------------- |
+| \_creator | `address payable` |
+| \_name    | `string`          |
+| \_symbol  | `string`          |

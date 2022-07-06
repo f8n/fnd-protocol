@@ -18,9 +18,9 @@ _This call is used in the royalty registry contract._
 
 #### Returns
 
-| Name            | Type            | Description                                      |
-| --------------- | --------------- | ------------------------------------------------ |
-| treasuryAddress | address payable | The address of the Foundation treasury contract. |
+| Name            | Type              | Description                                      |
+| --------------- | ----------------- | ------------------------------------------------ |
+| treasuryAddress | `address payable` | The address of the Foundation treasury contract. |
 
 ## Events
 
@@ -32,13 +32,13 @@ event Initialized(uint8 version)
 
 #### Parameters
 
-| Name    | Type  | Description |
-| ------- | ----- | ----------- |
-| version | uint8 | undefined   |
+| Name    | Type    |
+| ------- | ------- |
+| version | `uint8` |
 
 ## Errors
 
-### FoundationTreasuryNode_Address_Is_Not_A_Contract
+### FoundationTreasuryNode\_Address\_Is\_Not\_A\_Contract
 
 ```solidity
 error FoundationTreasuryNode_Address_Is_Not_A_Contract()

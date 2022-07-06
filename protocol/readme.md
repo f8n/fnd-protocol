@@ -1,6 +1,6 @@
 ---
 description: >-
-  Learn about how to build and integrate with Foundation's smart contracts and
+  Learn how to build and integrate with Foundation's smart contracts and
   protocol.
 ---
 
@@ -16,7 +16,7 @@ Integrators can tap into the [lucrative](https://dune.xyz/foundation/foundation)
 
 **What Type of Rewards Do I Receive?**
 
-We offer buyer side incentives on all our market tools (BuyNow, Auctions, Offers). Any NFT purchase initiated with a referral will get 20% of the FND Protocol Fee (1% of the total sale amount).
+We offer buyer-side incentives on all our market tools (BuyNow, Auctions, Offers). Any NFT purchase initiated with a referral will get 20% of the FND Protocol Fee (1% of the total sale amount).
 
 **How Are Rewards Paid Out?**
 
@@ -24,7 +24,7 @@ Rewards (in ETH) will be automatically deposited to the referrer address provide
 
 **What’s Next?**
 
-We’re planning to expand referral programs to our seller side listings.
+We’re planning to expand referral programs to our seller-side listings.
 
 **Final Notes**
 
@@ -36,7 +36,7 @@ None of the above rates/mechanisms should be interpreted as final and are subjec
 
 Contracts from this repo are published to [`@f8n/fnd-protocol`](https://www.npmjs.com/package/@f8n/fnd-protocol).
 
-To get you started here’s an example BuyNow call with a referral incentive address.
+To get started, here’s an example BuyNow call with a referral incentive address.
 
 ```
 const txArgs: BuyNowArgs = [
@@ -73,9 +73,9 @@ Foundation is fully on-chain and the easiest way to retrieve any event emitted f
 
 To integrate you can use the endpoints below:
 
-- **playground:** https://thegraph.com/hosted-service/subgraph/f8n/fnd
-- **mainnet:** https://api.thegraph.com/subgraphs/name/f8n/fnd
-- **goerli:** https://api.thegraph.com/subgraphs/name/f8n/fnd-goerli
+* ****[**playground**](https://thegraph.com/hosted-service/subgraph/f8n/fnd)****
+* ****[**mainnet**](https://api.thegraph.com/subgraphs/name/f8n/fnd)****
+* ****[**goerli**](https://api.thegraph.com/subgraphs/name/f8n/fnd-goerli)****
 
 To get you started here are some example queries:
 
@@ -152,9 +152,3 @@ yarn test
 ```
 
 Note that our full test suite is not included here at this time. The tests are meant to demonstrate how to work with our contracts and a few of the core features.
-
-## Bounty Program
-
-If you find a security issue impacting contracts deployed to mainnet, please report them via our [Immunefi bounty program](https://immunefi.com/bounty/foundation/).
-
-Other questions or issues can be reported via [GitHub `Issues`](https://github.com/f8n/fnd-protocol/issues) or ask in [`Discussions`](https://github.com/f8n/fnd-protocol/discussions).
