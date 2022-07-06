@@ -590,7 +590,7 @@ function safeTransferFrom(address from, address to, uint256 tokenId) external no
 ### safeTransferFrom
 
 ```solidity
-function safeTransferFrom(address from, address to, uint256 tokenId, bytes _data) external nonpayable
+function safeTransferFrom(address from, address to, uint256 tokenId, bytes data) external nonpayable
 ```
 
 
@@ -604,7 +604,7 @@ function safeTransferFrom(address from, address to, uint256 tokenId, bytes _data
 | from | `address` |  |
 | to | `address` |  |
 | tokenId | `uint256` |  |
-| _data | `bytes` |  |
+| data | `bytes` |  |
 
 ### selfDestruct
 
