@@ -1,0 +1,3 @@
+[submodule "foundationkit"]
+	path = foundationkit
+	url = https://github.com/f8n/foundationkit.git
