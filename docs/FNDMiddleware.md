@@ -24,16 +24,16 @@ function getAccountInfo(address account) external view returns (uint256 ethBalan
 
 | Name | Type | Description |
 |---|---|---|
-| account | address | undefined |
+| account | `address` |  |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| ethBalance | uint256 | undefined |
-| availableFethBalance | uint256 | undefined |
-| lockedFethBalance | uint256 | undefined |
-| ensName | string | undefined |
+| ethBalance | `uint256` |  |
+| availableFethBalance | `uint256` |  |
+| lockedFethBalance | `uint256` |  |
+| ensName | `string` |  |
 
 ### getFees
 
@@ -49,18 +49,18 @@ function getFees(address nftContract, uint256 tokenId, uint256 price) external v
 
 | Name | Type | Description |
 |---|---|---|
-| nftContract | address | undefined |
-| tokenId | uint256 | undefined |
-| price | uint256 | undefined |
+| nftContract | `address` |  |
+| tokenId | `uint256` |  |
+| price | `uint256` |  |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| protocol | FNDMiddleware.FeeWithRecipient | undefined |
-| creator | FNDMiddleware.Fee | undefined |
-| owner | FNDMiddleware.FeeWithRecipient | undefined |
-| creatorRevSplit | FNDMiddleware.RevSplit[] | undefined |
+| protocol | `FNDMiddleware.FeeWithRecipient` |  |
+| creator | `FNDMiddleware.Fee` |  |
+| owner | `FNDMiddleware.FeeWithRecipient` |  |
+| creatorRevSplit | `FNDMiddleware.RevSplit[]` |  |
 
 ### getNFTDetailString
 
@@ -76,14 +76,14 @@ function getNFTDetailString(address nftContract, uint256 tokenId) external view 
 
 | Name | Type | Description |
 |---|---|---|
-| nftContract | address | undefined |
-| tokenId | uint256 | undefined |
+| nftContract | `address` |  |
+| tokenId | `uint256` |  |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| details | string | undefined |
+| details | `string` |  |
 
 ### getNFTDetails
 
@@ -99,23 +99,23 @@ Retrieves details related to the NFT in the FND Market.
 
 | Name | Type | Description |
 |---|---|---|
-| nftContract | address | The address of the contract for the NFT |
-| tokenId | uint256 | The id for the NFT in the contract. |
+| nftContract | `address` | The address of the contract for the NFT |
+| tokenId | `uint256` | The id for the NFT in the contract. |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| owner | address | undefined |
-| isInEscrow | bool | undefined |
-| auctionBidder | address | undefined |
-| auctionEndTime | uint256 | undefined |
-| auctionPrice | uint256 | undefined |
-| auctionId | uint256 | undefined |
-| buyPrice | uint256 | undefined |
-| offerAmount | uint256 | undefined |
-| offerBuyer | address | undefined |
-| offerExpiration | uint256 | undefined |
+| owner | `address` |  |
+| isInEscrow | `bool` |  |
+| auctionBidder | `address` |  |
+| auctionEndTime | `uint256` |  |
+| auctionPrice | `uint256` |  |
+| auctionId | `uint256` |  |
+| buyPrice | `uint256` |  |
+| offerAmount | `uint256` |  |
+| offerBuyer | `address` |  |
+| offerExpiration | `uint256` |  |
 
 ### getSplitShareLength
 
@@ -131,13 +131,13 @@ function getSplitShareLength(address payable recipient) external view returns (u
 
 | Name | Type | Description |
 |---|---|---|
-| recipient | address payable | undefined |
+| recipient | `address payable` |  |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| count | uint256 | undefined |
+| count | `uint256` |  |
 
 ### getTokenCreator
 
@@ -153,14 +153,14 @@ function getTokenCreator(address nftContract, uint256 tokenId) external view ret
 
 | Name | Type | Description |
 |---|---|---|
-| nftContract | address | undefined |
-| tokenId | uint256 | undefined |
+| nftContract | `address` |  |
+| tokenId | `uint256` |  |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| creatorAddress | address | undefined |
+| creatorAddress | `address` |  |
 
 ### probeNFT
 
@@ -176,14 +176,14 @@ Checks an NFT to confirm it will function correctly with our marketplace.
 
 | Name | Type | Description |
 |---|---|---|
-| nftContract | address | undefined |
-| tokenId | uint256 | undefined |
+| nftContract | `address` |  |
+| tokenId | `uint256` |  |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | bytes32 | 0 if the NFT is supported, otherwise a hash of the error reason. |
+| _0 | `bytes32` | 0 if the NFT is supported, otherwise a hash of the error reason. |
 
 
 

@@ -24,10 +24,10 @@ Accept the highest offer for an NFT.
 
 | Name | Type | Description |
 |---|---|---|
-| nftContract | address | The address of the NFT contract. |
-| tokenId | uint256 | The id of the NFT. |
-| offerFrom | address | The address of the collector that you wish to sell to. If the current highest offer is not from this user, the transaction will revert. This could happen if a last minute offer was made by another collector, and would require the seller to try accepting again. |
-| minAmount | uint256 | The minimum value of the highest offer for it to be accepted. If the value is less than this amount, the transaction will revert. This could happen if the original offer expires and is replaced with a smaller offer. |
+| nftContract | `address` | The address of the NFT contract. |
+| tokenId | `uint256` | The id of the NFT. |
+| offerFrom | `address` | The address of the collector that you wish to sell to. If the current highest offer is not from this user, the transaction will revert. This could happen if a last minute offer was made by another collector, and would require the seller to try accepting again. |
+| minAmount | `uint256` | The minimum value of the highest offer for it to be accepted. If the value is less than this amount, the transaction will revert. This could happen if the original offer expires and is replaced with a smaller offer. |
 
 ### adminCancelOffers
 
@@ -43,9 +43,9 @@ Allows Foundation to cancel offers. This will unlock the funds in the FETH ERC-2
 
 | Name | Type | Description |
 |---|---|---|
-| nftContracts | address[] | The addresses of the NFT contracts to cancel. This must be the same length as `tokenIds`. |
-| tokenIds | uint256[] | The ids of the NFTs to cancel. This must be the same length as `nftContracts`. |
-| reason | string | The reason for the cancellation (a required field). |
+| nftContracts | `address[]` | The addresses of the NFT contracts to cancel. This must be the same length as `tokenIds`. |
+| tokenIds | `uint256[]` | The ids of the NFTs to cancel. This must be the same length as `nftContracts`. |
+| reason | `string` | The reason for the cancellation (a required field). |
 
 ### adminCancelReserveAuction
 
@@ -61,8 +61,8 @@ Allows Foundation to cancel an auction, refunding the bidder and returning the N
 
 | Name | Type | Description |
 |---|---|---|
-| auctionId | uint256 | The id of the auction to cancel. |
-| reason | string | The reason for the cancellation (a required field). |
+| auctionId | `uint256` | The id of the auction to cancel. |
+| reason | `string` | The reason for the cancellation (a required field). |
 
 ### buy
 
@@ -78,9 +78,9 @@ Buy the NFT at the set buy price. `msg.value` must be &lt;= `maxPrice` and any d
 
 | Name | Type | Description |
 |---|---|---|
-| nftContract | address | The address of the NFT contract. |
-| tokenId | uint256 | The id of the NFT. |
-| maxPrice | uint256 | The maximum price to pay for the NFT. |
+| nftContract | `address` | The address of the NFT contract. |
+| tokenId | `uint256` | The id of the NFT. |
+| maxPrice | `uint256` | The maximum price to pay for the NFT. |
 
 ### buyV2
 
@@ -96,10 +96,10 @@ Buy the NFT at the set buy price. `msg.value` must be &lt;= `maxPrice` and any d
 
 | Name | Type | Description |
 |---|---|---|
-| nftContract | address | The address of the NFT contract. |
-| tokenId | uint256 | The id of the NFT. |
-| maxPrice | uint256 | The maximum price to pay for the NFT. |
-| referrer | address payable | The address of the referrer. |
+| nftContract | `address` | The address of the NFT contract. |
+| tokenId | `uint256` | The id of the NFT. |
+| maxPrice | `uint256` | The maximum price to pay for the NFT. |
+| referrer | `address payable` | The address of the referrer. |
 
 ### cancelBuyPrice
 
@@ -115,8 +115,8 @@ Removes the buy price set for an NFT.
 
 | Name | Type | Description |
 |---|---|---|
-| nftContract | address | The address of the NFT contract. |
-| tokenId | uint256 | The id of the NFT. |
+| nftContract | `address` | The address of the NFT contract. |
+| tokenId | `uint256` | The id of the NFT. |
 
 ### cancelReserveAuction
 
@@ -132,7 +132,7 @@ If an auction has been created but has not yet received bids, it may be canceled
 
 | Name | Type | Description |
 |---|---|---|
-| auctionId | uint256 | The id of the auction to cancel. |
+| auctionId | `uint256` | The id of the auction to cancel. |
 
 ### createReserveAuction
 
@@ -148,9 +148,9 @@ Creates an auction for the given NFT. The NFT is held in escrow until the auctio
 
 | Name | Type | Description |
 |---|---|---|
-| nftContract | address | The address of the NFT contract. |
-| tokenId | uint256 | The id of the NFT. |
-| reservePrice | uint256 | The initial reserve price for the auction. |
+| nftContract | `address` | The address of the NFT contract. |
+| tokenId | `uint256` | The id of the NFT. |
+| reservePrice | `uint256` | The initial reserve price for the auction. |
 
 ### finalizeReserveAuction
 
@@ -166,7 +166,7 @@ Once the countdown has expired for an auction, anyone can settle the auction. Th
 
 | Name | Type | Description |
 |---|---|---|
-| auctionId | uint256 | The id of the auction to settle. |
+| auctionId | `uint256` | The id of the auction to settle. |
 
 ### getBuyPrice
 
@@ -182,15 +182,15 @@ Returns the buy price details for an NFT if one is available.
 
 | Name | Type | Description |
 |---|---|---|
-| nftContract | address | The address of the NFT contract. |
-| tokenId | uint256 | The id of the NFT. |
+| nftContract | `address` | The address of the NFT contract. |
+| tokenId | `uint256` | The id of the NFT. |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| seller | address | The address of the owner that listed a buy price for this NFT. Returns `address(0)` if there is no buy price set for this NFT. |
-| price | uint256 | The price of the NFT. Returns `0` if there is no buy price set for this NFT. |
+| seller | `address` | The address of the owner that listed a buy price for this NFT. Returns `address(0)` if there is no buy price set for this NFT. |
+| price | `uint256` | The price of the NFT. Returns `0` if there is no buy price set for this NFT. |
 
 ### getFeesAndRecipients
 
@@ -206,20 +206,20 @@ Returns how funds will be distributed for a sale at the given price point.
 
 | Name | Type | Description |
 |---|---|---|
-| nftContract | address | The address of the NFT contract. |
-| tokenId | uint256 | The id of the NFT. |
-| price | uint256 | The sale price to calculate the fees for. |
+| nftContract | `address` | The address of the NFT contract. |
+| tokenId | `uint256` | The id of the NFT. |
+| price | `uint256` | The sale price to calculate the fees for. |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| protocolFee | uint256 | How much will be sent to the Foundation treasury. |
-| creatorRev | uint256 | How much will be sent across all the `creatorRecipients` defined. |
-| creatorRecipients | address payable[] | The addresses of the recipients to receive a portion of the creator fee. |
-| creatorShares | uint256[] | The percentage of the creator fee to be distributed to each `creatorRecipient`. If there is only one `creatorRecipient`, this may be an empty array. Otherwise `creatorShares.length` == `creatorRecipients.length`. |
-| sellerRev | uint256 | How much will be sent to the owner/seller of the NFT. If the NFT is being sold by the creator, this may be 0 and the full revenue will appear as `creatorRev`. |
-| owner | address payable | The address of the owner of the NFT. If `sellerRev` is 0, this may be `address(0)`. |
+| protocolFee | `uint256` | How much will be sent to the Foundation treasury. |
+| creatorRev | `uint256` | How much will be sent across all the `creatorRecipients` defined. |
+| creatorRecipients | `address payable[]` | The addresses of the recipients to receive a portion of the creator fee. |
+| creatorShares | `uint256[]` | The percentage of the creator fee to be distributed to each `creatorRecipient`. If there is only one `creatorRecipient`, this may be an empty array. Otherwise `creatorShares.length` == `creatorRecipients.length`. |
+| sellerRev | `uint256` | How much will be sent to the owner/seller of the NFT. If the NFT is being sold by the creator, this may be 0 and the full revenue will appear as `creatorRev`. |
+| owner | `address payable` | The address of the owner of the NFT. If `sellerRev` is 0, this may be `address(0)`. |
 
 ### getFethAddress
 
@@ -236,7 +236,7 @@ Gets the FETH contract used to escrow offer funds.
 
 | Name | Type | Description |
 |---|---|---|
-| fethAddress | address | The FETH contract address. |
+| fethAddress | `address` | The FETH contract address. |
 
 ### getFoundationTreasury
 
@@ -253,7 +253,7 @@ Gets the Foundation treasury contract.
 
 | Name | Type | Description |
 |---|---|---|
-| treasuryAddress | address payable | The address of the Foundation treasury contract. |
+| treasuryAddress | `address payable` | The address of the Foundation treasury contract. |
 
 ### getImmutableRoyalties
 
@@ -269,15 +269,15 @@ For internal use only.
 
 | Name | Type | Description |
 |---|---|---|
-| nftContract | address | undefined |
-| tokenId | uint256 | undefined |
+| nftContract | `address` |  |
+| tokenId | `uint256` |  |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| recipients | address payable[] | undefined |
-| splitPerRecipientInBasisPoints | uint256[] | undefined |
+| recipients | `address payable[]` |  |
+| splitPerRecipientInBasisPoints | `uint256[]` |  |
 
 ### getMinBidAmount
 
@@ -293,13 +293,13 @@ Returns the minimum amount a bidder must spend to participate in an auction. Bid
 
 | Name | Type | Description |
 |---|---|---|
-| auctionId | uint256 | The id of the auction to check. |
+| auctionId | `uint256` | The id of the auction to check. |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| minimum | uint256 | The minimum amount for a bid to be accepted. |
+| minimum | `uint256` | The minimum amount for a bid to be accepted. |
 
 ### getMinOfferAmount
 
@@ -315,14 +315,14 @@ Returns the minimum amount a collector must offer for this NFT in order for the 
 
 | Name | Type | Description |
 |---|---|---|
-| nftContract | address | The address of the NFT contract. |
-| tokenId | uint256 | The id of the NFT. |
+| nftContract | `address` | The address of the NFT contract. |
+| tokenId | `uint256` | The id of the NFT. |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| minimum | uint256 | The minimum amount that must be offered for this NFT. |
+| minimum | `uint256` | The minimum amount that must be offered for this NFT. |
 
 ### getMutableRoyalties
 
@@ -338,16 +338,16 @@ For internal use only.
 
 | Name | Type | Description |
 |---|---|---|
-| nftContract | address | undefined |
-| tokenId | uint256 | undefined |
-| creator | address payable | undefined |
+| nftContract | `address` |  |
+| tokenId | `uint256` |  |
+| creator | `address payable` |  |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| recipients | address payable[] | undefined |
-| splitPerRecipientInBasisPoints | uint256[] | undefined |
+| recipients | `address payable[]` |  |
+| splitPerRecipientInBasisPoints | `uint256[]` |  |
 
 ### getOffer
 
@@ -363,16 +363,16 @@ Returns details about the current highest offer for an NFT.
 
 | Name | Type | Description |
 |---|---|---|
-| nftContract | address | The address of the NFT contract. |
-| tokenId | uint256 | The id of the NFT. |
+| nftContract | `address` | The address of the NFT contract. |
+| tokenId | `uint256` | The id of the NFT. |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| buyer | address | The address of the buyer that made the current highest offer. Returns `address(0)` if there is no offer or the most recent offer has expired. |
-| expiration | uint256 | The timestamp that the current highest offer expires. Returns `0` if there is no offer or the most recent offer has expired. |
-| amount | uint256 | The amount being offered for this NFT. Returns `0` if there is no offer or the most recent offer has expired. |
+| buyer | `address` | The address of the buyer that made the current highest offer. Returns `address(0)` if there is no offer or the most recent offer has expired. |
+| expiration | `uint256` | The timestamp that the current highest offer expires. Returns `0` if there is no offer or the most recent offer has expired. |
+| amount | `uint256` | The amount being offered for this NFT. Returns `0` if there is no offer or the most recent offer has expired. |
 
 ### getOfferReferrer
 
@@ -388,14 +388,14 @@ Returns the current highest offer&#39;s referral for an NFT.
 
 | Name | Type | Description |
 |---|---|---|
-| nftContract | address | The address of the NFT contract. |
-| tokenId | uint256 | The id of the NFT. |
+| nftContract | `address` | The address of the NFT contract. |
+| tokenId | `uint256` | The id of the NFT. |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| referrer | address payable | The payable address of the referrer for the offer. |
+| referrer | `address payable` | The payable address of the referrer for the offer. |
 
 ### getReserveAuction
 
@@ -411,13 +411,13 @@ Returns auction details for a given auctionId.
 
 | Name | Type | Description |
 |---|---|---|
-| auctionId | uint256 | The id of the auction to lookup. |
+| auctionId | `uint256` | The id of the auction to lookup. |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| auction | NFTMarketReserveAuction.ReserveAuction | undefined |
+| auction | `NFTMarketReserveAuction.ReserveAuction` |  |
 
 ### getReserveAuctionBidReferrer
 
@@ -433,13 +433,13 @@ Returns the referrer for the current highest bid in the auction, or address(0).
 
 | Name | Type | Description |
 |---|---|---|
-| auctionId | uint256 | undefined |
+| auctionId | `uint256` |  |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| referrer | address payable | undefined |
+| referrer | `address payable` |  |
 
 ### getReserveAuctionIdFor
 
@@ -455,14 +455,14 @@ Returns the auctionId for a given NFT, or 0 if no auction is found.
 
 | Name | Type | Description |
 |---|---|---|
-| nftContract | address | The address of the NFT contract. |
-| tokenId | uint256 | The id of the NFT. |
+| nftContract | `address` | The address of the NFT contract. |
+| tokenId | `uint256` | The id of the NFT. |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| auctionId | uint256 | The id of the auction, or 0 if no auction is found. |
+| auctionId | `uint256` | The id of the auction, or 0 if no auction is found. |
 
 ### getRoyaltyRegistry
 
@@ -479,7 +479,7 @@ Returns the address of the registry allowing for royalty configuration overrides
 
 | Name | Type | Description |
 |---|---|---|
-| registry | address | The address of the royalty registry contract. |
+| registry | `address` | The address of the royalty registry contract. |
 
 ### getTokenCreator
 
@@ -495,14 +495,14 @@ For internal use only.
 
 | Name | Type | Description |
 |---|---|---|
-| nftContract | address | undefined |
-| tokenId | uint256 | undefined |
+| nftContract | `address` |  |
+| tokenId | `uint256` |  |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| creator | address payable | undefined |
+| creator | `address payable` |  |
 
 ### initialize
 
@@ -529,15 +529,15 @@ function makeOffer(address nftContract, uint256 tokenId, uint256 amount) externa
 
 | Name | Type | Description |
 |---|---|---|
-| nftContract | address | undefined |
-| tokenId | uint256 | undefined |
-| amount | uint256 | undefined |
+| nftContract | `address` |  |
+| tokenId | `uint256` |  |
+| amount | `uint256` |  |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| expiration | uint256 | undefined |
+| expiration | `uint256` |  |
 
 ### makeOfferV2
 
@@ -553,16 +553,16 @@ Make an offer for any NFT which is valid for 24-25 hours. The funds will be lock
 
 | Name | Type | Description |
 |---|---|---|
-| nftContract | address | The address of the NFT contract. |
-| tokenId | uint256 | The id of the NFT. |
-| amount | uint256 | The amount to offer for this NFT. |
-| referrer | address payable | The refrerrer address for the offer. |
+| nftContract | `address` | The address of the NFT contract. |
+| tokenId | `uint256` | The id of the NFT. |
+| amount | `uint256` | The amount to offer for this NFT. |
+| referrer | `address payable` | The refrerrer address for the offer. |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| expiration | uint256 | The timestamp for when this offer will expire. This is provided as a return value in case another contract would like to leverage this information, user&#39;s should refer to the expiration in the `OfferMade` event log. If the buy price is accepted instead, `0` is returned as the expiration since that&#39;s n/a. |
+| expiration | `uint256` | The timestamp for when this offer will expire. This is provided as a return value in case another contract would like to leverage this information, user&#39;s should refer to the expiration in the `OfferMade` event log. If the buy price is accepted instead, `0` is returned as the expiration since that&#39;s n/a. |
 
 ### placeBid
 
@@ -578,7 +578,7 @@ Place a bid in an auction. A bidder may place a bid which is at least the value 
 
 | Name | Type | Description |
 |---|---|---|
-| auctionId | uint256 | The id of the auction to bid on. |
+| auctionId | `uint256` | The id of the auction to bid on. |
 
 ### placeBidV2
 
@@ -594,9 +594,9 @@ Place a bid in an auction. A bidder may place a bid which is at least the amount
 
 | Name | Type | Description |
 |---|---|---|
-| auctionId | uint256 | The id of the auction to bid on. |
-| amount | uint256 | The amount to bid, if this is more than `msg.value` funds will be withdrawn from your FETH balance. |
-| referrer | address payable | undefined |
+| auctionId | `uint256` | The id of the auction to bid on. |
+| amount | `uint256` | The amount to bid, if this is more than `msg.value` funds will be withdrawn from your FETH balance. |
+| referrer | `address payable` |  |
 
 ### setBuyPrice
 
@@ -612,9 +612,9 @@ Sets the buy price for an NFT and escrows it in the market contract. A 0 price i
 
 | Name | Type | Description |
 |---|---|---|
-| nftContract | address | The address of the NFT contract. |
-| tokenId | uint256 | The id of the NFT. |
-| price | uint256 | The price at which someone could buy this NFT. |
+| nftContract | `address` | The address of the NFT contract. |
+| tokenId | `uint256` | The id of the NFT. |
+| price | `uint256` | The price at which someone could buy this NFT. |
 
 ### updateReserveAuction
 
@@ -630,8 +630,8 @@ If an auction has been created but has not yet received bids, the reservePrice m
 
 | Name | Type | Description |
 |---|---|---|
-| auctionId | uint256 | The id of the auction to change. |
-| reservePrice | uint256 | The new reserve price for this auction. |
+| auctionId | `uint256` | The id of the auction to change. |
+| reservePrice | `uint256` | The new reserve price for this auction. |
 
 
 
@@ -651,13 +651,13 @@ Emitted when an NFT is bought by accepting the buy price, indicating that the NF
 
 | Name | Type | Description |
 |---|---|---|
-| nftContract `indexed` | address | undefined |
-| tokenId `indexed` | uint256 | undefined |
-| seller `indexed` | address | undefined |
-| buyer  | address | undefined |
-| protocolFee  | uint256 | undefined |
-| creatorFee  | uint256 | undefined |
-| sellerRev  | uint256 | undefined |
+| nftContract `indexed` | `address` |  |
+| tokenId `indexed` | `uint256` |  |
+| seller `indexed` | `address` |  |
+| buyer  | `address` |  |
+| protocolFee  | `uint256` |  |
+| creatorFee  | `uint256` |  |
+| sellerRev  | `uint256` |  |
 
 ### BuyPriceCanceled
 
@@ -673,8 +673,8 @@ Emitted when the buy price is removed by the owner of an NFT.
 
 | Name | Type | Description |
 |---|---|---|
-| nftContract `indexed` | address | undefined |
-| tokenId `indexed` | uint256 | undefined |
+| nftContract `indexed` | `address` |  |
+| tokenId `indexed` | `uint256` |  |
 
 ### BuyPriceInvalidated
 
@@ -690,8 +690,8 @@ Emitted when a buy price is invalidated due to other market activity.
 
 | Name | Type | Description |
 |---|---|---|
-| nftContract `indexed` | address | undefined |
-| tokenId `indexed` | uint256 | undefined |
+| nftContract `indexed` | `address` |  |
+| tokenId `indexed` | `uint256` |  |
 
 ### BuyPriceSet
 
@@ -707,10 +707,10 @@ Emitted when a buy price is set by the owner of an NFT.
 
 | Name | Type | Description |
 |---|---|---|
-| nftContract `indexed` | address | undefined |
-| tokenId `indexed` | uint256 | undefined |
-| seller `indexed` | address | undefined |
-| price  | uint256 | undefined |
+| nftContract `indexed` | `address` |  |
+| tokenId `indexed` | `uint256` |  |
+| seller `indexed` | `address` |  |
+| price  | `uint256` |  |
 
 ### BuyReferralPaid
 
@@ -726,11 +726,11 @@ Emitted when a NFT sold with a referrer.
 
 | Name | Type | Description |
 |---|---|---|
-| nftContract `indexed` | address | undefined |
-| tokenId `indexed` | uint256 | undefined |
-| buyReferrer  | address | undefined |
-| buyReferrerProtocolFee  | uint256 | undefined |
-| buyReferrerSellerFee  | uint256 | undefined |
+| nftContract `indexed` | `address` |  |
+| tokenId `indexed` | `uint256` |  |
+| buyReferrer  | `address` |  |
+| buyReferrerProtocolFee  | `uint256` |  |
+| buyReferrerSellerFee  | `uint256` |  |
 
 ### Initialized
 
@@ -746,7 +746,7 @@ event Initialized(uint8 version)
 
 | Name | Type | Description |
 |---|---|---|
-| version  | uint8 | undefined |
+| version  | `uint8` |  |
 
 ### OfferAccepted
 
@@ -762,13 +762,13 @@ Emitted when an offer is accepted, indicating that the NFT has been transferred 
 
 | Name | Type | Description |
 |---|---|---|
-| nftContract `indexed` | address | undefined |
-| tokenId `indexed` | uint256 | undefined |
-| buyer `indexed` | address | undefined |
-| seller  | address | undefined |
-| protocolFee  | uint256 | undefined |
-| creatorFee  | uint256 | undefined |
-| sellerRev  | uint256 | undefined |
+| nftContract `indexed` | `address` |  |
+| tokenId `indexed` | `uint256` |  |
+| buyer `indexed` | `address` |  |
+| seller  | `address` |  |
+| protocolFee  | `uint256` |  |
+| creatorFee  | `uint256` |  |
+| sellerRev  | `uint256` |  |
 
 ### OfferCanceledByAdmin
 
@@ -784,9 +784,9 @@ Emitted when an offer is canceled by a Foundation admin.
 
 | Name | Type | Description |
 |---|---|---|
-| nftContract `indexed` | address | undefined |
-| tokenId `indexed` | uint256 | undefined |
-| reason  | string | undefined |
+| nftContract `indexed` | `address` |  |
+| tokenId `indexed` | `uint256` |  |
+| reason  | `string` |  |
 
 ### OfferInvalidated
 
@@ -802,8 +802,8 @@ Emitted when an offer is invalidated due to other market activity. When this occ
 
 | Name | Type | Description |
 |---|---|---|
-| nftContract `indexed` | address | undefined |
-| tokenId `indexed` | uint256 | undefined |
+| nftContract `indexed` | `address` |  |
+| tokenId `indexed` | `uint256` |  |
 
 ### OfferMade
 
@@ -819,11 +819,11 @@ Emitted when an offer is made.
 
 | Name | Type | Description |
 |---|---|---|
-| nftContract `indexed` | address | undefined |
-| tokenId `indexed` | uint256 | undefined |
-| buyer `indexed` | address | undefined |
-| amount  | uint256 | undefined |
-| expiration  | uint256 | undefined |
+| nftContract `indexed` | `address` |  |
+| tokenId `indexed` | `uint256` |  |
+| buyer `indexed` | `address` |  |
+| amount  | `uint256` |  |
+| expiration  | `uint256` |  |
 
 ### ReserveAuctionBidPlaced
 
@@ -839,10 +839,10 @@ Emitted when a bid is placed.
 
 | Name | Type | Description |
 |---|---|---|
-| auctionId `indexed` | uint256 | undefined |
-| bidder `indexed` | address | undefined |
-| amount  | uint256 | undefined |
-| endTime  | uint256 | undefined |
+| auctionId `indexed` | `uint256` |  |
+| bidder `indexed` | `address` |  |
+| amount  | `uint256` |  |
+| endTime  | `uint256` |  |
 
 ### ReserveAuctionCanceled
 
@@ -858,7 +858,7 @@ Emitted when an auction is cancelled.
 
 | Name | Type | Description |
 |---|---|---|
-| auctionId `indexed` | uint256 | undefined |
+| auctionId `indexed` | `uint256` |  |
 
 ### ReserveAuctionCanceledByAdmin
 
@@ -874,8 +874,8 @@ Emitted when an auction is canceled by a Foundation admin.
 
 | Name | Type | Description |
 |---|---|---|
-| auctionId `indexed` | uint256 | undefined |
-| reason  | string | undefined |
+| auctionId `indexed` | `uint256` |  |
+| reason  | `string` |  |
 
 ### ReserveAuctionCreated
 
@@ -891,13 +891,13 @@ Emitted when an NFT is listed for auction.
 
 | Name | Type | Description |
 |---|---|---|
-| seller `indexed` | address | undefined |
-| nftContract `indexed` | address | undefined |
-| tokenId `indexed` | uint256 | undefined |
-| duration  | uint256 | undefined |
-| extensionDuration  | uint256 | undefined |
-| reservePrice  | uint256 | undefined |
-| auctionId  | uint256 | undefined |
+| seller `indexed` | `address` |  |
+| nftContract `indexed` | `address` |  |
+| tokenId `indexed` | `uint256` |  |
+| duration  | `uint256` |  |
+| extensionDuration  | `uint256` |  |
+| reservePrice  | `uint256` |  |
+| auctionId  | `uint256` |  |
 
 ### ReserveAuctionFinalized
 
@@ -913,12 +913,12 @@ Emitted when an auction that has already ended is finalized, indicating that the
 
 | Name | Type | Description |
 |---|---|---|
-| auctionId `indexed` | uint256 | undefined |
-| seller `indexed` | address | undefined |
-| bidder `indexed` | address | undefined |
-| protocolFee  | uint256 | undefined |
-| creatorFee  | uint256 | undefined |
-| sellerRev  | uint256 | undefined |
+| auctionId `indexed` | `uint256` |  |
+| seller `indexed` | `address` |  |
+| bidder `indexed` | `address` |  |
+| protocolFee  | `uint256` |  |
+| creatorFee  | `uint256` |  |
+| sellerRev  | `uint256` |  |
 
 ### ReserveAuctionInvalidated
 
@@ -934,7 +934,7 @@ Emitted when an auction is invalidated due to other market activity.
 
 | Name | Type | Description |
 |---|---|---|
-| auctionId `indexed` | uint256 | undefined |
+| auctionId `indexed` | `uint256` |  |
 
 ### ReserveAuctionUpdated
 
@@ -950,8 +950,8 @@ Emitted when the auction&#39;s reserve price is changed.
 
 | Name | Type | Description |
 |---|---|---|
-| auctionId `indexed` | uint256 | undefined |
-| reservePrice  | uint256 | undefined |
+| auctionId `indexed` | `uint256` |  |
+| reservePrice  | `uint256` |  |
 
 ### WithdrawalToFETH
 
@@ -967,8 +967,8 @@ Emitted when escrowed funds are withdrawn to FETH.
 
 | Name | Type | Description |
 |---|---|---|
-| user `indexed` | address | undefined |
-| amount  | uint256 | undefined |
+| user `indexed` | `address` |  |
+| amount  | `uint256` |  |
 
 
 
@@ -1010,7 +1010,7 @@ error NFTMarketBuyPrice_Cannot_Buy_At_Lower_Price(uint256 buyPrice)
 
 | Name | Type | Description |
 |---|---|---|
-| buyPrice | uint256 | The current buy price set for this NFT. |
+| buyPrice | `uint256` | The current buy price set for this NFT. |
 
 ### NFTMarketBuyPrice_Cannot_Buy_Unset_Price
 
@@ -1048,7 +1048,7 @@ error NFTMarketBuyPrice_Only_Owner_Can_Cancel_Price(address owner)
 
 | Name | Type | Description |
 |---|---|---|
-| owner | address | The current owner of this NFT. |
+| owner | `address` | The current owner of this NFT. |
 
 ### NFTMarketBuyPrice_Only_Owner_Can_Set_Price
 
@@ -1064,7 +1064,7 @@ error NFTMarketBuyPrice_Only_Owner_Can_Set_Price(address owner)
 
 | Name | Type | Description |
 |---|---|---|
-| owner | address | The current owner of this NFT. |
+| owner | `address` | The current owner of this NFT. |
 
 ### NFTMarketBuyPrice_Price_Already_Set
 
@@ -1102,7 +1102,7 @@ error NFTMarketBuyPrice_Seller_Mismatch(address seller)
 
 | Name | Type | Description |
 |---|---|---|
-| seller | address | The current owner of this NFT. |
+| seller | `address` | The current owner of this NFT. |
 
 ### NFTMarketCore_FETH_Address_Is_Not_A_Contract
 
@@ -1173,7 +1173,7 @@ error NFTMarketOffer_Offer_Below_Min_Amount(uint256 currentOfferAmount)
 
 | Name | Type | Description |
 |---|---|---|
-| currentOfferAmount | uint256 | The current highest offer available for this NFT. |
+| currentOfferAmount | `uint256` | The current highest offer available for this NFT. |
 
 ### NFTMarketOffer_Offer_Expired
 
@@ -1189,7 +1189,7 @@ error NFTMarketOffer_Offer_Expired(uint256 expiry)
 
 | Name | Type | Description |
 |---|---|---|
-| expiry | uint256 | The time at which the offer had expired. |
+| expiry | `uint256` | The time at which the offer had expired. |
 
 ### NFTMarketOffer_Offer_From_Does_Not_Match
 
@@ -1205,7 +1205,7 @@ error NFTMarketOffer_Offer_From_Does_Not_Match(address currentOfferFrom)
 
 | Name | Type | Description |
 |---|---|---|
-| currentOfferFrom | address | The address of the collector which has made the current highest offer. |
+| currentOfferFrom | `address` | The address of the collector which has made the current highest offer. |
 
 ### NFTMarketOffer_Offer_Must_Be_At_Least_Min_Amount
 
@@ -1221,7 +1221,7 @@ error NFTMarketOffer_Offer_Must_Be_At_Least_Min_Amount(uint256 minOfferAmount)
 
 | Name | Type | Description |
 |---|---|---|
-| minOfferAmount | uint256 | The minimum amount that must be offered in order for it to be accepted. |
+| minOfferAmount | `uint256` | The minimum amount that must be offered in order for it to be accepted. |
 
 ### NFTMarketOffer_Provided_Contract_And_TokenId_Count_Must_Match
 
@@ -1259,7 +1259,7 @@ error NFTMarketReserveAuction_Already_Listed(uint256 auctionId)
 
 | Name | Type | Description |
 |---|---|---|
-| auctionId | uint256 | The already listed auctionId for this NFT. |
+| auctionId | `uint256` | The already listed auctionId for this NFT. |
 
 ### NFTMarketReserveAuction_Bid_Must_Be_At_Least_Min_Amount
 
@@ -1275,7 +1275,7 @@ error NFTMarketReserveAuction_Bid_Must_Be_At_Least_Min_Amount(uint256 minAmount)
 
 | Name | Type | Description |
 |---|---|---|
-| minAmount | uint256 | The minimum amount that must be bid in order for it to be accepted. |
+| minAmount | `uint256` | The minimum amount that must be bid in order for it to be accepted. |
 
 ### NFTMarketReserveAuction_Cannot_Admin_Cancel_Without_Reason
 
@@ -1302,7 +1302,7 @@ error NFTMarketReserveAuction_Cannot_Bid_Lower_Than_Reserve_Price(uint256 reserv
 
 | Name | Type | Description |
 |---|---|---|
-| reservePrice | uint256 | The current reserve price. |
+| reservePrice | `uint256` | The current reserve price. |
 
 ### NFTMarketReserveAuction_Cannot_Bid_On_Ended_Auction
 
@@ -1318,7 +1318,7 @@ error NFTMarketReserveAuction_Cannot_Bid_On_Ended_Auction(uint256 endTime)
 
 | Name | Type | Description |
 |---|---|---|
-| endTime | uint256 | The timestamp at which the auction had ended. |
+| endTime | `uint256` | The timestamp at which the auction had ended. |
 
 ### NFTMarketReserveAuction_Cannot_Bid_On_Nonexistent_Auction
 
@@ -1367,7 +1367,7 @@ error NFTMarketReserveAuction_Cannot_Finalize_Auction_In_Progress(uint256 endTim
 
 | Name | Type | Description |
 |---|---|---|
-| endTime | uint256 | The timestamp at which the auction will end. |
+| endTime | `uint256` | The timestamp at which the auction will end. |
 
 ### NFTMarketReserveAuction_Cannot_Rebid_Over_Outstanding_Bid
 
@@ -1405,7 +1405,7 @@ error NFTMarketReserveAuction_Exceeds_Max_Duration(uint256 maxDuration)
 
 | Name | Type | Description |
 |---|---|---|
-| maxDuration | uint256 | The maximum configuration for a duration of the auction, in seconds. |
+| maxDuration | `uint256` | The maximum configuration for a duration of the auction, in seconds. |
 
 ### NFTMarketReserveAuction_Less_Than_Extension_Duration
 
@@ -1421,7 +1421,7 @@ error NFTMarketReserveAuction_Less_Than_Extension_Duration(uint256 extensionDura
 
 | Name | Type | Description |
 |---|---|---|
-| extensionDuration | uint256 | The extension duration, in seconds. |
+| extensionDuration | `uint256` | The extension duration, in seconds. |
 
 ### NFTMarketReserveAuction_Must_Set_Non_Zero_Reserve_Price
 
@@ -1448,7 +1448,7 @@ error NFTMarketReserveAuction_Not_Matching_Seller(address seller)
 
 | Name | Type | Description |
 |---|---|---|
-| seller | address | The current owner of the NFT. |
+| seller | `address` | The current owner of the NFT. |
 
 ### NFTMarketReserveAuction_Only_Owner_Can_Update_Auction
 
@@ -1464,7 +1464,7 @@ error NFTMarketReserveAuction_Only_Owner_Can_Update_Auction(address owner)
 
 | Name | Type | Description |
 |---|---|---|
-| owner | address | The current owner of the NFT. |
+| owner | `address` | The current owner of the NFT. |
 
 ### NFTMarketReserveAuction_Price_Already_Set
 

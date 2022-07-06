@@ -24,11 +24,11 @@ Allows an NFT owner or creator and Foundation to work together in order to updat
 
 | Name | Type | Description |
 |---|---|---|
-| createdTokenIds | uint256[] | The tokenIds of the NFTs which were created by the original address. |
-| ownedTokenIds | uint256[] | The tokenIds of the NFTs owned by the original address to be migrated to the new account. |
-| originalAddress | address | The original account address to be migrated. |
-| newAddress | address payable | The new address for the account. |
-| signature | bytes | Message `I authorize Foundation to migrate my account to ${newAccount.address.toLowerCase()}` signed by the original account. |
+| createdTokenIds | `uint256[]` | The tokenIds of the NFTs which were created by the original address. |
+| ownedTokenIds | `uint256[]` | The tokenIds of the NFTs owned by the original address to be migrated to the new account. |
+| originalAddress | `address` | The original account address to be migrated. |
+| newAddress | `address payable` | The new address for the account. |
+| signature | `bytes` | Message `I authorize Foundation to migrate my account to ${newAccount.address.toLowerCase()}` signed by the original account. |
 
 ### adminAccountMigrationForPaymentAddresses
 
@@ -44,13 +44,13 @@ Allows a split recipient and Foundation to work together in order to update the 
 
 | Name | Type | Description |
 |---|---|---|
-| paymentAddressTokenIds | uint256[] | The token IDs for the NFTs to have their payment address migrated. |
-| paymentAddressFactory | address | The contract which was used to generate the payment address being migrated. |
-| paymentAddressCallData | bytes | The original call data used to generate the payment address being migrated. |
-| addressLocationInCallData | uint256 | The position where the account to migrate begins in the call data. |
-| originalAddress | address | The original account address to be migrated. |
-| newAddress | address payable | The new address for the account. |
-| signature | bytes | Message `I authorize Foundation to migrate my account to ${newAccount.address.toLowerCase()}` signed by the original account. |
+| paymentAddressTokenIds | `uint256[]` | The token IDs for the NFTs to have their payment address migrated. |
+| paymentAddressFactory | `address` | The contract which was used to generate the payment address being migrated. |
+| paymentAddressCallData | `bytes` | The original call data used to generate the payment address being migrated. |
+| addressLocationInCallData | `uint256` | The position where the account to migrate begins in the call data. |
+| originalAddress | `address` | The original account address to be migrated. |
+| newAddress | `address payable` | The new address for the account. |
+| signature | `bytes` | Message `I authorize Foundation to migrate my account to ${newAccount.address.toLowerCase()}` signed by the original account. |
 
 ### adminUpdateConfig
 
@@ -66,9 +66,9 @@ Allows a Foundation admin to update NFT config variables.
 
 | Name | Type | Description |
 |---|---|---|
-| _nftMarket | address | undefined |
-| baseURI | string | undefined |
-| proxyCallContract | address | undefined |
+| _nftMarket | `address` |  |
+| baseURI | `string` |  |
+| proxyCallContract | `address` |  |
 
 ### approve
 
@@ -84,8 +84,8 @@ function approve(address to, uint256 tokenId) external nonpayable
 
 | Name | Type | Description |
 |---|---|---|
-| to | address | undefined |
-| tokenId | uint256 | undefined |
+| to | `address` |  |
+| tokenId | `uint256` |  |
 
 ### balanceOf
 
@@ -101,13 +101,13 @@ function balanceOf(address owner) external view returns (uint256)
 
 | Name | Type | Description |
 |---|---|---|
-| owner | address | undefined |
+| owner | `address` |  |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | uint256 | undefined |
+| _0 | `uint256` |  |
 
 ### baseURI
 
@@ -124,7 +124,7 @@ function baseURI() external view returns (string)
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | string | undefined |
+| _0 | `string` |  |
 
 ### burn
 
@@ -140,7 +140,7 @@ Allows the creator to burn if they currently own the NFT.
 
 | Name | Type | Description |
 |---|---|---|
-| tokenId | uint256 | The tokenId of the NFT to be burned. |
+| tokenId | `uint256` | The tokenId of the NFT to be burned. |
 
 ### getApproved
 
@@ -156,13 +156,13 @@ function getApproved(uint256 tokenId) external view returns (address)
 
 | Name | Type | Description |
 |---|---|---|
-| tokenId | uint256 | undefined |
+| tokenId | `uint256` |  |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | address | undefined |
+| _0 | `address` |  |
 
 ### getFeeBps
 
@@ -178,13 +178,13 @@ Returns an array of fees in basis points. The expected recipients is communicate
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | uint256 | undefined |
+| _0 | `uint256` |  |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | uint256[] | feesInBasisPoints The array of fees to be sent to each recipient, in basis points. |
+| _0 | `uint256[]` | feesInBasisPoints The array of fees to be sent to each recipient, in basis points. |
 
 ### getFeeRecipients
 
@@ -200,13 +200,13 @@ Returns an array of recipient addresses to which fees should be sent. The expect
 
 | Name | Type | Description |
 |---|---|---|
-| tokenId | uint256 | The tokenId of the NFT to get the royalty recipients for. |
+| tokenId | `uint256` | The tokenId of the NFT to get the royalty recipients for. |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | address payable[] | recipients An array of addresses to which royalties should be sent. |
+| _0 | `address payable[]` | recipients An array of addresses to which royalties should be sent. |
 
 ### getFoundationTreasury
 
@@ -223,7 +223,7 @@ Gets the Foundation treasury contract.
 
 | Name | Type | Description |
 |---|---|---|
-| treasuryAddress | address payable | The address of the Foundation treasury contract. |
+| treasuryAddress | `address payable` | The address of the Foundation treasury contract. |
 
 ### getHasCreatorMintedIPFSHash
 
@@ -239,14 +239,14 @@ Checks if the creator has already minted a given NFT.
 
 | Name | Type | Description |
 |---|---|---|
-| creator | address | The creator which may have minted this NFT already. |
-| tokenIPFSPath | string | The IPFS path to the metadata JSON file, without the base URI prefix. |
+| creator | `address` | The creator which may have minted this NFT already. |
+| tokenIPFSPath | `string` | The IPFS path to the metadata JSON file, without the base URI prefix. |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| hasMinted | bool | True if the creator has already minted this NFT. |
+| hasMinted | `bool` | True if the creator has already minted this NFT. |
 
 ### getNFTMarket
 
@@ -263,7 +263,7 @@ Returns the address of the Foundation market contract.
 
 | Name | Type | Description |
 |---|---|---|
-| market | address | The Foundation market contract address. |
+| market | `address` | The Foundation market contract address. |
 
 ### getNextTokenId
 
@@ -280,7 +280,7 @@ Gets the tokenId of the next NFT minted.
 
 | Name | Type | Description |
 |---|---|---|
-| tokenId | uint256 | The ID that the next NFT minted will use. |
+| tokenId | `uint256` | The ID that the next NFT minted will use. |
 
 ### getRoyalties
 
@@ -296,14 +296,14 @@ Get fee recipients and fees in a single call.
 
 | Name | Type | Description |
 |---|---|---|
-| tokenId | uint256 | The tokenId of the NFT to get the royalties for. |
+| tokenId | `uint256` | The tokenId of the NFT to get the royalties for. |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| recipients | address payable[] | An array of addresses to which royalties should be sent. |
-| feesInBasisPoints | uint256[] | The array of fees to be sent to each recipient address. |
+| recipients | `address payable[]` | An array of addresses to which royalties should be sent. |
+| feesInBasisPoints | `uint256[]` | The array of fees to be sent to each recipient address. |
 
 ### getTokenCreatorPaymentAddress
 
@@ -319,13 +319,13 @@ Returns the payment address for a given tokenId.
 
 | Name | Type | Description |
 |---|---|---|
-| tokenId | uint256 | The tokenId of the NFT to get the payment address for. |
+| tokenId | `uint256` | The tokenId of the NFT to get the payment address for. |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| tokenCreatorPaymentAddress | address payable | The address to which royalties should be sent for this NFT. |
+| tokenCreatorPaymentAddress | `address payable` | The address to which royalties should be sent for this NFT. |
 
 ### getTokenIPFSPath
 
@@ -341,13 +341,13 @@ Returns the IPFS path to the metadata JSON file for a given NFT.
 
 | Name | Type | Description |
 |---|---|---|
-| tokenId | uint256 | The NFT to get the CID path for. |
+| tokenId | `uint256` | The NFT to get the CID path for. |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| path | string | The IPFS path to the metadata JSON file, without the base URI prefix. |
+| path | `string` | The IPFS path to the metadata JSON file, without the base URI prefix. |
 
 ### initialize
 
@@ -374,14 +374,14 @@ function isApprovedForAll(address owner, address operator) external view returns
 
 | Name | Type | Description |
 |---|---|---|
-| owner | address | undefined |
-| operator | address | undefined |
+| owner | `address` |  |
+| operator | `address` |  |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | bool | undefined |
+| _0 | `bool` |  |
 
 ### mint
 
@@ -397,13 +397,13 @@ Allows a creator to mint an NFT.
 
 | Name | Type | Description |
 |---|---|---|
-| tokenIPFSPath | string | The IPFS path for the NFT to mint, without the leading base URI. |
+| tokenIPFSPath | `string` | The IPFS path for the NFT to mint, without the leading base URI. |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| tokenId | uint256 | The tokenId of the newly minted NFT. |
+| tokenId | `uint256` | The tokenId of the newly minted NFT. |
 
 ### mintAndApproveMarket
 
@@ -419,13 +419,13 @@ Allows a creator to mint an NFT and set approval for the Foundation marketplace.
 
 | Name | Type | Description |
 |---|---|---|
-| tokenIPFSPath | string | The IPFS path for the NFT to mint, without the leading base URI. |
+| tokenIPFSPath | `string` | The IPFS path for the NFT to mint, without the leading base URI. |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| tokenId | uint256 | The tokenId of the newly minted NFT. |
+| tokenId | `uint256` | The tokenId of the newly minted NFT. |
 
 ### mintWithCreatorPaymentAddress
 
@@ -441,14 +441,14 @@ Allows a creator to mint an NFT and have creator revenue/royalties sent to an al
 
 | Name | Type | Description |
 |---|---|---|
-| tokenIPFSPath | string | The IPFS path for the NFT to mint, without the leading base URI. |
-| tokenCreatorPaymentAddress | address payable | The royalty recipient address to use for this NFT. |
+| tokenIPFSPath | `string` | The IPFS path for the NFT to mint, without the leading base URI. |
+| tokenCreatorPaymentAddress | `address payable` | The royalty recipient address to use for this NFT. |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| tokenId | uint256 | The tokenId of the newly minted NFT. |
+| tokenId | `uint256` | The tokenId of the newly minted NFT. |
 
 ### mintWithCreatorPaymentAddressAndApproveMarket
 
@@ -464,14 +464,14 @@ Allows a creator to mint an NFT and have creator revenue/royalties sent to an al
 
 | Name | Type | Description |
 |---|---|---|
-| tokenIPFSPath | string | The IPFS path for the NFT to mint, without the leading base URI. |
-| tokenCreatorPaymentAddress | address payable | The royalty recipient address to use for this NFT. |
+| tokenIPFSPath | `string` | The IPFS path for the NFT to mint, without the leading base URI. |
+| tokenCreatorPaymentAddress | `address payable` | The royalty recipient address to use for this NFT. |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| tokenId | uint256 | The tokenId of the newly minted NFT. |
+| tokenId | `uint256` | The tokenId of the newly minted NFT. |
 
 ### mintWithCreatorPaymentFactory
 
@@ -487,15 +487,15 @@ Allows a creator to mint an NFT and have creator revenue/royalties sent to an al
 
 | Name | Type | Description |
 |---|---|---|
-| tokenIPFSPath | string | The IPFS path for the NFT to mint, without the leading base URI. |
-| paymentAddressFactory | address | The contract to call which will return the address to use for payments. |
-| paymentAddressCallData | bytes | The call details to sent to the factory provided. |
+| tokenIPFSPath | `string` | The IPFS path for the NFT to mint, without the leading base URI. |
+| paymentAddressFactory | `address` | The contract to call which will return the address to use for payments. |
+| paymentAddressCallData | `bytes` | The call details to sent to the factory provided. |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| tokenId | uint256 | The tokenId of the newly minted NFT. |
+| tokenId | `uint256` | The tokenId of the newly minted NFT. |
 
 ### mintWithCreatorPaymentFactoryAndApproveMarket
 
@@ -511,15 +511,15 @@ Allows a creator to mint an NFT and have creator revenue/royalties sent to an al
 
 | Name | Type | Description |
 |---|---|---|
-| tokenIPFSPath | string | The IPFS path for the NFT to mint, without the leading base URI. |
-| paymentAddressFactory | address | The contract to call which will return the address to use for payments. |
-| paymentAddressCallData | bytes | The call details to sent to the factory provided. |
+| tokenIPFSPath | `string` | The IPFS path for the NFT to mint, without the leading base URI. |
+| paymentAddressFactory | `address` | The contract to call which will return the address to use for payments. |
+| paymentAddressCallData | `bytes` | The call details to sent to the factory provided. |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| tokenId | uint256 | The tokenId of the newly minted NFT. |
+| tokenId | `uint256` | The tokenId of the newly minted NFT. |
 
 ### name
 
@@ -536,7 +536,7 @@ function name() external pure returns (string)
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | string | undefined |
+| _0 | `string` |  |
 
 ### ownerOf
 
@@ -552,13 +552,13 @@ function ownerOf(uint256 tokenId) external view returns (address)
 
 | Name | Type | Description |
 |---|---|---|
-| tokenId | uint256 | undefined |
+| tokenId | `uint256` |  |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | address | undefined |
+| _0 | `address` |  |
 
 ### proxyCallAddress
 
@@ -575,7 +575,7 @@ Returns the address of the current proxy call contract.
 
 | Name | Type | Description |
 |---|---|---|
-| contractAddress | address | The address of the current proxy call contract. |
+| contractAddress | `address` | The address of the current proxy call contract. |
 
 ### royaltyInfo
 
@@ -591,15 +591,15 @@ Returns the receiver and the amount to be sent for a secondary sale.
 
 | Name | Type | Description |
 |---|---|---|
-| tokenId | uint256 | The tokenId of the NFT to get the royalty recipient and amount for. |
-| salePrice | uint256 | The total price of the sale. |
+| tokenId | `uint256` | The tokenId of the NFT to get the royalty recipient and amount for. |
+| salePrice | `uint256` | The total price of the sale. |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| receiver | address | The royalty recipient address for this sale. |
-| royaltyAmount | uint256 | The total amount that should be sent to the `receiver`. |
+| receiver | `address` | The royalty recipient address for this sale. |
+| royaltyAmount | `uint256` | The total amount that should be sent to the `receiver`. |
 
 ### safeTransferFrom
 
@@ -615,9 +615,9 @@ function safeTransferFrom(address from, address to, uint256 tokenId) external no
 
 | Name | Type | Description |
 |---|---|---|
-| from | address | undefined |
-| to | address | undefined |
-| tokenId | uint256 | undefined |
+| from | `address` |  |
+| to | `address` |  |
+| tokenId | `uint256` |  |
 
 ### safeTransferFrom
 
@@ -633,10 +633,10 @@ function safeTransferFrom(address from, address to, uint256 tokenId, bytes _data
 
 | Name | Type | Description |
 |---|---|---|
-| from | address | undefined |
-| to | address | undefined |
-| tokenId | uint256 | undefined |
-| _data | bytes | undefined |
+| from | `address` |  |
+| to | `address` |  |
+| tokenId | `uint256` |  |
+| _data | `bytes` |  |
 
 ### setApprovalForAll
 
@@ -652,8 +652,8 @@ function setApprovalForAll(address operator, bool approved) external nonpayable
 
 | Name | Type | Description |
 |---|---|---|
-| operator | address | undefined |
-| approved | bool | undefined |
+| operator | `address` |  |
+| approved | `bool` |  |
 
 ### supportsInterface
 
@@ -669,13 +669,13 @@ function supportsInterface(bytes4 interfaceId) external view returns (bool)
 
 | Name | Type | Description |
 |---|---|---|
-| interfaceId | bytes4 | undefined |
+| interfaceId | `bytes4` |  |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | bool | undefined |
+| _0 | `bool` |  |
 
 ### symbol
 
@@ -692,7 +692,7 @@ function symbol() external pure returns (string)
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | string | undefined |
+| _0 | `string` |  |
 
 ### tokenByIndex
 
@@ -708,13 +708,13 @@ function tokenByIndex(uint256 index) external view returns (uint256)
 
 | Name | Type | Description |
 |---|---|---|
-| index | uint256 | undefined |
+| index | `uint256` |  |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | uint256 | undefined |
+| _0 | `uint256` |  |
 
 ### tokenCreator
 
@@ -730,13 +730,13 @@ Returns the creator&#39;s address for a given tokenId.
 
 | Name | Type | Description |
 |---|---|---|
-| tokenId | uint256 | The tokenId of the NFT to get the creator for. |
+| tokenId | `uint256` | The tokenId of the NFT to get the creator for. |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| creator | address payable | The creator&#39;s address for the given tokenId. |
+| creator | `address payable` | The creator&#39;s address for the given tokenId. |
 
 ### tokenOfOwnerByIndex
 
@@ -752,14 +752,14 @@ function tokenOfOwnerByIndex(address owner, uint256 index) external view returns
 
 | Name | Type | Description |
 |---|---|---|
-| owner | address | undefined |
-| index | uint256 | undefined |
+| owner | `address` |  |
+| index | `uint256` |  |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | uint256 | undefined |
+| _0 | `uint256` |  |
 
 ### tokenURI
 
@@ -775,13 +775,13 @@ function tokenURI(uint256 tokenId) external view returns (string)
 
 | Name | Type | Description |
 |---|---|---|
-| tokenId | uint256 | undefined |
+| tokenId | `uint256` |  |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | string | undefined |
+| _0 | `string` |  |
 
 ### totalSupply
 
@@ -798,7 +798,7 @@ function totalSupply() external view returns (uint256)
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | uint256 | undefined |
+| _0 | `uint256` |  |
 
 ### transferFrom
 
@@ -814,9 +814,9 @@ function transferFrom(address from, address to, uint256 tokenId) external nonpay
 
 | Name | Type | Description |
 |---|---|---|
-| from | address | undefined |
-| to | address | undefined |
-| tokenId | uint256 | undefined |
+| from | `address` |  |
+| to | `address` |  |
+| tokenId | `uint256` |  |
 
 
 
@@ -836,9 +836,9 @@ event Approval(address indexed owner, address indexed approved, uint256 indexed 
 
 | Name | Type | Description |
 |---|---|---|
-| owner `indexed` | address | undefined |
-| approved `indexed` | address | undefined |
-| tokenId `indexed` | uint256 | undefined |
+| owner `indexed` | `address` |  |
+| approved `indexed` | `address` |  |
+| tokenId `indexed` | `uint256` |  |
 
 ### ApprovalForAll
 
@@ -854,9 +854,9 @@ event ApprovalForAll(address indexed owner, address indexed operator, bool appro
 
 | Name | Type | Description |
 |---|---|---|
-| owner `indexed` | address | undefined |
-| operator `indexed` | address | undefined |
-| approved  | bool | undefined |
+| owner `indexed` | `address` |  |
+| operator `indexed` | `address` |  |
+| approved  | `bool` |  |
 
 ### BaseURIUpdated
 
@@ -872,7 +872,7 @@ Emitted when the base URI used by NFTs created by this contract is updated.
 
 | Name | Type | Description |
 |---|---|---|
-| baseURI  | string | undefined |
+| baseURI  | `string` |  |
 
 ### Initialized
 
@@ -888,7 +888,7 @@ event Initialized(uint8 version)
 
 | Name | Type | Description |
 |---|---|---|
-| version  | uint8 | undefined |
+| version  | `uint8` |  |
 
 ### Minted
 
@@ -904,10 +904,10 @@ Emitted when a new NFT is minted.
 
 | Name | Type | Description |
 |---|---|---|
-| creator `indexed` | address | undefined |
-| tokenId `indexed` | uint256 | undefined |
-| indexedTokenIPFSPath `indexed` | string | undefined |
-| tokenIPFSPath  | string | undefined |
+| creator `indexed` | `address` |  |
+| tokenId `indexed` | `uint256` |  |
+| indexedTokenIPFSPath `indexed` | `string` |  |
+| tokenIPFSPath  | `string` |  |
 
 ### NFTCreatorMigrated
 
@@ -923,9 +923,9 @@ Emitted when the creator for an NFT is changed through account migration.
 
 | Name | Type | Description |
 |---|---|---|
-| tokenId `indexed` | uint256 | undefined |
-| originalAddress `indexed` | address | undefined |
-| newAddress `indexed` | address | undefined |
+| tokenId `indexed` | `uint256` |  |
+| originalAddress `indexed` | `address` |  |
+| newAddress `indexed` | `address` |  |
 
 ### NFTMarketUpdated
 
@@ -941,7 +941,7 @@ Emitted when the market contract address used for approvals is updated.
 
 | Name | Type | Description |
 |---|---|---|
-| nftMarket `indexed` | address | undefined |
+| nftMarket `indexed` | `address` |  |
 
 ### NFTOwnerMigrated
 
@@ -957,9 +957,9 @@ Emitted when the owner of an NFT is changed through account migration.
 
 | Name | Type | Description |
 |---|---|---|
-| tokenId `indexed` | uint256 | undefined |
-| originalAddress `indexed` | address | undefined |
-| newAddress `indexed` | address | undefined |
+| tokenId `indexed` | `uint256` |  |
+| originalAddress `indexed` | `address` |  |
+| newAddress `indexed` | `address` |  |
 
 ### PaymentAddressMigrated
 
@@ -975,11 +975,11 @@ Emitted when the payment address for an NFT is changed through account migration
 
 | Name | Type | Description |
 |---|---|---|
-| tokenId `indexed` | uint256 | undefined |
-| originalAddress `indexed` | address | undefined |
-| newAddress `indexed` | address | undefined |
-| originalPaymentAddress  | address | undefined |
-| newPaymentAddress  | address | undefined |
+| tokenId `indexed` | `uint256` |  |
+| originalAddress `indexed` | `address` |  |
+| newAddress `indexed` | `address` |  |
+| originalPaymentAddress  | `address` |  |
+| newPaymentAddress  | `address` |  |
 
 ### ProxyCallContractUpdated
 
@@ -995,7 +995,7 @@ Emitted when the proxy call contract is updated.
 
 | Name | Type | Description |
 |---|---|---|
-| proxyCallContract `indexed` | address | undefined |
+| proxyCallContract `indexed` | `address` |  |
 
 ### TokenCreatorPaymentAddressSet
 
@@ -1011,9 +1011,9 @@ Emitted when the creator payment address for an NFT is set.
 
 | Name | Type | Description |
 |---|---|---|
-| fromPaymentAddress `indexed` | address | undefined |
-| toPaymentAddress `indexed` | address | undefined |
-| tokenId `indexed` | uint256 | undefined |
+| fromPaymentAddress `indexed` | `address` |  |
+| toPaymentAddress `indexed` | `address` |  |
+| tokenId `indexed` | `uint256` |  |
 
 ### TokenCreatorUpdated
 
@@ -1029,9 +1029,9 @@ Emitted when the creator for an NFT is set.
 
 | Name | Type | Description |
 |---|---|---|
-| fromCreator `indexed` | address | undefined |
-| toCreator `indexed` | address | undefined |
-| tokenId `indexed` | uint256 | undefined |
+| fromCreator `indexed` | `address` |  |
+| toCreator `indexed` | `address` |  |
+| tokenId `indexed` | `uint256` |  |
 
 ### Transfer
 
@@ -1047,9 +1047,9 @@ event Transfer(address indexed from, address indexed to, uint256 indexed tokenId
 
 | Name | Type | Description |
 |---|---|---|
-| from `indexed` | address | undefined |
-| to `indexed` | address | undefined |
-| tokenId `indexed` | uint256 | undefined |
+| from `indexed` | `address` |  |
+| to `indexed` | `address` |  |
+| tokenId `indexed` | `uint256` |  |
 
 
 

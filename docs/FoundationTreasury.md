@@ -24,13 +24,13 @@ Returns one of the admins by index.
 
 | Name | Type | Description |
 |---|---|---|
-| index | uint256 | The index of the admin to return from 0 to getAdminMemberCount() - 1. |
+| index | `uint256` | The index of the admin to return from 0 to getAdminMemberCount() - 1. |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| account | address | The address of the admin. |
+| account | `address` | The address of the admin. |
 
 ### getAdminMemberCount
 
@@ -47,7 +47,7 @@ Checks how many accounts have been granted admin access.
 
 | Name | Type | Description |
 |---|---|---|
-| count | uint256 | The number of accounts with admin access. |
+| count | `uint256` | The number of accounts with admin access. |
 
 ### getOperatorMember
 
@@ -63,13 +63,13 @@ Returns one of the operator by index.
 
 | Name | Type | Description |
 |---|---|---|
-| index | uint256 | The index of the operator to return from 0 to getOperatorMemberCount() - 1. |
+| index | `uint256` | The index of the operator to return from 0 to getOperatorMemberCount() - 1. |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| account | address | The address of the operator. |
+| account | `address` | The address of the operator. |
 
 ### getOperatorMemberCount
 
@@ -86,7 +86,7 @@ Checks how many accounts have been granted operator access.
 
 | Name | Type | Description |
 |---|---|---|
-| count | uint256 | The number of accounts with operator access. |
+| count | `uint256` | The number of accounts with operator access. |
 
 ### grantAdmin
 
@@ -102,7 +102,7 @@ Adds the account to the list of approved admins.
 
 | Name | Type | Description |
 |---|---|---|
-| account | address | The address to be approved. |
+| account | `address` | The address to be approved. |
 
 ### grantOperator
 
@@ -118,7 +118,7 @@ Adds the account to the list of approved operators.
 
 | Name | Type | Description |
 |---|---|---|
-| account | address | The address to be approved. |
+| account | `address` | The address to be approved. |
 
 ### initialize
 
@@ -134,7 +134,7 @@ Called one time after deployment to initialize the contract.
 
 | Name | Type | Description |
 |---|---|---|
-| admin | address | The account to add as the initial admin. |
+| admin | `address` | The account to add as the initial admin. |
 
 ### isAdmin
 
@@ -150,13 +150,13 @@ Checks if the account provided is an admin.
 
 | Name | Type | Description |
 |---|---|---|
-| account | address | The address to check. |
+| account | `address` | The address to check. |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| approved | bool | True if the account is an admin. |
+| approved | `bool` | True if the account is an admin. |
 
 ### isOperator
 
@@ -172,13 +172,13 @@ Checks if the account provided is an operator.
 
 | Name | Type | Description |
 |---|---|---|
-| account | address | The address to check. |
+| account | `address` | The address to check. |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| approved | bool | True if the account is an operator. |
+| approved | `bool` | True if the account is an operator. |
 
 ### revokeAdmin
 
@@ -194,7 +194,7 @@ Removes the account from the list of approved admins.
 
 | Name | Type | Description |
 |---|---|---|
-| account | address | The address to be removed from the approved list. |
+| account | `address` | The address to be removed from the approved list. |
 
 ### revokeOperator
 
@@ -210,7 +210,7 @@ Removes the account from the list of approved operators.
 
 | Name | Type | Description |
 |---|---|---|
-| account | address | The address to be removed from the approved list. |
+| account | `address` | The address to be removed from the approved list. |
 
 ### withdrawFunds
 
@@ -226,8 +226,8 @@ Allows an admin to withdraw funds.
 
 | Name | Type | Description |
 |---|---|---|
-| to | address payable | Address to receive the withdrawn funds |
-| amount | uint256 | Amount to withdrawal or 0 to withdraw all available funds |
+| to | `address payable` | Address to receive the withdrawn funds |
+| amount | `uint256` | Amount to withdrawal or 0 to withdraw all available funds |
 
 
 
@@ -247,8 +247,8 @@ Emitted when funds are withdrawn from this contract.
 
 | Name | Type | Description |
 |---|---|---|
-| to `indexed` | address | undefined |
-| amount  | uint256 | undefined |
+| to `indexed` | `address` |  |
+| amount  | `uint256` |  |
 
 ### Initialized
 
@@ -264,7 +264,7 @@ event Initialized(uint8 version)
 
 | Name | Type | Description |
 |---|---|---|
-| version  | uint8 | undefined |
+| version  | `uint8` |  |
 
 ### RoleAdminChanged
 
@@ -280,9 +280,9 @@ event RoleAdminChanged(bytes32 indexed role, bytes32 indexed previousAdminRole, 
 
 | Name | Type | Description |
 |---|---|---|
-| role `indexed` | bytes32 | undefined |
-| previousAdminRole `indexed` | bytes32 | undefined |
-| newAdminRole `indexed` | bytes32 | undefined |
+| role `indexed` | `bytes32` |  |
+| previousAdminRole `indexed` | `bytes32` |  |
+| newAdminRole `indexed` | `bytes32` |  |
 
 ### RoleGranted
 
@@ -298,9 +298,9 @@ event RoleGranted(bytes32 indexed role, address indexed account, address indexed
 
 | Name | Type | Description |
 |---|---|---|
-| role `indexed` | bytes32 | undefined |
-| account `indexed` | address | undefined |
-| sender `indexed` | address | undefined |
+| role `indexed` | `bytes32` |  |
+| account `indexed` | `address` |  |
+| sender `indexed` | `address` |  |
 
 ### RoleRevoked
 
@@ -316,9 +316,9 @@ event RoleRevoked(bytes32 indexed role, address indexed account, address indexed
 
 | Name | Type | Description |
 |---|---|---|
-| role `indexed` | bytes32 | undefined |
-| account `indexed` | address | undefined |
-| sender `indexed` | address | undefined |
+| role `indexed` | `bytes32` |  |
+| account `indexed` | `address` |  |
+| sender `indexed` | `address` |  |
 
 
 

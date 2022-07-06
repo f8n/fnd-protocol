@@ -38,6 +38,7 @@ const config: HardhatUserConfig = {
       "FoundationTreasury",
       "PercentSplitETH",
     ],
+    templatePath: "./docs_template.sqrl",
   },
 };
 

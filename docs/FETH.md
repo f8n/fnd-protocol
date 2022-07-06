@@ -24,14 +24,14 @@ Returns the amount which a spender is still allowed to transact from the `accoun
 
 | Name | Type | Description |
 |---|---|---|
-| account | address | The owner of the funds. |
-| operator | address | The address with approval to spend from the `account`&#39;s balance. |
+| account | `address` | The owner of the funds. |
+| operator | `address` | The address with approval to spend from the `account`&#39;s balance. |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| amount | uint256 | The number of tokens the `operator` is still allowed to transact with. |
+| amount | `uint256` | The number of tokens the `operator` is still allowed to transact with. |
 
 ### approve
 
@@ -47,14 +47,14 @@ Approves a `spender` as an operator with permissions to transfer from your accou
 
 | Name | Type | Description |
 |---|---|---|
-| spender | address | The address of the operator account that has approval to spend funds from the `msg.sender`&#39;s account. |
-| amount | uint256 | The max number of FETH tokens from `msg.sender`&#39;s account that this spender is allowed to transact with. |
+| spender | `address` | The address of the operator account that has approval to spend funds from the `msg.sender`&#39;s account. |
+| amount | `uint256` | The max number of FETH tokens from `msg.sender`&#39;s account that this spender is allowed to transact with. |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| success | bool | Always true. |
+| success | `bool` | Always true. |
 
 ### balanceOf
 
@@ -70,13 +70,13 @@ Returns the balance of an account which is available to transfer or withdraw.
 
 | Name | Type | Description |
 |---|---|---|
-| account | address | The account to query the available balance of. |
+| account | `address` | The account to query the available balance of. |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| balance | uint256 | The available balance of the account. |
+| balance | `uint256` | The available balance of the account. |
 
 ### decimals
 
@@ -93,7 +93,7 @@ The number of decimals the token uses.
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | uint8 | 18 |
+| _0 | `uint8` | 18 |
 
 ### deposit
 
@@ -120,7 +120,7 @@ Deposit ETH (via `msg.value`) and credit the `account` provided with the equival
 
 | Name | Type | Description |
 |---|---|---|
-| account | address | The account to credit with FETH tokens. |
+| account | `address` | The account to credit with FETH tokens. |
 
 ### getFoundationMarket
 
@@ -137,7 +137,7 @@ Gets the Foundation market address which has permissions to manage lockups.
 
 | Name | Type | Description |
 |---|---|---|
-| market | address | The Foundation market contract address. |
+| market | `address` | The Foundation market contract address. |
 
 ### getLockups
 
@@ -153,14 +153,14 @@ Returns the balance and each outstanding (unexpired) lockup bucket for an accoun
 
 | Name | Type | Description |
 |---|---|---|
-| account | address | The account to query the locked balance of. |
+| account | `address` | The account to query the locked balance of. |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| expiries | uint256[] | The time at which each outstanding lockup bucket expires. |
-| amounts | uint256[] | The number of FETH tokens which will expire for each outstanding lockup bucket. |
+| expiries | `uint256[]` | The time at which each outstanding lockup bucket expires. |
+| amounts | `uint256[]` | The number of FETH tokens which will expire for each outstanding lockup bucket. |
 
 ### marketChangeLockup
 
@@ -176,17 +176,17 @@ Used by the market contract only: Remove an account&#39;s lockup and then create
 
 | Name | Type | Description |
 |---|---|---|
-| unlockFrom | address | The account whose lockup is to be removed. |
-| unlockExpiration | uint256 | The original lockup expiration for the tokens to be unlocked. This will revert if the lockup has already expired. |
-| unlockAmount | uint256 | The number of tokens to be unlocked from `unlockFrom`&#39;s account. This will revert if the tokens were previously unlocked. |
-| lockupFor | address | The account to which the funds are to be deposited for (via the `msg.value`) and tokens locked up. |
-| lockupAmount | uint256 | The number of tokens to be locked up for the `lockupFor`&#39;s account. `msg.value` must be &lt;= `lockupAmount` and any delta will be taken from the account&#39;s available FETH balance. |
+| unlockFrom | `address` | The account whose lockup is to be removed. |
+| unlockExpiration | `uint256` | The original lockup expiration for the tokens to be unlocked. This will revert if the lockup has already expired. |
+| unlockAmount | `uint256` | The number of tokens to be unlocked from `unlockFrom`&#39;s account. This will revert if the tokens were previously unlocked. |
+| lockupFor | `address` | The account to which the funds are to be deposited for (via the `msg.value`) and tokens locked up. |
+| lockupAmount | `uint256` | The number of tokens to be locked up for the `lockupFor`&#39;s account. `msg.value` must be &lt;= `lockupAmount` and any delta will be taken from the account&#39;s available FETH balance. |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| expiration | uint256 | The expiration timestamp for the FETH tokens that were locked. |
+| expiration | `uint256` | The expiration timestamp for the FETH tokens that were locked. |
 
 ### marketLockupFor
 
@@ -202,14 +202,14 @@ Used by the market contract only: Lockup an account&#39;s FETH tokens for 24-25 
 
 | Name | Type | Description |
 |---|---|---|
-| account | address | The account to which the funds are to be deposited for (via the `msg.value`) and tokens locked up. |
-| amount | uint256 | The number of tokens to be locked up for the `lockupFor`&#39;s account. `msg.value` must be &lt;= `amount` and any delta will be taken from the account&#39;s available FETH balance. |
+| account | `address` | The account to which the funds are to be deposited for (via the `msg.value`) and tokens locked up. |
+| amount | `uint256` | The number of tokens to be locked up for the `lockupFor`&#39;s account. `msg.value` must be &lt;= `amount` and any delta will be taken from the account&#39;s available FETH balance. |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| expiration | uint256 | The expiration timestamp for the FETH tokens that were locked. |
+| expiration | `uint256` | The expiration timestamp for the FETH tokens that were locked. |
 
 ### marketUnlockFor
 
@@ -225,9 +225,9 @@ Used by the market contract only: Remove an account&#39;s lockup, making the FET
 
 | Name | Type | Description |
 |---|---|---|
-| account | address | The account whose lockup is to be unlocked. |
-| expiration | uint256 | The original lockup expiration for the tokens to be unlocked unlocked. This will revert if the lockup has already expired. |
-| amount | uint256 | The number of tokens to be unlocked from `account`. This will revert if the tokens were previously unlocked. |
+| account | `address` | The account whose lockup is to be unlocked. |
+| expiration | `uint256` | The original lockup expiration for the tokens to be unlocked unlocked. This will revert if the lockup has already expired. |
+| amount | `uint256` | The number of tokens to be unlocked from `account`. This will revert if the tokens were previously unlocked. |
 
 ### marketWithdrawFrom
 
@@ -243,8 +243,8 @@ Used by the market contract only: Removes tokens from the user&#39;s available b
 
 | Name | Type | Description |
 |---|---|---|
-| from | address | The account whose available balance is to be withdrawn from. |
-| amount | uint256 | The number of tokens to be deducted from `unlockFrom`&#39;s available balance and transferred as ETH. This will revert if the tokens were previously unlocked. |
+| from | `address` | The account whose available balance is to be withdrawn from. |
+| amount | `uint256` | The number of tokens to be deducted from `unlockFrom`&#39;s available balance and transferred as ETH. This will revert if the tokens were previously unlocked. |
 
 ### marketWithdrawLocked
 
@@ -260,9 +260,9 @@ Used by the market contract only: Removes a lockup from the user&#39;s account a
 
 | Name | Type | Description |
 |---|---|---|
-| account | address | The account whose lockup is to be removed. |
-| expiration | uint256 | The original lockup expiration for the tokens to be unlocked. This will revert if the lockup has already expired. |
-| amount | uint256 | The number of tokens to be unlocked and withdrawn as ETH. |
+| account | `address` | The account whose lockup is to be removed. |
+| expiration | `uint256` | The original lockup expiration for the tokens to be unlocked. This will revert if the lockup has already expired. |
+| amount | `uint256` | The number of tokens to be unlocked and withdrawn as ETH. |
 
 ### name
 
@@ -279,7 +279,7 @@ The name of the token.
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | string | Foundation ETH |
+| _0 | `string` | Foundation ETH |
 
 ### symbol
 
@@ -296,7 +296,7 @@ The symbol of the token.
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | string | FETH |
+| _0 | `string` | FETH |
 
 ### totalBalanceOf
 
@@ -312,13 +312,13 @@ Returns the total balance of an account, including locked FETH tokens.
 
 | Name | Type | Description |
 |---|---|---|
-| account | address | The account to query the total balance of. |
+| account | `address` | The account to query the total balance of. |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| balance | uint256 | The total FETH balance tracked for this account. |
+| balance | `uint256` | The total FETH balance tracked for this account. |
 
 ### totalSupply
 
@@ -335,7 +335,7 @@ Returns the total amount of ETH locked in this contract.
 
 | Name | Type | Description |
 |---|---|---|
-| supply | uint256 | The total amount of ETH locked in this contract. |
+| supply | `uint256` | The total amount of ETH locked in this contract. |
 
 ### transfer
 
@@ -351,14 +351,14 @@ Transfers an amount from your account.
 
 | Name | Type | Description |
 |---|---|---|
-| to | address | The address of the account which the tokens are transferred from. |
-| amount | uint256 | The number of FETH tokens to be transferred. |
+| to | `address` | The address of the account which the tokens are transferred from. |
+| amount | `uint256` | The number of FETH tokens to be transferred. |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| success | bool | Always true (reverts if insufficient funds). |
+| success | `bool` | Always true (reverts if insufficient funds). |
 
 ### transferFrom
 
@@ -374,15 +374,15 @@ Transfers an amount from the account specified if the `msg.sender` has approval.
 
 | Name | Type | Description |
 |---|---|---|
-| from | address | The address from which the available tokens are transferred from. |
-| to | address | The address to which the tokens are to be transferred. |
-| amount | uint256 | The number of FETH tokens to be transferred. |
+| from | `address` | The address from which the available tokens are transferred from. |
+| to | `address` | The address to which the tokens are to be transferred. |
+| amount | `uint256` | The number of FETH tokens to be transferred. |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| success | bool | Always true (reverts if insufficient funds or not approved). |
+| success | `bool` | Always true (reverts if insufficient funds or not approved). |
 
 ### withdrawAvailableBalance
 
@@ -409,9 +409,9 @@ Withdraw the specified number of tokens from the `from` accounts available balan
 
 | Name | Type | Description |
 |---|---|---|
-| from | address | The address from which the available funds are to be withdrawn. |
-| to | address payable | The destination address for the ETH to be transferred to. |
-| amount | uint256 | The number of tokens to be withdrawn and transferred as ETH. |
+| from | `address` | The address from which the available funds are to be withdrawn. |
+| to | `address payable` | The destination address for the ETH to be transferred to. |
+| amount | `uint256` | The number of tokens to be withdrawn and transferred as ETH. |
 
 
 
@@ -431,9 +431,9 @@ Emitted when the allowance for a spender account is updated.
 
 | Name | Type | Description |
 |---|---|---|
-| from `indexed` | address | The account the spender is authorized to transact for. |
-| spender `indexed` | address | The account with permissions to manage FETH tokens for the `from` account. |
-| amount  | uint256 | The max amount of tokens which can be spent by the `spender` account. |
+| from `indexed` | `address` | The account the spender is authorized to transact for. |
+| spender `indexed` | `address` | The account with permissions to manage FETH tokens for the `from` account. |
+| amount  | `uint256` | The max amount of tokens which can be spent by the `spender` account. |
 
 ### BalanceLocked
 
@@ -449,10 +449,10 @@ Emitted when FETH tokens are locked up by the Foundation market for 24-25 hours 
 
 | Name | Type | Description |
 |---|---|---|
-| account `indexed` | address | The account which has access to the FETH after the `expiration`. |
-| expiration `indexed` | uint256 | The time at which the `from` account will have access to the locked FETH. |
-| amount  | uint256 | The number of FETH tokens which where locked up. |
-| valueDeposited  | uint256 | The amount of ETH added to their account&#39;s total FETH balance, this may be lower than `amount` if available FETH was leveraged. |
+| account `indexed` | `address` | The account which has access to the FETH after the `expiration`. |
+| expiration `indexed` | `uint256` | The time at which the `from` account will have access to the locked FETH. |
+| amount  | `uint256` | The number of FETH tokens which where locked up. |
+| valueDeposited  | `uint256` | The amount of ETH added to their account&#39;s total FETH balance, this may be lower than `amount` if available FETH was leveraged. |
 
 ### BalanceUnlocked
 
@@ -468,9 +468,9 @@ Emitted when FETH tokens are unlocked by the Foundation market.
 
 | Name | Type | Description |
 |---|---|---|
-| account `indexed` | address | The account which had locked FETH freed before expiration. |
-| expiration `indexed` | uint256 | The time this balance was originally scheduled to be unlocked. |
-| amount  | uint256 | The number of FETH tokens which were unlocked. |
+| account `indexed` | `address` | The account which had locked FETH freed before expiration. |
+| expiration `indexed` | `uint256` | The time this balance was originally scheduled to be unlocked. |
+| amount  | `uint256` | The number of FETH tokens which were unlocked. |
 
 ### ETHWithdrawn
 
@@ -486,9 +486,9 @@ Emitted when ETH is withdrawn from a user&#39;s account.
 
 | Name | Type | Description |
 |---|---|---|
-| from `indexed` | address | The account from which FETH was deducted in order to send the ETH. |
-| to `indexed` | address | The address the ETH was sent to. |
-| amount  | uint256 | The number of tokens which were deducted from the user&#39;s FETH balance and transferred as ETH. |
+| from `indexed` | `address` | The account from which FETH was deducted in order to send the ETH. |
+| to `indexed` | `address` | The address the ETH was sent to. |
+| amount  | `uint256` | The number of tokens which were deducted from the user&#39;s FETH balance and transferred as ETH. |
 
 ### Transfer
 
@@ -504,9 +504,9 @@ Emitted when a transfer of FETH tokens is made from one account to another.
 
 | Name | Type | Description |
 |---|---|---|
-| from `indexed` | address | The account which is sending FETH tokens. |
-| to `indexed` | address | The account which is receiving FETH tokens. |
-| amount  | uint256 | The number of FETH tokens which were sent. |
+| from `indexed` | `address` | The account which is sending FETH tokens. |
+| to `indexed` | `address` | The account which is receiving FETH tokens. |
+| amount  | `uint256` | The number of FETH tokens which were sent. |
 
 
 
@@ -625,7 +625,7 @@ error FETH_Insufficient_Allowance(uint256 amount)
 
 | Name | Type | Description |
 |---|---|---|
-| amount | uint256 | The current allowed amount the spender is authorized to transact for this account. |
+| amount | `uint256` | The current allowed amount the spender is authorized to transact for this account. |
 
 ### FETH_Insufficient_Available_Funds
 
@@ -641,7 +641,7 @@ error FETH_Insufficient_Available_Funds(uint256 amount)
 
 | Name | Type | Description |
 |---|---|---|
-| amount | uint256 | The current available (unlocked) token count of this account. |
+| amount | `uint256` | The current available (unlocked) token count of this account. |
 
 ### FETH_Insufficient_Escrow
 
@@ -657,7 +657,7 @@ error FETH_Insufficient_Escrow(uint256 amount)
 
 | Name | Type | Description |
 |---|---|---|
-| amount | uint256 | The current number of tokens this account has for the given lockup expiry bucket. |
+| amount | `uint256` | The current number of tokens this account has for the given lockup expiry bucket. |
 
 ### FETH_Invalid_Lockup_Duration
 
