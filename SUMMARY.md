@@ -1,7 +1,8 @@
 # Table of contents
 
 - [Getting Started](README.md)
-- [Documentation](documentation/README.md)
+- [Protocol](documentation/README.md)
+  - [Getting Started](README.md)
   - [CollectionContract](docs/CollectionContract.md)
   - [FETH](docs/FETH.md)
   - [FNDCollectionFactory](docs/FNDCollectionFactory.md)
@@ -14,4 +15,5 @@
     - [ICollectionContractInitializer](docs/interfaces/ICollectionContractInitializer.md)
   - [mixins](documentation/mixins/README.md)
     - [FoundationTreasuryNode](docs/mixins/FoundationTreasuryNode.md)
+- [FoundationKit](foundationkit/README.md)
 - [Changelog](CHANGELOG.md)
