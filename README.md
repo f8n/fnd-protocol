@@ -12,14 +12,14 @@ Welcome to Foundation’s developer docs! Here you can learn about all of the wa
 
 How to get involved:
 
-- Follow FoundationOS on [Twitter](https://twitter.com/FoundationOS) for announcements and updates on our docs and tools.
-- Explore our growing ecosystem of integrations at [os.foundation.app](https://os.foundation.app/).
-- View our code on Github.
+* Follow FoundationOS on [Twitter](https://twitter.com/FoundationOS) for announcements and updates on our docs and tools.
+* Explore our growing ecosystem of integrations at [os.foundation.app](https://os.foundation.app/).
+* View our code on Github.
 
 ## Tools
 
-- [Protocol](protocol/) - A collection of contracts that power Foundation's on-chain Marketplace
-- [FoundationKit](foundationkit/) - Libraries that allow you to interact with Foundation's contracts in Typescript & JavaScript
+* [**Protocol**](protocol/) - A collection of contracts that power Foundation's on-chain Marketplace
+* [**FoundationKit**](foundationkit/) - Libraries that allow you to interact with Foundation's contracts in Typescript & JavaScript
 
 ## Bounty Program
 
