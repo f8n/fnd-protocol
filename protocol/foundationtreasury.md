@@ -282,13 +282,13 @@ event RoleRevoked(bytes32 indexed role, address indexed account, address indexed
 
 ## Errors
 
-### CollateralManagement\_Cannot\_Withdraw\_To\_Address\_Zero
+### CollateralManagement_Cannot_Withdraw_To_Address_Zero
 
 ```solidity
 error CollateralManagement_Cannot_Withdraw_To_Address_Zero()
 ```
 
-### CollateralManagement\_Cannot\_Withdraw\_To\_Self
+### CollateralManagement_Cannot_Withdraw_To_Self
 
 ```solidity
 error CollateralManagement_Cannot_Withdraw_To_Self()

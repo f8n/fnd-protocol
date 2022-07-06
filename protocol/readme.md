@@ -73,9 +73,9 @@ Foundation is fully on-chain and the easiest way to retrieve any event emitted f
 
 To integrate you can use the endpoints below:
 
-* ****[**playground**](https://thegraph.com/hosted-service/subgraph/f8n/fnd)****
-* ****[**mainnet**](https://api.thegraph.com/subgraphs/name/f8n/fnd)****
-* ****[**goerli**](https://api.thegraph.com/subgraphs/name/f8n/fnd-goerli)****
+- \***\*[**playground**](https://thegraph.com/hosted-service/subgraph/f8n/fnd)\*\***
+- \***\*[**mainnet**](https://api.thegraph.com/subgraphs/name/f8n/fnd)\*\***
+- \***\*[**goerli**](https://api.thegraph.com/subgraphs/name/f8n/fnd-goerli)\*\***
 
 To get you started here are some example queries:
 

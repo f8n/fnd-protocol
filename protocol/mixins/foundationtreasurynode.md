@@ -38,7 +38,7 @@ event Initialized(uint8 version)
 
 ## Errors
 
-### FoundationTreasuryNode\_Address\_Is\_Not\_A\_Contract
+### FoundationTreasuryNode_Address_Is_Not_A_Contract
 
 ```solidity
 error FoundationTreasuryNode_Address_Is_Not_A_Contract()

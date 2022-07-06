@@ -901,19 +901,19 @@ event Transfer(address indexed from, address indexed to, uint256 indexed tokenId
 
 ## Errors
 
-### AccountMigrationLibrary\_Cannot\_Migrate\_Account\_To\_Itself
+### AccountMigrationLibrary_Cannot_Migrate_Account_To_Itself
 
 ```solidity
 error AccountMigrationLibrary_Cannot_Migrate_Account_To_Itself()
 ```
 
-### AccountMigrationLibrary\_Signature\_Verification\_Failed
+### AccountMigrationLibrary_Signature_Verification_Failed
 
 ```solidity
 error AccountMigrationLibrary_Signature_Verification_Failed()
 ```
 
-### BytesLibrary\_Expected\_Address\_Not\_Found
+### BytesLibrary_Expected_Address_Not_Found
 
 ```solidity
 error BytesLibrary_Expected_Address_Not_Found()

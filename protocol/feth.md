@@ -475,61 +475,61 @@ Emitted when a transfer of FETH tokens is made from one account to another.
 
 ## Errors
 
-### FETH\_Cannot\_Deposit\_For\_Lockup\_With\_Address\_Zero
+### FETH_Cannot_Deposit_For_Lockup_With_Address_Zero
 
 ```solidity
 error FETH_Cannot_Deposit_For_Lockup_With_Address_Zero()
 ```
 
-### FETH\_Cannot\_Deposit\_To\_Address\_Zero
+### FETH_Cannot_Deposit_To_Address_Zero
 
 ```solidity
 error FETH_Cannot_Deposit_To_Address_Zero()
 ```
 
-### FETH\_Cannot\_Deposit\_To\_FETH
+### FETH_Cannot_Deposit_To_FETH
 
 ```solidity
 error FETH_Cannot_Deposit_To_FETH()
 ```
 
-### FETH\_Cannot\_Withdraw\_To\_Address\_Zero
+### FETH_Cannot_Withdraw_To_Address_Zero
 
 ```solidity
 error FETH_Cannot_Withdraw_To_Address_Zero()
 ```
 
-### FETH\_Cannot\_Withdraw\_To\_FETH
+### FETH_Cannot_Withdraw_To_FETH
 
 ```solidity
 error FETH_Cannot_Withdraw_To_FETH()
 ```
 
-### FETH\_Cannot\_Withdraw\_To\_Market
+### FETH_Cannot_Withdraw_To_Market
 
 ```solidity
 error FETH_Cannot_Withdraw_To_Market()
 ```
 
-### FETH\_Escrow\_Expired
+### FETH_Escrow_Expired
 
 ```solidity
 error FETH_Escrow_Expired()
 ```
 
-### FETH\_Escrow\_Not\_Found
+### FETH_Escrow_Not_Found
 
 ```solidity
 error FETH_Escrow_Not_Found()
 ```
 
-### FETH\_Expiration\_Too\_Far\_In\_Future
+### FETH_Expiration_Too_Far_In_Future
 
 ```solidity
 error FETH_Expiration_Too_Far_In_Future()
 ```
 
-### FETH\_Insufficient\_Allowance
+### FETH_Insufficient_Allowance
 
 ```solidity
 error FETH_Insufficient_Allowance(uint256 amount)
@@ -541,7 +541,7 @@ error FETH_Insufficient_Allowance(uint256 amount)
 | ------ | --------- | ---------------------------------------------------------------------------------- |
 | amount | `uint256` | The current allowed amount the spender is authorized to transact for this account. |
 
-### FETH\_Insufficient\_Available\_Funds
+### FETH_Insufficient_Available_Funds
 
 ```solidity
 error FETH_Insufficient_Available_Funds(uint256 amount)
@@ -553,7 +553,7 @@ error FETH_Insufficient_Available_Funds(uint256 amount)
 | ------ | --------- | ------------------------------------------------------------- |
 | amount | `uint256` | The current available (unlocked) token count of this account. |
 
-### FETH\_Insufficient\_Escrow
+### FETH_Insufficient_Escrow
 
 ```solidity
 error FETH_Insufficient_Escrow(uint256 amount)
@@ -565,55 +565,55 @@ error FETH_Insufficient_Escrow(uint256 amount)
 | ------ | --------- | --------------------------------------------------------------------------------- |
 | amount | `uint256` | The current number of tokens this account has for the given lockup expiry bucket. |
 
-### FETH\_Invalid\_Lockup\_Duration
+### FETH_Invalid_Lockup_Duration
 
 ```solidity
 error FETH_Invalid_Lockup_Duration()
 ```
 
-### FETH\_Market\_Must\_Be\_A\_Contract
+### FETH_Market_Must_Be_A_Contract
 
 ```solidity
 error FETH_Market_Must_Be_A_Contract()
 ```
 
-### FETH\_Must\_Deposit\_Non\_Zero\_Amount
+### FETH_Must_Deposit_Non_Zero_Amount
 
 ```solidity
 error FETH_Must_Deposit_Non_Zero_Amount()
 ```
 
-### FETH\_Must\_Lockup\_Non\_Zero\_Amount
+### FETH_Must_Lockup_Non_Zero_Amount
 
 ```solidity
 error FETH_Must_Lockup_Non_Zero_Amount()
 ```
 
-### FETH\_No\_Funds\_To\_Withdraw
+### FETH_No_Funds_To_Withdraw
 
 ```solidity
 error FETH_No_Funds_To_Withdraw()
 ```
 
-### FETH\_Only\_FND\_Market\_Allowed
+### FETH_Only_FND_Market_Allowed
 
 ```solidity
 error FETH_Only_FND_Market_Allowed()
 ```
 
-### FETH\_Too\_Much\_ETH\_Provided
+### FETH_Too_Much_ETH_Provided
 
 ```solidity
 error FETH_Too_Much_ETH_Provided()
 ```
 
-### FETH\_Transfer\_To\_Address\_Zero\_Not\_Allowed
+### FETH_Transfer_To_Address_Zero_Not_Allowed
 
 ```solidity
 error FETH_Transfer_To_Address_Zero_Not_Allowed()
 ```
 
-### FETH\_Transfer\_To\_FETH\_Not\_Allowed
+### FETH_Transfer_To_FETH_Not_Allowed
 
 ```solidity
 error FETH_Transfer_To_FETH_Not_Allowed()

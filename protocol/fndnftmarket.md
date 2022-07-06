@@ -904,19 +904,19 @@ Emitted when escrowed funds are withdrawn to FETH.
 
 ## Errors
 
-### FoundationTreasuryNode\_Address\_Is\_Not\_A\_Contract
+### FoundationTreasuryNode_Address_Is_Not_A_Contract
 
 ```solidity
 error FoundationTreasuryNode_Address_Is_Not_A_Contract()
 ```
 
-### FoundationTreasuryNode\_Caller\_Not\_Admin
+### FoundationTreasuryNode_Caller_Not_Admin
 
 ```solidity
 error FoundationTreasuryNode_Caller_Not_Admin()
 ```
 
-### NFTMarketBuyPrice\_Cannot\_Buy\_At\_Lower\_Price
+### NFTMarketBuyPrice_Cannot_Buy_At_Lower_Price
 
 ```solidity
 error NFTMarketBuyPrice_Cannot_Buy_At_Lower_Price(uint256 buyPrice)
@@ -928,19 +928,19 @@ error NFTMarketBuyPrice_Cannot_Buy_At_Lower_Price(uint256 buyPrice)
 | -------- | --------- | --------------------------------------- |
 | buyPrice | `uint256` | The current buy price set for this NFT. |
 
-### NFTMarketBuyPrice\_Cannot\_Buy\_Unset\_Price
+### NFTMarketBuyPrice_Cannot_Buy_Unset_Price
 
 ```solidity
 error NFTMarketBuyPrice_Cannot_Buy_Unset_Price()
 ```
 
-### NFTMarketBuyPrice\_Cannot\_Cancel\_Unset\_Price
+### NFTMarketBuyPrice_Cannot_Cancel_Unset_Price
 
 ```solidity
 error NFTMarketBuyPrice_Cannot_Cancel_Unset_Price()
 ```
 
-### NFTMarketBuyPrice\_Only\_Owner\_Can\_Cancel\_Price
+### NFTMarketBuyPrice_Only_Owner_Can_Cancel_Price
 
 ```solidity
 error NFTMarketBuyPrice_Only_Owner_Can_Cancel_Price(address owner)
@@ -952,7 +952,7 @@ error NFTMarketBuyPrice_Only_Owner_Can_Cancel_Price(address owner)
 | ----- | --------- | ------------------------------ |
 | owner | `address` | The current owner of this NFT. |
 
-### NFTMarketBuyPrice\_Only\_Owner\_Can\_Set\_Price
+### NFTMarketBuyPrice_Only_Owner_Can_Set_Price
 
 ```solidity
 error NFTMarketBuyPrice_Only_Owner_Can_Set_Price(address owner)
@@ -964,19 +964,19 @@ error NFTMarketBuyPrice_Only_Owner_Can_Set_Price(address owner)
 | ----- | --------- | ------------------------------ |
 | owner | `address` | The current owner of this NFT. |
 
-### NFTMarketBuyPrice\_Price\_Already\_Set
+### NFTMarketBuyPrice_Price_Already_Set
 
 ```solidity
 error NFTMarketBuyPrice_Price_Already_Set()
 ```
 
-### NFTMarketBuyPrice\_Price\_Too\_High
+### NFTMarketBuyPrice_Price_Too_High
 
 ```solidity
 error NFTMarketBuyPrice_Price_Too_High()
 ```
 
-### NFTMarketBuyPrice\_Seller\_Mismatch
+### NFTMarketBuyPrice_Seller_Mismatch
 
 ```solidity
 error NFTMarketBuyPrice_Seller_Mismatch(address seller)
@@ -988,37 +988,37 @@ error NFTMarketBuyPrice_Seller_Mismatch(address seller)
 | ------ | --------- | ------------------------------ |
 | seller | `address` | The current owner of this NFT. |
 
-### NFTMarketCore\_FETH\_Address\_Is\_Not\_A\_Contract
+### NFTMarketCore_FETH_Address_Is_Not_A_Contract
 
 ```solidity
 error NFTMarketCore_FETH_Address_Is_Not_A_Contract()
 ```
 
-### NFTMarketCore\_Only\_FETH\_Can\_Transfer\_ETH
+### NFTMarketCore_Only_FETH_Can_Transfer_ETH
 
 ```solidity
 error NFTMarketCore_Only_FETH_Can_Transfer_ETH()
 ```
 
-### NFTMarketCore\_Seller\_Not\_Found
+### NFTMarketCore_Seller_Not_Found
 
 ```solidity
 error NFTMarketCore_Seller_Not_Found()
 ```
 
-### NFTMarketFees\_Address\_Does\_Not\_Support\_IRoyaltyRegistry
+### NFTMarketFees_Address_Does_Not_Support_IRoyaltyRegistry
 
 ```solidity
 error NFTMarketFees_Address_Does_Not_Support_IRoyaltyRegistry()
 ```
 
-### NFTMarketOffer\_Cannot\_Be\_Made\_While\_In\_Auction
+### NFTMarketOffer_Cannot_Be_Made_While_In_Auction
 
 ```solidity
 error NFTMarketOffer_Cannot_Be_Made_While_In_Auction()
 ```
 
-### NFTMarketOffer\_Offer\_Below\_Min\_Amount
+### NFTMarketOffer_Offer_Below_Min_Amount
 
 ```solidity
 error NFTMarketOffer_Offer_Below_Min_Amount(uint256 currentOfferAmount)
@@ -1030,7 +1030,7 @@ error NFTMarketOffer_Offer_Below_Min_Amount(uint256 currentOfferAmount)
 | ------------------ | --------- | ------------------------------------------------- |
 | currentOfferAmount | `uint256` | The current highest offer available for this NFT. |
 
-### NFTMarketOffer\_Offer\_Expired
+### NFTMarketOffer_Offer_Expired
 
 ```solidity
 error NFTMarketOffer_Offer_Expired(uint256 expiry)
@@ -1042,7 +1042,7 @@ error NFTMarketOffer_Offer_Expired(uint256 expiry)
 | ------ | --------- | ---------------------------------------- |
 | expiry | `uint256` | The time at which the offer had expired. |
 
-### NFTMarketOffer\_Offer\_From\_Does\_Not\_Match
+### NFTMarketOffer_Offer_From_Does_Not_Match
 
 ```solidity
 error NFTMarketOffer_Offer_From_Does_Not_Match(address currentOfferFrom)
@@ -1054,7 +1054,7 @@ error NFTMarketOffer_Offer_From_Does_Not_Match(address currentOfferFrom)
 | ---------------- | --------- | ---------------------------------------------------------------------- |
 | currentOfferFrom | `address` | The address of the collector which has made the current highest offer. |
 
-### NFTMarketOffer\_Offer\_Must\_Be\_At\_Least\_Min\_Amount
+### NFTMarketOffer_Offer_Must_Be_At_Least_Min_Amount
 
 ```solidity
 error NFTMarketOffer_Offer_Must_Be_At_Least_Min_Amount(uint256 minOfferAmount)
@@ -1066,19 +1066,19 @@ error NFTMarketOffer_Offer_Must_Be_At_Least_Min_Amount(uint256 minOfferAmount)
 | -------------- | --------- | ----------------------------------------------------------------------- |
 | minOfferAmount | `uint256` | The minimum amount that must be offered in order for it to be accepted. |
 
-### NFTMarketOffer\_Provided\_Contract\_And\_TokenId\_Count\_Must\_Match
+### NFTMarketOffer_Provided_Contract_And_TokenId_Count_Must_Match
 
 ```solidity
 error NFTMarketOffer_Provided_Contract_And_TokenId_Count_Must_Match()
 ```
 
-### NFTMarketOffer\_Reason\_Required
+### NFTMarketOffer_Reason_Required
 
 ```solidity
 error NFTMarketOffer_Reason_Required()
 ```
 
-### NFTMarketReserveAuction\_Already\_Listed
+### NFTMarketReserveAuction_Already_Listed
 
 ```solidity
 error NFTMarketReserveAuction_Already_Listed(uint256 auctionId)
@@ -1090,7 +1090,7 @@ error NFTMarketReserveAuction_Already_Listed(uint256 auctionId)
 | --------- | --------- | ------------------------------------------ |
 | auctionId | `uint256` | The already listed auctionId for this NFT. |
 
-### NFTMarketReserveAuction\_Bid\_Must\_Be\_At\_Least\_Min\_Amount
+### NFTMarketReserveAuction_Bid_Must_Be_At_Least_Min_Amount
 
 ```solidity
 error NFTMarketReserveAuction_Bid_Must_Be_At_Least_Min_Amount(uint256 minAmount)
@@ -1102,13 +1102,13 @@ error NFTMarketReserveAuction_Bid_Must_Be_At_Least_Min_Amount(uint256 minAmount)
 | --------- | --------- | ------------------------------------------------------------------- |
 | minAmount | `uint256` | The minimum amount that must be bid in order for it to be accepted. |
 
-### NFTMarketReserveAuction\_Cannot\_Admin\_Cancel\_Without\_Reason
+### NFTMarketReserveAuction_Cannot_Admin_Cancel_Without_Reason
 
 ```solidity
 error NFTMarketReserveAuction_Cannot_Admin_Cancel_Without_Reason()
 ```
 
-### NFTMarketReserveAuction\_Cannot\_Bid\_Lower\_Than\_Reserve\_Price
+### NFTMarketReserveAuction_Cannot_Bid_Lower_Than_Reserve_Price
 
 ```solidity
 error NFTMarketReserveAuction_Cannot_Bid_Lower_Than_Reserve_Price(uint256 reservePrice)
@@ -1120,7 +1120,7 @@ error NFTMarketReserveAuction_Cannot_Bid_Lower_Than_Reserve_Price(uint256 reserv
 | ------------ | --------- | -------------------------- |
 | reservePrice | `uint256` | The current reserve price. |
 
-### NFTMarketReserveAuction\_Cannot\_Bid\_On\_Ended\_Auction
+### NFTMarketReserveAuction_Cannot_Bid_On_Ended_Auction
 
 ```solidity
 error NFTMarketReserveAuction_Cannot_Bid_On_Ended_Auction(uint256 endTime)
@@ -1132,25 +1132,25 @@ error NFTMarketReserveAuction_Cannot_Bid_On_Ended_Auction(uint256 endTime)
 | ------- | --------- | --------------------------------------------- |
 | endTime | `uint256` | The timestamp at which the auction had ended. |
 
-### NFTMarketReserveAuction\_Cannot\_Bid\_On\_Nonexistent\_Auction
+### NFTMarketReserveAuction_Cannot_Bid_On_Nonexistent_Auction
 
 ```solidity
 error NFTMarketReserveAuction_Cannot_Bid_On_Nonexistent_Auction()
 ```
 
-### NFTMarketReserveAuction\_Cannot\_Cancel\_Nonexistent\_Auction
+### NFTMarketReserveAuction_Cannot_Cancel_Nonexistent_Auction
 
 ```solidity
 error NFTMarketReserveAuction_Cannot_Cancel_Nonexistent_Auction()
 ```
 
-### NFTMarketReserveAuction\_Cannot\_Finalize\_Already\_Settled\_Auction
+### NFTMarketReserveAuction_Cannot_Finalize_Already_Settled_Auction
 
 ```solidity
 error NFTMarketReserveAuction_Cannot_Finalize_Already_Settled_Auction()
 ```
 
-### NFTMarketReserveAuction\_Cannot\_Finalize\_Auction\_In\_Progress
+### NFTMarketReserveAuction_Cannot_Finalize_Auction_In_Progress
 
 ```solidity
 error NFTMarketReserveAuction_Cannot_Finalize_Auction_In_Progress(uint256 endTime)
@@ -1162,19 +1162,19 @@ error NFTMarketReserveAuction_Cannot_Finalize_Auction_In_Progress(uint256 endTim
 | ------- | --------- | -------------------------------------------- |
 | endTime | `uint256` | The timestamp at which the auction will end. |
 
-### NFTMarketReserveAuction\_Cannot\_Rebid\_Over\_Outstanding\_Bid
+### NFTMarketReserveAuction_Cannot_Rebid_Over_Outstanding_Bid
 
 ```solidity
 error NFTMarketReserveAuction_Cannot_Rebid_Over_Outstanding_Bid()
 ```
 
-### NFTMarketReserveAuction\_Cannot\_Update\_Auction\_In\_Progress
+### NFTMarketReserveAuction_Cannot_Update_Auction_In_Progress
 
 ```solidity
 error NFTMarketReserveAuction_Cannot_Update_Auction_In_Progress()
 ```
 
-### NFTMarketReserveAuction\_Exceeds\_Max\_Duration
+### NFTMarketReserveAuction_Exceeds_Max_Duration
 
 ```solidity
 error NFTMarketReserveAuction_Exceeds_Max_Duration(uint256 maxDuration)
@@ -1186,7 +1186,7 @@ error NFTMarketReserveAuction_Exceeds_Max_Duration(uint256 maxDuration)
 | ----------- | --------- | -------------------------------------------------------------------- |
 | maxDuration | `uint256` | The maximum configuration for a duration of the auction, in seconds. |
 
-### NFTMarketReserveAuction\_Less\_Than\_Extension\_Duration
+### NFTMarketReserveAuction_Less_Than_Extension_Duration
 
 ```solidity
 error NFTMarketReserveAuction_Less_Than_Extension_Duration(uint256 extensionDuration)
@@ -1198,13 +1198,13 @@ error NFTMarketReserveAuction_Less_Than_Extension_Duration(uint256 extensionDura
 | ----------------- | --------- | ----------------------------------- |
 | extensionDuration | `uint256` | The extension duration, in seconds. |
 
-### NFTMarketReserveAuction\_Must\_Set\_Non\_Zero\_Reserve\_Price
+### NFTMarketReserveAuction_Must_Set_Non_Zero_Reserve_Price
 
 ```solidity
 error NFTMarketReserveAuction_Must_Set_Non_Zero_Reserve_Price()
 ```
 
-### NFTMarketReserveAuction\_Not\_Matching\_Seller
+### NFTMarketReserveAuction_Not_Matching_Seller
 
 ```solidity
 error NFTMarketReserveAuction_Not_Matching_Seller(address seller)
@@ -1216,7 +1216,7 @@ error NFTMarketReserveAuction_Not_Matching_Seller(address seller)
 | ------ | --------- | ----------------------------- |
 | seller | `address` | The current owner of the NFT. |
 
-### NFTMarketReserveAuction\_Only\_Owner\_Can\_Update\_Auction
+### NFTMarketReserveAuction_Only_Owner_Can_Update_Auction
 
 ```solidity
 error NFTMarketReserveAuction_Only_Owner_Can_Update_Auction(address owner)
@@ -1228,13 +1228,13 @@ error NFTMarketReserveAuction_Only_Owner_Can_Update_Auction(address owner)
 | ----- | --------- | ----------------------------- |
 | owner | `address` | The current owner of the NFT. |
 
-### NFTMarketReserveAuction\_Price\_Already\_Set
+### NFTMarketReserveAuction_Price_Already_Set
 
 ```solidity
 error NFTMarketReserveAuction_Price_Already_Set()
 ```
 
-### NFTMarketReserveAuction\_Too\_Much\_Value\_Provided
+### NFTMarketReserveAuction_Too_Much_Value_Provided
 
 ```solidity
 error NFTMarketReserveAuction_Too_Much_Value_Provided()
