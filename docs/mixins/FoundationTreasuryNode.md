@@ -1,8 +1,12 @@
 # FoundationTreasuryNode
 
+
+
 > A mixin that stores a reference to the Foundation treasury contract.
 
 The treasury collects fees and defines admin/operator roles.
+
+
 
 ## Methods
 
@@ -14,13 +18,16 @@ function getFoundationTreasury() external view returns (address payable treasury
 
 Gets the Foundation treasury contract.
 
-_This call is used in the royalty registry contract._
+*This call is used in the royalty registry contract.*
+
 
 #### Returns
 
-| Name            | Type            | Description                                      |
-| --------------- | --------------- | ------------------------------------------------ |
+| Name | Type | Description |
+|---|---|---|
 | treasuryAddress | address payable | The address of the Foundation treasury contract. |
+
+
 
 ## Events
 
@@ -30,11 +37,17 @@ _This call is used in the royalty registry contract._
 event Initialized(uint8 version)
 ```
 
+
+
+
+
 #### Parameters
 
-| Name    | Type  | Description |
-| ------- | ----- | ----------- |
-| version | uint8 | undefined   |
+| Name | Type | Description |
+|---|---|---|
+| version  | uint8 | undefined |
+
+
 
 ## Errors
 
@@ -43,3 +56,10 @@ event Initialized(uint8 version)
 ```solidity
 error FoundationTreasuryNode_Address_Is_Not_A_Contract()
 ```
+
+
+
+
+
+
+
