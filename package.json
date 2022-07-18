@@ -37,7 +37,7 @@
     "hardhat-gas-reporter": "1.0.8",
     "hardhat-tracer": "1.0.0-alpha.6",
     "prettier": "2.7.1",
-    "prettier-plugin-solidity": "1.0.0-dev.22",
+    "prettier-plugin-solidity": "1.0.0-dev.23",
     "solc": "0.8.15",
     "solhint": "3.3.7",
     "solhint-plugin-prettier": "0.0.5",
