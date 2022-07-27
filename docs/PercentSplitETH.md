@@ -24,13 +24,13 @@ function createSplit(PercentSplitETH.Share[] shares) external nonpayable returns
 
 | Name | Type | Description |
 |---|---|---|
-| shares | PercentSplitETH.Share[] | undefined |
+| shares | `PercentSplitETH.Share[]` |  |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| splitInstance | contract PercentSplitETH | undefined |
+| splitInstance | `contract PercentSplitETH` |  |
 
 ### getPercentInBasisPointsByIndex
 
@@ -46,13 +46,13 @@ Returns a recipient&#39;s percent share in basis points.
 
 | Name | Type | Description |
 |---|---|---|
-| index | uint256 | The index of the recipient to get the share of. |
+| index | `uint256` | The index of the recipient to get the share of. |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| percentInBasisPoints | uint256 | The percent of the payment received by the recipient, in basis points. |
+| percentInBasisPoints | `uint256` | The percent of the payment received by the recipient, in basis points. |
 
 ### getPredictedSplitAddress
 
@@ -68,13 +68,13 @@ function getPredictedSplitAddress(PercentSplitETH.Share[] shares) external view 
 
 | Name | Type | Description |
 |---|---|---|
-| shares | PercentSplitETH.Share[] | undefined |
+| shares | `PercentSplitETH.Share[]` |  |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| splitInstance | address | undefined |
+| splitInstance | `address` |  |
 
 ### getShareLength
 
@@ -91,7 +91,7 @@ Returns how many recipients are part of this split.
 
 | Name | Type | Description |
 |---|---|---|
-| length | uint256 | The number of recipients in this split. |
+| length | `uint256` | The number of recipients in this split. |
 
 ### getShareRecipientByIndex
 
@@ -107,13 +107,13 @@ Returns a recipient in this split.
 
 | Name | Type | Description |
 |---|---|---|
-| index | uint256 | The index of the recipient to get. |
+| index | `uint256` | The index of the recipient to get. |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| recipient | address payable | The recipient at the given index. |
+| recipient | `address payable` | The recipient at the given index. |
 
 ### getShares
 
@@ -130,7 +130,7 @@ Returns a tuple with the terms of this split.
 
 | Name | Type | Description |
 |---|---|---|
-| shares | PercentSplitETH.Share[] | The list of recipients and their share of the payment for this split. |
+| shares | `PercentSplitETH.Share[]` | The list of recipients and their share of the payment for this split. |
 
 ### initialize
 
@@ -146,7 +146,7 @@ function initialize(PercentSplitETH.Share[] shares) external nonpayable
 
 | Name | Type | Description |
 |---|---|---|
-| shares | PercentSplitETH.Share[] | undefined |
+| shares | `PercentSplitETH.Share[]` |  |
 
 ### proxyCall
 
@@ -162,8 +162,8 @@ Allows the split recipients to make an arbitrary contract call.
 
 | Name | Type | Description |
 |---|---|---|
-| target | address payable | The address of the contract to call. |
-| callData | bytes | The data to send to the `target` contract. |
+| target | `address payable` | The address of the contract to call. |
+| callData | `bytes` | The data to send to the `target` contract. |
 
 ### splitERC20Tokens
 
@@ -179,7 +179,7 @@ Anyone can call this function to split all available tokens at the provided addr
 
 | Name | Type | Description |
 |---|---|---|
-| erc20Contract | contract IERC20 | The address of the ERC20 token contract to split tokens for. |
+| erc20Contract | `contract IERC20` | The address of the ERC20 token contract to split tokens for. |
 
 ### splitETH
 
@@ -210,9 +210,9 @@ Emitted when an ERC20 token is transferred to a recipient through this split con
 
 | Name | Type | Description |
 |---|---|---|
-| erc20Contract `indexed` | address | The address of the ERC20 token contract. |
-| account `indexed` | address | The account which received payment. |
-| amount  | uint256 | The amount of ERC20 tokens sent to this recipient. |
+| erc20Contract `indexed` | `address` | The address of the ERC20 token contract. |
+| account `indexed` | `address` | The account which received payment. |
+| amount  | `uint256` | The amount of ERC20 tokens sent to this recipient. |
 
 ### ETHTransferred
 
@@ -228,8 +228,8 @@ Emitted when ETH is transferred to a recipient through this split contract.
 
 | Name | Type | Description |
 |---|---|---|
-| account `indexed` | address | The account which received payment. |
-| amount  | uint256 | The amount of ETH payment sent to this recipient. |
+| account `indexed` | `address` | The account which received payment. |
+| amount  | `uint256` | The amount of ETH payment sent to this recipient. |
 
 ### Initialized
 
@@ -245,7 +245,7 @@ event Initialized(uint8 version)
 
 | Name | Type | Description |
 |---|---|---|
-| version  | uint8 | undefined |
+| version  | `uint8` |  |
 
 ### PercentSplitCreated
 
@@ -261,7 +261,7 @@ Emitted when a new percent split contract is created from this factory.
 
 | Name | Type | Description |
 |---|---|---|
-| contractAddress `indexed` | address | The address of the new percent split contract. |
+| contractAddress `indexed` | `address` | The address of the new percent split contract. |
 
 ### PercentSplitShare
 
@@ -277,8 +277,8 @@ Emitted for each share of the split being defined.
 
 | Name | Type | Description |
 |---|---|---|
-| recipient `indexed` | address | The address of the recipient when payment to the split is received. |
-| percentInBasisPoints  | uint256 | The percent of the payment received by the recipient, in basis points. |
+| recipient `indexed` | `address` | The address of the recipient when payment to the split is received. |
+| percentInBasisPoints  | `uint256` | The percent of the payment received by the recipient, in basis points. |
 
 
 

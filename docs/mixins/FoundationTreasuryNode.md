@@ -25,7 +25,7 @@ Gets the Foundation treasury contract.
 
 | Name | Type | Description |
 |---|---|---|
-| treasuryAddress | address payable | The address of the Foundation treasury contract. |
+| treasuryAddress | `address payable` | The address of the Foundation treasury contract. |
 
 
 
@@ -45,7 +45,7 @@ event Initialized(uint8 version)
 
 | Name | Type | Description |
 |---|---|---|
-| version  | uint8 | undefined |
+| version  | `uint8` |  |
 
 
 

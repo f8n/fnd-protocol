@@ -24,7 +24,7 @@ Allows Foundation to change the collection implementation used for future collec
 
 | Name | Type | Description |
 |---|---|---|
-| _implementation | address | The new collection implementation address. |
+| _implementation | `address` | The new collection implementation address. |
 
 ### adminUpdateProxyCallContract
 
@@ -40,7 +40,7 @@ Allows Foundation to change the proxy call contract address.
 
 | Name | Type | Description |
 |---|---|---|
-| _proxyCallContract | address | The new proxy call contract address. |
+| _proxyCallContract | `address` | The new proxy call contract address. |
 
 ### adminUpdateRolesContract
 
@@ -56,7 +56,7 @@ Allows Foundation to change the admin role contract address.
 
 | Name | Type | Description |
 |---|---|---|
-| _rolesContract | address | The new admin role contract address. |
+| _rolesContract | `address` | The new admin role contract address. |
 
 ### createCollection
 
@@ -72,15 +72,15 @@ Create a new collection contract.
 
 | Name | Type | Description |
 |---|---|---|
-| name | string | The name for the new collection being created. |
-| symbol | string | The symbol for the new collection being created. |
-| nonce | uint256 | An arbitrary value used to allow a creator to mint multiple collections. |
+| name | `string` | The name for the new collection being created. |
+| symbol | `string` | The symbol for the new collection being created. |
+| nonce | `uint256` | An arbitrary value used to allow a creator to mint multiple collections. |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| collectionAddress | address | The address of the new collection contract. |
+| collectionAddress | `address` | The address of the new collection contract. |
 
 ### implementation
 
@@ -97,7 +97,7 @@ The address of the template all new collections will leverage.
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | address | undefined |
+| _0 | `address` |  |
 
 ### predictCollectionAddress
 
@@ -113,14 +113,14 @@ Returns the address of a collection given the current implementation version, cr
 
 | Name | Type | Description |
 |---|---|---|
-| creator | address | The creator of the collection. |
-| nonce | uint256 | An arbitrary value used to allow a creator to mint multiple collections. |
+| creator | `address` | The creator of the collection. |
+| nonce | `uint256` | An arbitrary value used to allow a creator to mint multiple collections. |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| collectionAddress | address | The address of the collection contract that would be created by this nonce. |
+| collectionAddress | `address` | The address of the collection contract that would be created by this nonce. |
 
 ### proxyCallContract
 
@@ -137,7 +137,7 @@ The address of the proxy call contract implementation.
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | contract IProxyCall | undefined |
+| _0 | `contract IProxyCall` |  |
 
 ### rolesContract
 
@@ -154,7 +154,7 @@ The contract address which manages common roles.
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | contract IRoles | undefined |
+| _0 | `contract IRoles` |  |
 
 ### version
 
@@ -171,7 +171,7 @@ The implementation version new collections will use.
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | uint256 | undefined |
+| _0 | `uint256` |  |
 
 
 
@@ -191,12 +191,12 @@ Emitted when a new collection is created from this factory.
 
 | Name | Type | Description |
 |---|---|---|
-| collectionContract `indexed` | address | The address of the new NFT collection contract. |
-| creator `indexed` | address | The address of the creator which owns the new collection. |
-| version `indexed` | uint256 | The implementation version used by the new collection. |
-| name  | string | The name of the collection contract created. |
-| symbol  | string | The symbol of the collection contract created. |
-| nonce  | uint256 | The nonce used by the creator when creating the collection, used to define the address of the collection. |
+| collectionContract `indexed` | `address` | The address of the new NFT collection contract. |
+| creator `indexed` | `address` | The address of the creator which owns the new collection. |
+| version `indexed` | `uint256` | The implementation version used by the new collection. |
+| name  | `string` | The name of the collection contract created. |
+| symbol  | `string` | The symbol of the collection contract created. |
+| nonce  | `uint256` | The nonce used by the creator when creating the collection, used to define the address of the collection. |
 
 ### ImplementationUpdated
 
@@ -212,8 +212,8 @@ Emitted when the implementation contract used by new collections is updated.
 
 | Name | Type | Description |
 |---|---|---|
-| implementation `indexed` | address | The new implementation contract address. |
-| version `indexed` | uint256 | The version of the new implementation, auto-incremented. |
+| implementation `indexed` | `address` | The new implementation contract address. |
+| version `indexed` | `uint256` | The version of the new implementation, auto-incremented. |
 
 ### ProxyCallContractUpdated
 
@@ -229,7 +229,7 @@ Emitted when the proxy call contract used by collections is updated.
 
 | Name | Type | Description |
 |---|---|---|
-| proxyCallContract `indexed` | address | The new proxy call contract address. |
+| proxyCallContract `indexed` | `address` | The new proxy call contract address. |
 
 ### RolesContractUpdated
 
@@ -245,7 +245,7 @@ Emitted when the contract defining roles is updated.
 
 | Name | Type | Description |
 |---|---|---|
-| rolesContract `indexed` | address | The new roles contract address. |
+| rolesContract `indexed` | `address` | The new roles contract address. |
 
 
 
