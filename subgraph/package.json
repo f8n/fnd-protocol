@@ -27,7 +27,7 @@
     "@graphql-codegen/cli": "2.11.8",
     "@graphql-codegen/typescript": "2.7.3",
     "@types/mustache": "^4.2.1",
-    "@types/yargs": "^17.0.11",
+    "@types/yargs": "^17.0.12",
     "graphql": "16.6.0",
     "graphql-request": "5.0.0",
     "graphql-tag": "2.12.6",
