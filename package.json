@@ -32,7 +32,7 @@
     "eslint-plugin-no-only-tests": "3.0.0",
     "ethereum-waffle": "3.4.4",
     "ethers": "5.7.0",
-    "hardhat": "2.11.0",
+    "hardhat": "2.11.1",
     "hardhat-contract-sizer": "2.6.1",
     "hardhat-gas-reporter": "1.0.9",
     "hardhat-tracer": "1.0.0-alpha.6",
