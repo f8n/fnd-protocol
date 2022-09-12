@@ -34,7 +34,7 @@
     "ethers": "5.7.0",
     "hardhat": "2.11.0",
     "hardhat-contract-sizer": "2.6.1",
-    "hardhat-gas-reporter": "1.0.8",
+    "hardhat-gas-reporter": "1.0.9",
     "hardhat-tracer": "1.0.0-alpha.6",
     "prettier": "2.7.1",
     "prettier-plugin-solidity": "1.0.0-dev.23",
