@@ -3,10 +3,10 @@ import {
   PercentSplitShare as PercentSplitShareEvent,
 } from "../../generated/PercentSplit/PercentSplitContract";
 import { PercentSplit, PercentSplitShare } from "../../generated/schema";
-import { loadOrCreateAccount } from "../shared/accounts";
-import { toPercent } from "../shared/conversions";
 import { PercentSplit as PercentSplitTemplate } from "../../generated/templates";
+import { loadOrCreateAccount } from "../shared/accounts";
 import { ONE_BIG_INT, ZERO_BIG_INT } from "../shared/constants";
+import { toPercent } from "../shared/conversions";
 
 export function handlePercentSplitCreated(event: PercentSplitCreatedEvent): void {
   let splitEntity = new PercentSplit(event.params.contractAddress.toHex());

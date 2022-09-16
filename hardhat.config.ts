@@ -1,17 +1,23 @@
-import "@nomiclabs/hardhat-waffle";
+import "hardhat-exposed";
+import "@nomicfoundation/hardhat-chai-matchers";
 import "@typechain/hardhat";
-import "@nomiclabs/hardhat-ethers";
-import "@nomiclabs/hardhat-waffle";
-import "hardhat-gas-reporter";
-import "hardhat-contract-sizer";
+import "solidity-coverage";
+import "hardhat-deploy";
+import "hardhat-deploy-ethers";
 import "@openzeppelin/hardhat-upgrades";
-import { HardhatUserConfig } from "hardhat/types";
-import "@primitivefi/hardhat-dodoc";
+import "@nomiclabs/hardhat-etherscan";
+import "hardhat-preprocessor";
 import "hardhat-tracer";
+import "hardhat-storage-layout";
+import "hardhat-exposed";
+import "hardhat-gas-reporter";
+import "@primitivefi/hardhat-dodoc";
+
+import { HardhatUserConfig } from "hardhat/types";
 
 const config: HardhatUserConfig = {
   solidity: {
-    version: "0.8.15",
+    version: "0.8.17",
     settings: {
       optimizer: {
         enabled: true,
@@ -19,9 +25,17 @@ const config: HardhatUserConfig = {
       },
     },
   },
+  networks: {
+    hardhat: {
+      accounts: {
+        count: 100,
+      },
+    },
+  },
   typechain: {
     target: "ethers-v5",
     externalArtifacts: ["node_modules/@manifoldxyz/royalty-registry-solidity/build/contracts/*.json"],
+    outDir: "src/typechain",
   },
   gasReporter: {
     excludeContracts: ["mocks/", "FoundationTreasury.sol", "ERC721.sol"],
@@ -29,15 +43,17 @@ const config: HardhatUserConfig = {
   dodoc: {
     runOnCompile: true,
     include: [
-      "CollectionContract",
+      "NFTCollection",
+      "NFTDropCollection",
       "FETH",
-      "FNDCollectionFactory",
       "FNDMiddleware",
-      "FNDNFT721",
-      "FNDNFTMarket",
+      "NFTCollectionFactory",
+      "NFTMarket",
+      "NFTDropMarket",
       "FoundationTreasury",
       "PercentSplitETH",
     ],
+    exclude: ["mixins", "mocks", "interfaces", "xyz/royalty-registry-solidity", "archive", "contracts-exposed"],
     templatePath: "./docs_template.sqrl",
   },
 };

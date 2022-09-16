@@ -1,4 +1,28 @@
 import { Address, BigDecimal, BigInt } from "@graphprotocol/graph-ts";
+
+import {
+  OfferCanceledByAdmin,
+  PrivateSaleFinalized,
+  ReserveAuctionCanceledByAdmin,
+  ReserveAuctionSellerMigrated,
+} from "../../generated/MarketDeprecatedEvents/MarketDeprecatedEvents";
+import { IMarketDeprecatedAPIs } from "../../generated/NFTMarketContract/IMarketDeprecatedAPIs";
+import {
+  BuyPriceAccepted,
+  BuyPriceCanceled,
+  BuyPriceInvalidated,
+  BuyPriceSet,
+  BuyReferralPaid,
+  OfferAccepted,
+  OfferInvalidated,
+  OfferMade,
+  ReserveAuctionBidPlaced,
+  ReserveAuctionCanceled,
+  ReserveAuctionCreated,
+  ReserveAuctionFinalized,
+  ReserveAuctionInvalidated,
+  ReserveAuctionUpdated,
+} from "../../generated/NFTMarketContract/NFTMarketContract";
 import {
   Account,
   Creator,
@@ -10,40 +34,17 @@ import {
   NftMarketOffer,
   PrivateSale,
 } from "../../generated/schema";
-import {
-  BuyPriceAccepted,
-  BuyPriceCanceled,
-  BuyPriceInvalidated,
-  BuyPriceSet,
-  BuyReferralPaid,
-  OfferAccepted,
-  OfferCanceledByAdmin,
-  OfferInvalidated,
-  OfferMade,
-  ReserveAuctionBidPlaced,
-  ReserveAuctionCanceled,
-  ReserveAuctionCanceledByAdmin,
-  ReserveAuctionCreated,
-  ReserveAuctionFinalized,
-  ReserveAuctionInvalidated,
-  ReserveAuctionUpdated,
-} from "../../generated/NFTMarketContract/NFTMarketContract";
-import { toETH } from "../shared/conversions";
-import { loadOrCreateNFT } from "./nft";
 import { loadOrCreateAccount } from "../shared/accounts";
+import { loadLatestBuyNow } from "../shared/buyNow";
 import { BASIS_POINTS, ONE_BIG_INT, ZERO_ADDRESS_STRING, ZERO_BIG_DECIMAL, ZERO_BIG_INT } from "../shared/constants";
+import { toETH } from "../shared/conversions";
 import { recordNftEvent, removePreviousTransferEvent } from "../shared/events";
 import { getLogId } from "../shared/ids";
 import { loadLatestOffer, outbidOrExpirePreviousOffer } from "../shared/offers";
 import { recordSale } from "../shared/revenue";
-import { loadLatestBuyNow } from "../shared/buyNow";
-import { IMarketDeprecatedAPIs } from "../../generated/NFTMarketContract/IMarketDeprecatedAPIs";
-import {
-  PrivateSaleFinalized,
-  ReserveAuctionSellerMigrated,
-} from "../../generated/MarketDeprecatedEvents/MarketDeprecatedEvents";
+import { loadOrCreateNFT } from "./nft";
 
-function loadOrCreateNFTMarketContract(address: Address): NftMarketContract {
+export function loadOrCreateNFTMarketContract(address: Address): NftMarketContract {
   let nftMarketContract = NftMarketContract.load(address.toHex());
   if (!nftMarketContract) {
     nftMarketContract = new NftMarketContract(address.toHex());
@@ -126,7 +127,7 @@ export function handleReserveAuctionBidPlaced(event: ReserveAuctionBidPlaced): v
   }
 
   // Calculate the expected revenue for this bid
-  let foundationFee: BigInt;
+  let totalFees: BigInt;
   let creatorRev: BigInt;
   let sellerRev: BigInt;
   // getFees is failing in Figment only, this try/else block works around that issue
@@ -136,24 +137,24 @@ export function handleReserveAuctionBidPlaced(event: ReserveAuctionBidPlaced): v
     event.params.amount,
   );
   if (!fees.reverted) {
-    // Fees 0: primaryF8NFee, 1: creatorFee, 2: sellerRevenue
-    foundationFee = fees.value.value0;
+    // Fees 0: primaryF8NFee, 1: creatorRev, 2: sellerRevenue
+    totalFees = fees.value.value0;
     creatorRev = fees.value.value1;
     sellerRev = fees.value.value2;
   } else {
     // Estimate fees
     if (auction.isPrimarySale) {
-      foundationFee = event.params.amount.times(BigInt.fromI32(1500)).div(BASIS_POINTS);
+      totalFees = event.params.amount.times(BigInt.fromI32(1500)).div(BASIS_POINTS);
       creatorRev = event.params.amount.times(BigInt.fromI32(8500)).div(BASIS_POINTS);
       sellerRev = ZERO_BIG_INT;
     } else {
-      foundationFee = event.params.amount.times(BigInt.fromI32(500)).div(BASIS_POINTS);
+      totalFees = event.params.amount.times(BigInt.fromI32(500)).div(BASIS_POINTS);
       creatorRev = event.params.amount.times(BigInt.fromI32(1000)).div(BASIS_POINTS);
       sellerRev = event.params.amount.times(BigInt.fromI32(8500)).div(BASIS_POINTS);
     }
   }
 
-  auction.foundationRevenueInETH = toETH(foundationFee);
+  auction.foundationRevenueInETH = toETH(totalFees);
   if (auction.seller == nft.creator) {
     auction.creatorRevenueInETH = toETH(creatorRev.plus(sellerRev));
     auction.ownerRevenueInETH = ZERO_BIG_DECIMAL;
@@ -299,8 +300,8 @@ export function handleReserveAuctionFinalized(event: ReserveAuctionFinalized): v
   auction.status = "Finalized";
   auction.dateFinalized = event.block.timestamp;
   auction.ownerRevenueInETH = toETH(event.params.sellerRev);
-  auction.creatorRevenueInETH = toETH(event.params.creatorFee);
-  auction.foundationRevenueInETH = toETH(event.params.protocolFee);
+  auction.creatorRevenueInETH = toETH(event.params.creatorRev);
+  auction.foundationRevenueInETH = toETH(event.params.totalFees);
   let currentBid = NftMarketBid.load(auction.highestBid as string) as NftMarketBid;
   currentBid.status = "FinalizedWinner";
   currentBid.dateLeftActiveStatus = event.block.timestamp;
@@ -330,10 +331,10 @@ export function handleReserveAuctionFinalized(event: ReserveAuctionFinalized): v
   if (!auction.buyReferrerSellerFee) {
     auction.buyReferrerSellerFee = toETH(ZERO_BIG_INT);
   }
-  if (!auction.buyReferrerProtocolFee) {
-    auction.buyReferrerProtocolFee = toETH(ZERO_BIG_INT);
+  if (!auction.buyReferrerFee) {
+    auction.buyReferrerFee = toETH(ZERO_BIG_INT);
   }
-  auction.foundationProtocolFeeInETH = toETH(event.params.protocolFee).minus(auction.buyReferrerProtocolFee!); // eslint-disable-line @typescript-eslint/no-non-null-assertion
+  auction.foundationProtocolFeeInETH = toETH(event.params.totalFees).minus(auction.buyReferrerFee!); // eslint-disable-line @typescript-eslint/no-non-null-assertion
 
   owner.netRevenuePendingInETH = owner.netRevenuePendingInETH.minus(auction.ownerRevenueInETH as BigDecimal);
   nft.netRevenuePendingInETH = nft.netRevenuePendingInETH.minus(auction.creatorRevenueInETH as BigDecimal);
@@ -433,13 +434,13 @@ export function handlePrivateSaleFinalized(event: PrivateSaleFinalized): void {
   privateSale.seller = seller.id;
   privateSale.buyer = buyer.id;
   if (seller.id == nft.creator) {
-    privateSale.creatorRevenueInETH = toETH(event.params.creatorFee.plus(event.params.sellerRev));
+    privateSale.creatorRevenueInETH = toETH(event.params.creatorRev.plus(event.params.sellerRev));
     privateSale.ownerRevenueInETH = ZERO_BIG_DECIMAL;
   } else {
-    privateSale.creatorRevenueInETH = toETH(event.params.creatorFee);
+    privateSale.creatorRevenueInETH = toETH(event.params.creatorRev);
     privateSale.ownerRevenueInETH = toETH(event.params.sellerRev);
   }
-  privateSale.foundationRevenueInETH = toETH(event.params.protocolFee);
+  privateSale.foundationRevenueInETH = toETH(event.params.totalFees);
   privateSale.amountInETH = privateSale.creatorRevenueInETH
     .plus(privateSale.foundationRevenueInETH)
     .plus(privateSale.ownerRevenueInETH);
@@ -523,16 +524,16 @@ export function handleOfferAccepted(event: OfferAccepted): void {
   offer.seller = seller.id;
   offer.dateAccepted = event.block.timestamp;
   offer.transactionHashAccepted = event.transaction.hash;
-  offer.creatorRevenueInETH = toETH(event.params.creatorFee);
-  offer.foundationRevenueInETH = toETH(event.params.protocolFee);
+  offer.creatorRevenueInETH = toETH(event.params.creatorRev);
+  offer.foundationRevenueInETH = toETH(event.params.totalFees);
   offer.ownerRevenueInETH = toETH(event.params.sellerRev);
   if (!offer.buyReferrerSellerFee) {
     offer.buyReferrerSellerFee = toETH(ZERO_BIG_INT);
   }
-  if (!offer.buyReferrerProtocolFee) {
-    offer.buyReferrerProtocolFee = toETH(ZERO_BIG_INT);
+  if (!offer.buyReferrerFee) {
+    offer.buyReferrerFee = toETH(ZERO_BIG_INT);
   }
-  offer.foundationProtocolFeeInETH = toETH(event.params.protocolFee).minus(offer.buyReferrerProtocolFee!); // eslint-disable-line @typescript-eslint/no-non-null-assertion
+  offer.foundationProtocolFeeInETH = toETH(event.params.totalFees).minus(offer.buyReferrerFee!); // eslint-disable-line @typescript-eslint/no-non-null-assertion
 
   offer.isPrimarySale = nft.isFirstSale && offer.seller == nft.creator;
   offer.save();
@@ -635,16 +636,16 @@ export function handleBuyPriceAccepted(event: BuyPriceAccepted): void {
   buyNow.seller = seller.id;
   buyNow.dateAccepted = event.block.timestamp;
   buyNow.transactionHashAccepted = event.transaction.hash;
-  buyNow.creatorRevenueInETH = toETH(event.params.creatorFee);
-  buyNow.foundationRevenueInETH = toETH(event.params.protocolFee);
+  buyNow.creatorRevenueInETH = toETH(event.params.creatorRev);
+  buyNow.foundationRevenueInETH = toETH(event.params.totalFees);
   buyNow.ownerRevenueInETH = toETH(event.params.sellerRev);
   if (!buyNow.buyReferrerSellerFee) {
     buyNow.buyReferrerSellerFee = toETH(ZERO_BIG_INT);
   }
-  if (!buyNow.buyReferrerProtocolFee) {
-    buyNow.buyReferrerProtocolFee = toETH(ZERO_BIG_INT);
+  if (!buyNow.buyReferrerFee) {
+    buyNow.buyReferrerFee = toETH(ZERO_BIG_INT);
   }
-  buyNow.foundationProtocolFeeInETH = toETH(event.params.protocolFee).minus(buyNow.buyReferrerProtocolFee!); // eslint-disable-line @typescript-eslint/no-non-null-assertion
+  buyNow.foundationProtocolFeeInETH = toETH(event.params.totalFees).minus(buyNow.buyReferrerFee!); // eslint-disable-line @typescript-eslint/no-non-null-assertion
   buyNow.isPrimarySale = nft.isFirstSale && buyNow.seller == nft.creator;
   buyNow.save();
 
@@ -731,7 +732,7 @@ export function handleBuyReferralPaid(event: BuyReferralPaid): void {
   let nft = loadOrCreateNFT(event.params.nftContract, event.params.tokenId, event);
   let buyNow = loadLatestBuyNow(nft);
   if (buyNow) {
-    buyNow.buyReferrerProtocolFee = toETH(event.params.buyReferrerProtocolFee);
+    buyNow.buyReferrerFee = toETH(event.params.buyReferrerFee);
     buyNow.buyReferrerSellerFee = toETH(event.params.buyReferrerSellerFee);
     if (event.params.buyReferrer.toHex() != ZERO_ADDRESS_STRING) {
       buyNow.buyReferrer = loadOrCreateAccount(event.params.buyReferrer).id;
@@ -743,7 +744,7 @@ export function handleBuyReferralPaid(event: BuyReferralPaid): void {
   if (mostRecentActiveAuction) {
     let auction = NftMarketAuction.load(mostRecentActiveAuction);
     if (auction && auction.status == "Open") {
-      auction.buyReferrerProtocolFee = toETH(event.params.buyReferrerProtocolFee);
+      auction.buyReferrerFee = toETH(event.params.buyReferrerFee);
       auction.buyReferrerSellerFee = toETH(event.params.buyReferrerSellerFee);
       if (event.params.buyReferrer.toHex() != ZERO_ADDRESS_STRING) {
         auction.buyReferrer = loadOrCreateAccount(event.params.buyReferrer).id;
@@ -756,7 +757,7 @@ export function handleBuyReferralPaid(event: BuyReferralPaid): void {
   // using BuyNow/Auctions does not invalidate an open Offer.
   let offer = loadLatestOffer(nft);
   if (offer) {
-    offer.buyReferrerProtocolFee = toETH(event.params.buyReferrerProtocolFee);
+    offer.buyReferrerFee = toETH(event.params.buyReferrerFee);
     offer.buyReferrerSellerFee = toETH(event.params.buyReferrerSellerFee);
     if (event.params.buyReferrer.toHex() != ZERO_ADDRESS_STRING) {
       offer.buyReferrer = loadOrCreateAccount(event.params.buyReferrer).id;

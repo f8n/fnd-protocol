@@ -1,10 +1,9 @@
-{{@if (it.name)}}# {{it.name}}{{/if}}
+---
+{{@if (it.name)}}title: {{it.name}}{{/if}}
 
+{{@if (it.title)}}description: {{it.title}}{{/if}}
 
-{{@if (it.author)}}*{{it.author}}*{{/if}}
-
-
-{{@if (it.title)}}> {{it.title}}{{/if}}
+---
 
 
 {{@if (it.notice)}}{{it.notice}}{{/if}}
@@ -32,7 +31,7 @@
 
 
 {{@if (Object.keys(val.inputs).length > 0)}}
-#### Parameters
+**Parameters**
 
 | Name | Type | Description |
 |---|---|---|
@@ -42,7 +41,7 @@
 {{/if}}
 
 {{@if (Object.keys(val.outputs).length > 0)}}
-#### Returns
+**Returns**
 
 | Name | Type | Description |
 |---|---|---|
@@ -74,7 +73,7 @@
 
 
 {{@if (Object.keys(val.inputs).length > 0)}}
-#### Parameters
+**Parameters**
 
 | Name | Type | Description |
 |---|---|---|
@@ -106,7 +105,7 @@
 
 
 {{@if (Object.keys(val.inputs).length > 0)}}
-#### Parameters
+**Parameters**
 
 | Name | Type | Description |
 |---|---|---|

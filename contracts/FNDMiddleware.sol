@@ -39,31 +39,38 @@
 
 // SPDX-License-Identifier: MIT OR Apache-2.0
 
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.12;
 
 import "@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721BurnableUpgradeable.sol";
-import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
+import "@openzeppelin/contracts/utils/Strings.sol";
+import "@openzeppelin/contracts/utils/introspection/ERC165Checker.sol";
 
-import "./FNDNFTMarket.sol";
-import "./PercentSplitETH.sol";
-import "./CollectionContract.sol";
-import "./mixins/Constants.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
+import "./interfaces/dependencies/ens/IENS.sol";
+import "./interfaces/dependencies/ens/IPublicResolver.sol";
+import "./interfaces/dependencies/ens/IReverseRegistrar.sol";
+
+import "./NFTCollection.sol";
 import "./FETH.sol";
-import "./interfaces/ens/IENS.sol";
-import "./interfaces/ens/IPublicResolver.sol";
-import "./interfaces/ens/IReverseRegistrar.sol";
+import "./NFTMarket.sol";
+import "./NFTDropMarket.sol";
+import "./PercentSplitETH.sol";
+
+import "./mixins/shared/Constants.sol";
 
 /**
  * @title Convenience methods to ease integration with other contracts.
  * @notice This will aggregate calls and format the output per the needs of our frontend or other consumers.
+ * @author batu-inal & HardlyDifficult
  */
 contract FNDMiddleware {
   using AddressUpgradeable for address;
   using AddressUpgradeable for address payable;
   using Strings for uint256;
-  using OZERC165Checker for address;
+  using Strings for address;
+  using ERC165Checker for address;
 
   struct Fee {
     uint256 percentInBasisPoints;
@@ -81,16 +88,19 @@ contract FNDMiddleware {
     address payable recipient;
   }
 
-  FNDNFTMarket private immutable market;
+  NFTMarket private immutable market;
+  NFTDropMarket private immutable nftDropMarket;
   FETH private immutable feth;
   IENS private immutable ens;
 
   constructor(
     address payable _market,
+    address payable _nftDropMarket,
     address payable _feth,
     address _ens
   ) {
-    market = FNDNFTMarket(_market);
+    market = NFTMarket(_market);
+    nftDropMarket = NFTDropMarket(_nftDropMarket);
     feth = FETH(_feth);
     ens = IENS(_ens);
   }
@@ -117,11 +127,14 @@ contract FNDMiddleware {
     uint256 creatorRev;
     {
       address payable ownerAddress;
-      uint256 protocolFee;
+      uint256 totalFees;
       uint256 sellerRev;
-      (protocolFee, creatorRev, creatorRecipients, creatorShares, sellerRev, ownerAddress) = market
-        .getFeesAndRecipients(nftContract, tokenId, price);
-      protocol.amountInWei = protocolFee;
+      (totalFees, creatorRev, creatorRecipients, creatorShares, sellerRev, ownerAddress) = market.getFeesAndRecipients(
+        nftContract,
+        tokenId,
+        price
+      );
+      protocol.amountInWei = totalFees;
       creator.amountInWei = creatorRev;
       owner.amountInWei = sellerRev;
       owner.recipient = ownerAddress;
@@ -134,14 +147,10 @@ contract FNDMiddleware {
     }
     uint256 creatorRevBP;
     {
-      uint256 protocolFeeBP;
+      uint256 totalFeesBP;
       uint256 sellerRevBP;
-      (protocolFeeBP, creatorRevBP, , , sellerRevBP, ) = market.getFeesAndRecipients(
-        nftContract,
-        tokenId,
-        BASIS_POINTS
-      );
-      protocol.percentInBasisPoints = protocolFeeBP;
+      (totalFeesBP, creatorRevBP, , , sellerRevBP, ) = market.getFeesAndRecipients(nftContract, tokenId, BASIS_POINTS);
+      protocol.percentInBasisPoints = totalFeesBP;
       creator.percentInBasisPoints = creatorRevBP;
       owner.percentInBasisPoints = sellerRevBP;
     }
@@ -154,11 +163,12 @@ contract FNDMiddleware {
         totalShares += creatorShares[i];
       }
 
-      for (uint256 i = 0; i < creatorShares.length; ++i) {
-        creatorShares[i] = (BASIS_POINTS * creatorShares[i]) / totalShares;
+      if (totalShares != 0) {
+        for (uint256 i = 0; i < creatorShares.length; ++i) {
+          creatorShares[i] = (BASIS_POINTS * creatorShares[i]) / totalShares;
+        }
       }
     }
-
     // Count creators and split recipients
     {
       uint256 creatorCount = creatorRecipients.length;
@@ -228,12 +238,32 @@ contract FNDMiddleware {
     }
   }
 
+  /**
+   * @notice Checks who the seller for an NFT is, checking both markets or returning the current owner.
+   */
+  function getSellerOrOwnerOf(address nftContract, uint256 tokenId)
+    public
+    view
+    virtual
+    returns (address payable ownerOrSeller)
+  {
+    ownerOrSeller = market.getSellerOf(nftContract, tokenId);
+    if (ownerOrSeller == address(0)) {
+      ownerOrSeller = nftDropMarket.getSellerOf(nftContract, tokenId);
+      if (ownerOrSeller == address(0)) {
+        ownerOrSeller = payable(IERC721(nftContract).ownerOf(tokenId));
+      }
+    }
+  }
+
   function getSplitShareLength(address payable recipient) external view returns (uint256 count) {
     count = PercentSplitETH(recipient).getShareLength{ gas: READ_ONLY_GAS_LIMIT }();
   }
 
   function getTokenCreator(address nftContract, uint256 tokenId) external view returns (address creatorAddress) {
-    try market.getTokenCreator{ gas: READ_ONLY_GAS_LIMIT }(nftContract, tokenId) returns (address payable _creator) {
+    try market.internalGetTokenCreator{ gas: READ_ONLY_GAS_LIMIT }(nftContract, tokenId) returns (
+      address payable _creator
+    ) {
       return _creator;
     } catch // solhint-disable-next-line no-empty-blocks
     {
@@ -282,7 +312,7 @@ contract FNDMiddleware {
       // Sending > 1 to help confirm when the recipient is a contract forwarding to other addresses
       // Silk Road by Ezra Miller requires > 100 wei to when testing payments
       // solhint-disable-next-line avoid-low-level-calls
-      (bool success, ) = recipient.call{ value: 1000, gas: SEND_VALUE_GAS_LIMIT_MULTIPLE_RECIPIENTS }("");
+      (bool success, ) = recipient.call{ value: 1_000, gas: SEND_VALUE_GAS_LIMIT_MULTIPLE_RECIPIENTS }("");
       if (!success) {
         return keccak256("Recipient not receivable");
       }
@@ -310,9 +340,26 @@ contract FNDMiddleware {
   }
 
   /**
-   * @notice Retrieves details related to the NFT in the FND Market.
-   * @param nftContract The address of the contract for the NFT
-   * @param tokenId The id for the NFT in the contract.
+   * @notice Retrieves details about the current state of an NFT in the FND Market.
+   * @param nftContract The address of the NFT contract.
+   * @param tokenId The id of the NFT.
+   * @return owner The account which currently holds the NFT or has listed it for sale.
+   * @return isInEscrow True if the NFT is currently held in escrow by the Market (for an auction or buy price).
+   * @return auctionBidder The current highest bidder for the auction, or address(0) if there's not an active auction.
+   * @return auctionEndTime The time at which this auction will not accept any new bids,
+   *                        this is `0` until the first bid is placed.
+   * @return auctionPrice The latest price of the NFT in this auction.
+   *                      This is set to the reserve price, and then to the highest bid once the auction has started.
+   *                      Returns `0` if there's no auction for this NFT.
+   * @return auctionId The id of the auction, or 0 if no auction is found.
+   * @return buyPrice The price at which you could buy this NFT.
+   *                  Returns max uint256 if there is no buy price set for this NFT (since a price of 0 is supported).
+   * @return offerAmount The amount being offered for this NFT.
+   *                     Returns `0` if there is no offer or the most recent offer has expired.
+   * @return offerBuyer The address of the buyer that made the current highest offer.
+   *                    Returns `address(0)` if there is no offer or the most recent offer has expired.
+   * @return offerExpiration The timestamp that the current highest offer expires.
+   *                         Returns `0` if there is no offer or the most recent offer has expired.
    */
   function getNFTDetails(address nftContract, uint256 tokenId)
     public
@@ -349,6 +396,11 @@ contract FNDMiddleware {
     }
   }
 
+  /**
+   * @notice Retrieves details about the current state of an NFT in the FND Market as a string.
+   * @dev This API is for investigations & convenience, it is not meant to be consumed by an app directly.
+   *      Future upgrades may not be backwards compatible.
+   */
   // solhint-disable-next-line code-complexity
   function getNFTDetailString(address nftContract, uint256 tokenId) external view returns (string memory details) {
     (
@@ -447,9 +499,9 @@ contract FNDMiddleware {
   function _getAddressAndName(address account) private view returns (string memory name) {
     string memory ensName = _getENSName(account);
     if (bytes(ensName).length > 0) {
-      name = string.concat(_toAsciiString(account), " (", ensName, ")");
+      name = string.concat(account.toHexString(), " (", ensName, ")");
     } else {
-      name = _toAsciiString(account);
+      name = account.toHexString();
     }
   }
 
@@ -609,28 +661,6 @@ contract FNDMiddleware {
     result = new bytes(endIndex - startIndex);
     for (uint256 i = startIndex; i < endIndex; ++i) {
       result[i - startIndex] = strBytes[i];
-    }
-  }
-
-  /**
-   * @notice Converts an address into a string.
-   * @dev From https://github.com/code-423n4/2022-05-cally/blob/main/contracts/src/CallyNft.sol
-   */
-  function _toAsciiString(address account) private pure returns (string memory) {
-    unchecked {
-      bytes memory data = abi.encodePacked(account);
-
-      bytes memory alphabet = "0123456789abcdef";
-
-      bytes memory str = new bytes(2 + data.length * 2);
-      str[0] = "0";
-      str[1] = "x";
-      for (uint256 i = 0; i < data.length; ++i) {
-        str[2 + i * 2] = alphabet[uint256(uint8(data[i] >> 4))];
-        str[3 + i * 2] = alphabet[uint256(uint8(data[i] & 0x0f))];
-      }
-
-      return string(str);
     }
   }
 }

@@ -39,7 +39,7 @@
 
 // SPDX-License-Identifier: MIT OR Apache-2.0
 
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.12;
 
 import "@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol";
 import "@openzeppelin/contracts/utils/math/Math.sol";
@@ -82,6 +82,7 @@ error FETH_Transfer_To_FETH_Not_Allowed();
  * At any time there may be up to 25 buckets but never more than that which prevents loops from exhausting gas limits.
  * FETH is an upgradeable contract. Overtime we will progressively decentralize, potentially giving upgrade permissions
  * to a DAO ownership or removing the permissions entirely.
+ * @author batu-inal & HardlyDifficult
  */
 contract FETH {
   using AddressUpgradeable for address payable;
@@ -111,6 +112,9 @@ contract FETH {
 
   /// @notice The Foundation market contract with permissions to manage lockups.
   address payable private immutable foundationMarket;
+
+  /// @notice The Foundation drop market contract with permissions to withdraw available funds.
+  address payable private immutable foundationDropMarket;
 
   // ERC-20 metadata fields
   /**
@@ -178,7 +182,7 @@ contract FETH {
 
   /// @dev Allows the Foundation market permission to manage lockups for a user.
   modifier onlyFoundationMarket() {
-    if (msg.sender != foundationMarket) {
+    if (msg.sender != foundationMarket && msg.sender != foundationDropMarket) {
       revert FETH_Only_FND_Market_Allowed();
     }
     _;
@@ -190,11 +194,19 @@ contract FETH {
    * @param _foundationMarket The address of the Foundation NFT marketplace.
    * @param _lockupDuration The minimum length of time to lockup tokens for when `BalanceLocked`, in seconds.
    */
-  constructor(address payable _foundationMarket, uint256 _lockupDuration) {
+  constructor(
+    address payable _foundationMarket,
+    address payable _foundationDropMarket,
+    uint256 _lockupDuration
+  ) {
     if (!_foundationMarket.isContract()) {
       revert FETH_Market_Must_Be_A_Contract();
     }
+    if (!_foundationDropMarket.isContract()) {
+      revert FETH_Market_Must_Be_A_Contract();
+    }
     foundationMarket = _foundationMarket;
+    foundationDropMarket = _foundationDropMarket;
     lockupDuration = _lockupDuration;
     lockupInterval = _lockupDuration / 24;
     if (lockupInterval * 24 != _lockupDuration || _lockupDuration == 0) {
@@ -443,6 +455,8 @@ contract FETH {
       revert FETH_Cannot_Withdraw_To_FETH();
     } else if (to == address(foundationMarket)) {
       revert FETH_Cannot_Withdraw_To_Market();
+    } else if (to == address(foundationDropMarket)) {
+      revert FETH_Cannot_Withdraw_To_Market();
     }
 
     AccountInfo storage accountInfo = _freeFromEscrow(from);
@@ -466,17 +480,18 @@ contract FETH {
     address from
   ) private {
     uint256 spenderAllowance = accountInfo.allowance[msg.sender];
-    if (spenderAllowance != type(uint256).max) {
-      if (spenderAllowance < amount) {
-        revert FETH_Insufficient_Allowance(spenderAllowance);
-      }
-      // The check above ensures allowance cannot underflow.
-      unchecked {
-        spenderAllowance -= amount;
-      }
-      accountInfo.allowance[msg.sender] = spenderAllowance;
-      emit Approval(from, msg.sender, spenderAllowance);
+    if (spenderAllowance == type(uint256).max) {
+      return;
     }
+    if (spenderAllowance < amount) {
+      revert FETH_Insufficient_Allowance(spenderAllowance);
+    }
+    // The check above ensures allowance cannot underflow.
+    unchecked {
+      spenderAllowance -= amount;
+    }
+    accountInfo.allowance[msg.sender] = spenderAllowance;
+    emit Approval(from, msg.sender, spenderAllowance);
   }
 
   /**
@@ -718,6 +733,14 @@ contract FETH {
    */
   function getFoundationMarket() external view returns (address market) {
     market = foundationMarket;
+  }
+
+  /**
+   * @notice Gets the Foundation drop market address which has permissions to withdraw available funds.
+   * @return market The Foundation drop market contract address.
+   */
+  function getFoundationDropMarket() external view returns (address market) {
+    market = foundationDropMarket;
   }
 
   /**

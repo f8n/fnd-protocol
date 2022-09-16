@@ -1,0 +1,9 @@
+[profile.default]
+src = 'contracts'
+test = 'test/foundry'
+libs = ['lib','node_modules']
+remappings = []
+optimizer = true
+optimizer_runs = 1337
+
+# See more config options https://github.com/foundry-rs/foundry/tree/master/config

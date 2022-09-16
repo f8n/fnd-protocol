@@ -1,8 +1,8 @@
-# FETH
+---
+title: FETH
+description: An ERC-20 token which wraps ETH, potentially with a 1 day lockup period.
+---
 
-
-
-> An ERC-20 token which wraps ETH, potentially with a 1 day lockup period.
 
 FETH is an [ERC-20 token](https://eips.ethereum.org/EIPS/eip-20) modeled after [WETH9](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2#code). It has the added ability to lockup tokens for 24-25 hours - during this time they may not be transferred or withdrawn, except by our market contract which requested the lockup in the first place.
 
@@ -20,14 +20,14 @@ Returns the amount which a spender is still allowed to transact from the `accoun
 
 
 
-#### Parameters
+**Parameters**
 
 | Name | Type | Description |
 |---|---|---|
 | account | `address` | The owner of the funds. |
 | operator | `address` | The address with approval to spend from the `account`&#39;s balance. |
 
-#### Returns
+**Returns**
 
 | Name | Type | Description |
 |---|---|---|
@@ -43,14 +43,14 @@ Approves a `spender` as an operator with permissions to transfer from your accou
 
 *To prevent attack vectors, clients SHOULD make sure to create user interfaces in such a way that they set the allowance first to 0 before setting it to another value for the same spender. We will add support for `increaseAllowance` in the future.*
 
-#### Parameters
+**Parameters**
 
 | Name | Type | Description |
 |---|---|---|
 | spender | `address` | The address of the operator account that has approval to spend funds from the `msg.sender`&#39;s account. |
 | amount | `uint256` | The max number of FETH tokens from `msg.sender`&#39;s account that this spender is allowed to transact with. |
 
-#### Returns
+**Returns**
 
 | Name | Type | Description |
 |---|---|---|
@@ -66,13 +66,13 @@ Returns the balance of an account which is available to transfer or withdraw.
 
 *This will automatically increase as soon as locked tokens reach their expiry date.*
 
-#### Parameters
+**Parameters**
 
 | Name | Type | Description |
 |---|---|---|
 | account | `address` | The account to query the available balance of. |
 
-#### Returns
+**Returns**
 
 | Name | Type | Description |
 |---|---|---|
@@ -89,7 +89,7 @@ The number of decimals the token uses.
 *This method can be used to improve usability when displaying token amounts, but all interactions with this contract use whole amounts not considering decimals.*
 
 
-#### Returns
+**Returns**
 
 | Name | Type | Description |
 |---|---|---|
@@ -116,11 +116,28 @@ Deposit ETH (via `msg.value`) and credit the `account` provided with the equival
 
 *This may be used by the Foundation market to credit a user&#39;s account with FETH tokens.*
 
-#### Parameters
+**Parameters**
 
 | Name | Type | Description |
 |---|---|---|
 | account | `address` | The account to credit with FETH tokens. |
+
+### getFoundationDropMarket
+
+```solidity
+function getFoundationDropMarket() external view returns (address market)
+```
+
+Gets the Foundation drop market address which has permissions to withdraw available funds.
+
+
+
+
+**Returns**
+
+| Name | Type | Description |
+|---|---|---|
+| market | `address` | The Foundation drop market contract address. |
 
 ### getFoundationMarket
 
@@ -133,7 +150,7 @@ Gets the Foundation market address which has permissions to manage lockups.
 
 
 
-#### Returns
+**Returns**
 
 | Name | Type | Description |
 |---|---|---|
@@ -149,13 +166,13 @@ Returns the balance and each outstanding (unexpired) lockup bucket for an accoun
 
 *`expires.length` == `amounts.length` and `amounts[i]` is the number of tokens which will expire at `expires[i]`. The results returned are sorted by expiry, with the earliest expiry date first.*
 
-#### Parameters
+**Parameters**
 
 | Name | Type | Description |
 |---|---|---|
 | account | `address` | The account to query the locked balance of. |
 
-#### Returns
+**Returns**
 
 | Name | Type | Description |
 |---|---|---|
@@ -172,7 +189,7 @@ Used by the market contract only: Remove an account&#39;s lockup and then create
 
 *Used by the market when an offer for an NFT is increased. This may be for a single account (increasing their offer) or two different accounts (outbidding someone elses offer).*
 
-#### Parameters
+**Parameters**
 
 | Name | Type | Description |
 |---|---|---|
@@ -182,7 +199,7 @@ Used by the market contract only: Remove an account&#39;s lockup and then create
 | lockupFor | `address` | The account to which the funds are to be deposited for (via the `msg.value`) and tokens locked up. |
 | lockupAmount | `uint256` | The number of tokens to be locked up for the `lockupFor`&#39;s account. `msg.value` must be &lt;= `lockupAmount` and any delta will be taken from the account&#39;s available FETH balance. |
 
-#### Returns
+**Returns**
 
 | Name | Type | Description |
 |---|---|---|
@@ -198,14 +215,14 @@ Used by the market contract only: Lockup an account&#39;s FETH tokens for 24-25 
 
 *Used by the market when a new offer for an NFT is made.*
 
-#### Parameters
+**Parameters**
 
 | Name | Type | Description |
 |---|---|---|
 | account | `address` | The account to which the funds are to be deposited for (via the `msg.value`) and tokens locked up. |
 | amount | `uint256` | The number of tokens to be locked up for the `lockupFor`&#39;s account. `msg.value` must be &lt;= `amount` and any delta will be taken from the account&#39;s available FETH balance. |
 
-#### Returns
+**Returns**
 
 | Name | Type | Description |
 |---|---|---|
@@ -221,7 +238,7 @@ Used by the market contract only: Remove an account&#39;s lockup, making the FET
 
 *Used by the market when an offer is invalidated, which occurs when an auction for the same NFT receives its first bid or the buyer purchased the NFT another way, such as with `buy`.*
 
-#### Parameters
+**Parameters**
 
 | Name | Type | Description |
 |---|---|---|
@@ -239,7 +256,7 @@ Used by the market contract only: Removes tokens from the user&#39;s available b
 
 *Used by the market when a user&#39;s available FETH balance is used to make a purchase including accepting a buy price or a private sale, or placing a bid in an auction.*
 
-#### Parameters
+**Parameters**
 
 | Name | Type | Description |
 |---|---|---|
@@ -256,7 +273,7 @@ Used by the market contract only: Removes a lockup from the user&#39;s account a
 
 *Used by the market to extract unexpired funds as ETH to distribute for a sale when the user&#39;s offer is accepted.*
 
-#### Parameters
+**Parameters**
 
 | Name | Type | Description |
 |---|---|---|
@@ -275,7 +292,7 @@ The name of the token.
 
 
 
-#### Returns
+**Returns**
 
 | Name | Type | Description |
 |---|---|---|
@@ -292,7 +309,7 @@ The symbol of the token.
 
 
 
-#### Returns
+**Returns**
 
 | Name | Type | Description |
 |---|---|---|
@@ -308,13 +325,13 @@ Returns the total balance of an account, including locked FETH tokens.
 
 *Use `balanceOf` to get the number of tokens available for transfer or withdrawal.*
 
-#### Parameters
+**Parameters**
 
 | Name | Type | Description |
 |---|---|---|
 | account | `address` | The account to query the total balance of. |
 
-#### Returns
+**Returns**
 
 | Name | Type | Description |
 |---|---|---|
@@ -331,7 +348,7 @@ Returns the total amount of ETH locked in this contract.
 *It is possible for this to diverge from the total token count by transferring ETH on self destruct but this is on-par with the WETH implementation and done for gas savings.*
 
 
-#### Returns
+**Returns**
 
 | Name | Type | Description |
 |---|---|---|
@@ -347,14 +364,14 @@ Transfers an amount from your account.
 
 
 
-#### Parameters
+**Parameters**
 
 | Name | Type | Description |
 |---|---|---|
 | to | `address` | The address of the account which the tokens are transferred from. |
 | amount | `uint256` | The number of FETH tokens to be transferred. |
 
-#### Returns
+**Returns**
 
 | Name | Type | Description |
 |---|---|---|
@@ -370,7 +387,7 @@ Transfers an amount from the account specified if the `msg.sender` has approval.
 
 
 
-#### Parameters
+**Parameters**
 
 | Name | Type | Description |
 |---|---|---|
@@ -378,7 +395,7 @@ Transfers an amount from the account specified if the `msg.sender` has approval.
 | to | `address` | The address to which the tokens are to be transferred. |
 | amount | `uint256` | The number of FETH tokens to be transferred. |
 
-#### Returns
+**Returns**
 
 | Name | Type | Description |
 |---|---|---|
@@ -405,7 +422,7 @@ Withdraw the specified number of tokens from the `from` accounts available balan
 
 
 
-#### Parameters
+**Parameters**
 
 | Name | Type | Description |
 |---|---|---|
@@ -427,7 +444,7 @@ Emitted when the allowance for a spender account is updated.
 
 
 
-#### Parameters
+**Parameters**
 
 | Name | Type | Description |
 |---|---|---|
@@ -445,7 +462,7 @@ Emitted when FETH tokens are locked up by the Foundation market for 24-25 hours 
 
 
 
-#### Parameters
+**Parameters**
 
 | Name | Type | Description |
 |---|---|---|
@@ -464,7 +481,7 @@ Emitted when FETH tokens are unlocked by the Foundation market.
 
 *This event will not be emitted when lockups expire, it&#39;s only for tokens which are unlocked before their expiry.*
 
-#### Parameters
+**Parameters**
 
 | Name | Type | Description |
 |---|---|---|
@@ -482,7 +499,7 @@ Emitted when ETH is withdrawn from a user&#39;s account.
 
 *This may be triggered by the user, an approved operator, or the Foundation market.*
 
-#### Parameters
+**Parameters**
 
 | Name | Type | Description |
 |---|---|---|
@@ -500,7 +517,7 @@ Emitted when a transfer of FETH tokens is made from one account to another.
 
 
 
-#### Parameters
+**Parameters**
 
 | Name | Type | Description |
 |---|---|---|
@@ -621,7 +638,7 @@ error FETH_Insufficient_Allowance(uint256 amount)
 
 
 
-#### Parameters
+**Parameters**
 
 | Name | Type | Description |
 |---|---|---|
@@ -637,7 +654,7 @@ error FETH_Insufficient_Available_Funds(uint256 amount)
 
 
 
-#### Parameters
+**Parameters**
 
 | Name | Type | Description |
 |---|---|---|
@@ -653,7 +670,7 @@ error FETH_Insufficient_Escrow(uint256 amount)
 
 
 
-#### Parameters
+**Parameters**
 
 | Name | Type | Description |
 |---|---|---|

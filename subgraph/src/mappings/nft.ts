@@ -1,40 +1,89 @@
 import { Address, BigInt, ethereum, store } from "@graphprotocol/graph-ts";
-import { PaymentAddressMigrated, TokenCreatorUpdated } from "../../generated/NFT721Contract/NFT721Contract";
+
+import {
+  NFTOwnerMigrated,
+  PaymentAddressMigrated,
+  TokenCreatorPaymentAddressSet,
+  TokenCreatorUpdated,
+} from "../../generated/NFT721Contract/NFT721Contract";
+import {
+  CollectionContract,
+  FixedPriceSaleMint,
+  Nft,
+  NftAccountApproval,
+  NftContract,
+  NftDropCollectionContract,
+  NftTransfer,
+} from "../../generated/schema";
 import {
   Approval,
   ApprovalForAll,
   BaseURIUpdated,
-  CollectionContract as CollectionContractABI,
   Minted,
-  NFTOwnerMigrated,
+  NFTCollection as NFTCollectionABI,
   SelfDestruct,
-  TokenCreatorPaymentAddressSet,
   Transfer,
-} from "../../generated/templates/CollectionContract/CollectionContract";
-import { CollectionContract, Nft, NftAccountApproval, NftContract, NftTransfer } from "../../generated/schema";
+} from "../../generated/templates/NFTCollection/NFTCollection";
+import {
+  MaxTokenIdUpdated,
+  NFTDropCollection,
+  URIUpdated,
+} from "../../generated/templates/NFTDropCollection/NFTDropCollection";
 import { loadOrCreateAccount } from "../shared/accounts";
 import { ZERO_ADDRESS_STRING, ZERO_BIG_DECIMAL } from "../shared/constants";
 import { loadOrCreateCreator } from "../shared/creators";
 import { recordNftEvent, removePreviousTransferEvent } from "../shared/events";
 import { getLogId } from "../shared/ids";
 
-export function loadOrCreateNFTContract(address: Address): NftContract {
+export function loadOrCreateNFTContract(address: Address, fromNFTDropCollection: boolean = false): NftContract {
   let nftContract = NftContract.load(address.toHex());
   if (!nftContract) {
-    nftContract = new NftContract(address.toHex());
-    let contract = CollectionContractABI.bind(address);
-    let nameResults = contract.try_name();
-    if (!nameResults.reverted) {
-      nftContract.name = nameResults.value;
+    if (fromNFTDropCollection) {
+      nftContract = _createNFTContractFromNFTDropCollection(address);
+    } else {
+      nftContract = _createNFTContractFromCollection(address);
     }
-    let symbolResults = contract.try_symbol();
-    if (!symbolResults.reverted) {
-      nftContract.symbol = symbolResults.value;
-    }
-    nftContract.baseURI = "ipfs://";
-    nftContract.save();
   }
   return nftContract as NftContract;
+}
+
+function _createNFTContractFromCollection(address: Address): NftContract {
+  let nftContract = new NftContract(address.toHex());
+  let contract = NFTCollectionABI.bind(address);
+  let nameResults = contract.try_name();
+  if (!nameResults.reverted) {
+    nftContract.name = nameResults.value;
+  }
+  let symbolResults = contract.try_symbol();
+  if (!symbolResults.reverted) {
+    nftContract.symbol = symbolResults.value;
+  }
+  nftContract.baseURI = "ipfs://";
+  nftContract.save();
+  return nftContract;
+}
+
+function _createNFTContractFromNFTDropCollection(address: Address): NftContract {
+  let nftContract = new NftContract(address.toHex());
+  let contract = NFTDropCollection.bind(address);
+  let nameResults = contract.try_name();
+  if (!nameResults.reverted) {
+    nftContract.name = nameResults.value;
+  }
+  let symbolResults = contract.try_symbol();
+  if (!symbolResults.reverted) {
+    nftContract.symbol = symbolResults.value;
+  }
+  let baseURIResults = contract.try_baseURI();
+  if (!baseURIResults.reverted) {
+    nftContract.baseURI = baseURIResults.value;
+  }
+  let maxTokenIdResults = contract.try_maxTokenId();
+  if (!maxTokenIdResults.reverted) {
+    nftContract.maxTokenID = maxTokenIdResults.value;
+  }
+  nftContract.save();
+  return nftContract;
 }
 
 function getNFTId(address: Address, id: BigInt): string {
@@ -49,7 +98,7 @@ export function loadOrCreateNFT(address: Address, id: BigInt, event: ethereum.Ev
     nft.nftContract = loadOrCreateNFTContract(address).id;
     nft.tokenId = id;
     nft.dateMinted = event.block.timestamp;
-    let contract = CollectionContractABI.bind(address);
+    let contract = NFTCollectionABI.bind(address);
     let ownerResult = contract.try_ownerOf(id);
     if (!ownerResult.reverted) {
       nft.owner = loadOrCreateAccount(ownerResult.value).id;
@@ -101,8 +150,22 @@ export function handleApprovalForAll(event: ApprovalForAll): void {
 }
 
 export function handleBaseURIUpdated(event: BaseURIUpdated): void {
+  _handleBaseURIUpdated(event.address, event.params.baseURI);
+}
+
+export function handleURIUpdated(event: URIUpdated): void {
+  _handleBaseURIUpdated(event.address, event.params.baseURI);
+}
+
+function _handleBaseURIUpdated(eventAddress: Address, baseURI: string): void {
+  let nftContract = loadOrCreateNFTContract(eventAddress);
+  nftContract.baseURI = baseURI;
+  nftContract.save();
+}
+
+export function handleMaxTokenIdUpdated(event: MaxTokenIdUpdated): void {
   let nftContract = loadOrCreateNFTContract(event.address);
-  nftContract.baseURI = event.params.baseURI;
+  nftContract.maxTokenID = event.params.maxTokenId;
   nftContract.save();
 }
 
@@ -153,6 +216,20 @@ export function handleTransfer(event: Transfer): void {
     nft.netRevenuePendingInETH = ZERO_BIG_DECIMAL;
     nft.isFirstSale = true;
     nft.save();
+    // Only for NftDropCollectionContract add mint event here.
+    // NFTCollection handles this in the handleMint handler.
+    let nftDropCollection = NftDropCollectionContract.load(nftContract.id);
+    if (nftDropCollection) {
+      if (event.transaction.from.toHexString() !== nftDropCollection.creator) {
+        if (!FixedPriceSaleMint.load(event.transaction.hash.toHex())) {
+          let fixedPriceSaleMint = new FixedPriceSaleMint(event.transaction.hash.toHex());
+          fixedPriceSaleMint.fixedPriceSale = nftContract.id;
+          fixedPriceSaleMint.save();
+        }
+      }
+      let creatorAccount = loadOrCreateAccount(Address.fromString(nftDropCollection.creator));
+      recordNftEvent(event, nft as Nft, "Minted", creatorAccount, null, null, null, creatorAccount);
+    }
   } else {
     // Transfer or Burn
     nft = loadOrCreateNFT(event.address, event.params.tokenId, event);
@@ -232,5 +309,11 @@ export function handleSelfDestruct(event: SelfDestruct): void {
   if (collection) {
     collection.dateSelfDestructed = event.block.timestamp;
     collection.save();
+    return;
+  }
+  let nftDropCollection = NftDropCollectionContract.load(event.address.toHex());
+  if (nftDropCollection) {
+    nftDropCollection.dateSelfDestructed = event.block.timestamp;
+    nftDropCollection.save();
   }
 }

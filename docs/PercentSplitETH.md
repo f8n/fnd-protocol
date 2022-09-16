@@ -1,8 +1,8 @@
-# PercentSplitETH
+---
+title: PercentSplitETH
+description: Auto-forward ETH to a pre-determined list of addresses.
+---
 
-
-
-> Auto-forward ETH to a pre-determined list of addresses.
 
 Deploys contracts which auto-forwards any ETH sent to it to a list of recipients considering their percent share of the payment received. ERC-20 tokens are also supported and may be split on demand by calling `splitERC20Tokens`. If another asset type is sent to this contract address such as an NFT, arbitrary calls may be made by one of the split recipients in order to recover them.
 
@@ -20,13 +20,13 @@ function createSplit(PercentSplitETH.Share[] shares) external nonpayable returns
 
 
 
-#### Parameters
+**Parameters**
 
 | Name | Type | Description |
 |---|---|---|
 | shares | `PercentSplitETH.Share[]` |  |
 
-#### Returns
+**Returns**
 
 | Name | Type | Description |
 |---|---|---|
@@ -42,13 +42,13 @@ Returns a recipient&#39;s percent share in basis points.
 
 
 
-#### Parameters
+**Parameters**
 
 | Name | Type | Description |
 |---|---|---|
 | index | `uint256` | The index of the recipient to get the share of. |
 
-#### Returns
+**Returns**
 
 | Name | Type | Description |
 |---|---|---|
@@ -64,13 +64,13 @@ function getPredictedSplitAddress(PercentSplitETH.Share[] shares) external view 
 
 
 
-#### Parameters
+**Parameters**
 
 | Name | Type | Description |
 |---|---|---|
 | shares | `PercentSplitETH.Share[]` |  |
 
-#### Returns
+**Returns**
 
 | Name | Type | Description |
 |---|---|---|
@@ -87,7 +87,7 @@ Returns how many recipients are part of this split.
 
 
 
-#### Returns
+**Returns**
 
 | Name | Type | Description |
 |---|---|---|
@@ -103,13 +103,13 @@ Returns a recipient in this split.
 
 
 
-#### Parameters
+**Parameters**
 
 | Name | Type | Description |
 |---|---|---|
 | index | `uint256` | The index of the recipient to get. |
 
-#### Returns
+**Returns**
 
 | Name | Type | Description |
 |---|---|---|
@@ -126,7 +126,7 @@ Returns a tuple with the terms of this split.
 
 
 
-#### Returns
+**Returns**
 
 | Name | Type | Description |
 |---|---|---|
@@ -142,7 +142,7 @@ function initialize(PercentSplitETH.Share[] shares) external nonpayable
 
 
 
-#### Parameters
+**Parameters**
 
 | Name | Type | Description |
 |---|---|---|
@@ -158,7 +158,7 @@ Allows the split recipients to make an arbitrary contract call.
 
 *This is provided to allow recovering from unexpected scenarios, such as receiving an NFT at this address. It will first attempt a fair split of ERC20 tokens before proceeding. This contract is built to split ETH payments. The ability to attempt to make other calls is here just in case other assets were also sent so that they don&#39;t get locked forever in the contract.*
 
-#### Parameters
+**Parameters**
 
 | Name | Type | Description |
 |---|---|---|
@@ -175,7 +175,7 @@ Anyone can call this function to split all available tokens at the provided addr
 
 *This contract is built to split ETH payments. The ability to attempt to split ERC20 tokens is here just in case tokens were also sent so that they don&#39;t get locked forever in the contract.*
 
-#### Parameters
+**Parameters**
 
 | Name | Type | Description |
 |---|---|---|
@@ -206,7 +206,7 @@ Emitted when an ERC20 token is transferred to a recipient through this split con
 
 
 
-#### Parameters
+**Parameters**
 
 | Name | Type | Description |
 |---|---|---|
@@ -224,7 +224,7 @@ Emitted when ETH is transferred to a recipient through this split contract.
 
 
 
-#### Parameters
+**Parameters**
 
 | Name | Type | Description |
 |---|---|---|
@@ -241,7 +241,7 @@ event Initialized(uint8 version)
 
 
 
-#### Parameters
+**Parameters**
 
 | Name | Type | Description |
 |---|---|---|
@@ -257,7 +257,7 @@ Emitted when a new percent split contract is created from this factory.
 
 
 
-#### Parameters
+**Parameters**
 
 | Name | Type | Description |
 |---|---|---|
@@ -273,7 +273,7 @@ Emitted for each share of the split being defined.
 
 
 
-#### Parameters
+**Parameters**
 
 | Name | Type | Description |
 |---|---|---|

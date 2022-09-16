@@ -39,10 +39,10 @@
 
 // SPDX-License-Identifier: MIT OR Apache-2.0
 
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.12;
 
-import "./interfaces/IERC20Approve.sol";
-import "./interfaces/IERC20IncreaseAllowance.sol";
+import "./interfaces/dependencies/tokens/IERC20Approve.sol";
+import "./interfaces/dependencies/tokens/IERC20IncreaseAllowance.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
@@ -59,6 +59,7 @@ import "./libraries/BytesLibrary.sol";
  * If another asset type is sent to this contract address such as an NFT, arbitrary calls may be made by one
  * of the split recipients in order to recover them.
  * @dev Uses create2 counterfactual addresses so that the destination is known from the terms of the split.
+ * @author batu-inal & HardlyDifficult
  */
 contract PercentSplitETH is Initializable {
   using AddressUpgradeable for address payable;
@@ -81,7 +82,7 @@ contract PercentSplitETH is Initializable {
 
   ShareCompressed[] private _shares;
 
-  uint256 private constant BASIS_POINTS = 10000;
+  uint256 private constant BASIS_POINTS = 10_000;
 
   /**
    * @notice Emitted when an ERC20 token is transferred to a recipient through this split contract.
@@ -112,13 +113,22 @@ contract PercentSplitETH is Initializable {
    * @dev Requires that the msg.sender is one of the recipients in this split.
    */
   modifier onlyRecipient() {
-    for (uint256 i = 0; i < _shares.length; ++i) {
+    for (uint256 i = 0; i < _shares.length; ) {
       if (_shares[i].recipient == msg.sender) {
         _;
         return;
       }
+      unchecked {
+        ++i;
+      }
     }
     revert("Split: Can only be called by one of the recipients");
+  }
+
+  // solhint-disable-next-line no-empty-blocks
+  constructor() initializer {
+    // Initialize the template to avoid confusion.
+    // https://forum.openzeppelin.com/t/uupsupgradeable-vulnerability-post-mortem/15680/6
   }
 
   /**
@@ -126,9 +136,9 @@ contract PercentSplitETH is Initializable {
    * @dev This will be called by `createSplit` after deploying the proxy so it should never be called directly.
    * @param shares The list of recipients and their share of the payment for the template to use.
    */
-  function initialize(Share[] memory shares) external initializer {
-    require(shares.length >= 2, "Split: Too few recipients");
-    require(shares.length <= 5, "Split: Too many recipients");
+  function initialize(Share[] calldata shares) external initializer {
+    require(shares.length > 1, "Split: Too few recipients");
+    require(shares.length < 6, "Split: Too many recipients");
     uint256 total;
     unchecked {
       // The array length cannot overflow 256 bits.
@@ -164,7 +174,7 @@ contract PercentSplitETH is Initializable {
    * @param shares The list of recipients and their share of the payment for this split.
    * @return splitInstance The contract address for the split contract created.
    */
-  function createSplit(Share[] memory shares) external returns (PercentSplitETH splitInstance) {
+  function createSplit(Share[] calldata shares) external returns (PercentSplitETH splitInstance) {
     bytes32 salt = keccak256(abi.encode(shares));
     address clone = Clones.predictDeterministicAddress(address(this), salt);
     splitInstance = PercentSplitETH(payable(clone));
@@ -187,7 +197,7 @@ contract PercentSplitETH is Initializable {
    * @param target The address of the contract to call.
    * @param callData The data to send to the `target` contract.
    */
-  function proxyCall(address payable target, bytes memory callData) external onlyRecipient {
+  function proxyCall(address payable target, bytes calldata callData) external onlyRecipient {
     require(
       !callData.startsWith(type(IERC20Approve).interfaceId) &&
         !callData.startsWith(type(IERC20IncreaseAllowance).interfaceId),
@@ -289,7 +299,7 @@ contract PercentSplitETH is Initializable {
    * @param shares The list of recipients and their share of the payment for this split.
    * @return splitInstance The contract address for the split contract created.
    */
-  function getPredictedSplitAddress(Share[] memory shares) external view returns (address splitInstance) {
+  function getPredictedSplitAddress(Share[] calldata shares) external view returns (address splitInstance) {
     bytes32 salt = keccak256(abi.encode(shares));
     splitInstance = Clones.predictDeterministicAddress(address(this), salt);
   }
@@ -317,8 +327,12 @@ contract PercentSplitETH is Initializable {
    */
   function getShares() external view returns (Share[] memory shares) {
     shares = new Share[](_shares.length);
-    for (uint256 i = 0; i < shares.length; ++i) {
+    for (uint256 i = 0; i < shares.length; ) {
       shares[i] = Share({ recipient: _shares[i].recipient, percentInBasisPoints: _shares[i].percentInBasisPoints });
+
+      unchecked {
+        ++i;
+      }
     }
   }
 }

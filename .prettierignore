@@ -7,9 +7,14 @@ dist/
 docs/
 lib/
 node_modules/
-typechain-types/
+src/typechain/
+subgraph/build/
+subgraph/generated/
+subgraph/graph-node/
+versions/
 .vscode/
 deployments/
+contracts-exposed/
 
 # files
 coverage.json

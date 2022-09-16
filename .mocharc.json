@@ -1,0 +1,6 @@
+{
+  "extension": ["ts"],
+  "recursive": "test",
+  "require": "ts-node/register/files",
+  "timeout": 60000
+}

@@ -1,4 +1,5 @@
 import { BigDecimal, BigInt, Bytes, ethereum, store } from "@graphprotocol/graph-ts";
+
 import {
   Account,
   Nft,
@@ -9,8 +10,8 @@ import {
   PrivateSale,
 } from "../../generated/schema";
 import { loadOrCreateAccount } from "./accounts";
-import { getEventId, getPreviousEventId } from "./ids";
 import { ONE_BIG_INT, ZERO_BIG_INT } from "./constants";
+import { getEventId, getPreviousEventId } from "./ids";
 
 export function recordNftEvent(
   event: ethereum.Event,

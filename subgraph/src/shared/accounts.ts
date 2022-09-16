@@ -1,5 +1,6 @@
-import { Account } from "../../generated/schema";
 import { Address } from "@graphprotocol/graph-ts";
+
+import { Account } from "../../generated/schema";
 import { ZERO_BIG_DECIMAL } from "./constants";
 
 export function loadOrCreateAccount(address: Address): Account {

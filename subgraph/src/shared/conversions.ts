@@ -1,4 +1,5 @@
 import { BigDecimal, BigInt } from "@graphprotocol/graph-ts";
+
 import { BASIS_POINTS_PER_PERCENT, WEI_PER_ETH } from "./constants";
 
 export function toPercent(basisPoints: BigInt): BigDecimal {

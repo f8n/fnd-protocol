@@ -1,1 +1,20 @@
+# folders
+artifacts/
+build/
+cache/
+coverage/
+dist/
+docs/
+lib/
+node_modules/
+src/typechain/
 subgraph/config/
+subgraph/build/
+subgraph/generated/
+subgraph/graph-node/
+versions/
+deployments/
+
+# files
+.solcover.js
+coverage.json

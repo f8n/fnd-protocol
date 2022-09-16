@@ -1,0 +1,15 @@
+{
+  "extends": "npm-package-json-lint-config-default",
+  "rules": {
+    "require-name": "error",
+    "require-version": "off",
+    "prefer-absolute-version-dependencies": "error",
+    "prefer-alphabetical-peerDependencies": "error",
+    "prefer-alphabetical-optionalDependencies": "error",
+    "prefer-alphabetical-bundledDependencies": "error",
+    "prefer-alphabetical-devDependencies": "error",
+    "prefer-alphabetical-dependencies": "error",
+    "version-format": "warning",
+    "name-format": "error"
+  }
+}

@@ -43,6 +43,8 @@ type Account @entity {
 
   "All offers made by this account"
   nftOffersMade: [NftMarketOffer!]! @derivedFrom(field: "buyer")
+
+  # nftFixedPriceSaleMints: [FixedPriceSaleMint!]! @derivedFrom(field: "buyer")
 }
 
 type Creator @entity {
@@ -80,6 +82,9 @@ type NftContract @entity {
 
   "Append baseURI+tokenIPFSPath to get the tokenURI"
   baseURI: String
+
+  "Max tokenId for the collection, if applicable"
+  maxTokenID: BigInt
 
   "All NFTs minted by this contract"
   nfts: [Nft!]! @derivedFrom(field: "nftContract")
@@ -321,8 +326,8 @@ type NftMarketAuction @entity {
   "Referrer address for the winner bid, if applicable"
   buyReferrer: Account
 
-  "Referral fee paid for the winner bid from protocol fee, if applicable"
-  buyReferrerProtocolFee: BigDecimal
+  "Referral fee paid for the winner bid, if applicable"
+  buyReferrerFee: BigDecimal
 
   "Referral fee paid for the winner bid from owner fee, if applicable"
   buyReferrerSellerFee: BigDecimal
@@ -555,6 +560,82 @@ type PercentSplit @entity {
   dateCreated: BigInt!
 }
 
+type FixedPriceSaleMint @entity {
+  "txHash"
+  id: ID!
+
+  "The fixed price sale for the mint"
+  fixedPriceSale: FixedPriceSale!
+
+  # "The accounts which bought this NFT, if applicable"
+  buyer: Account
+
+  "The total minted NFT count"
+  count: BigInt
+
+  "The first token id for the sequence minted."
+  firstTokenId: BigInt
+
+  "The total amount of proceeds from the sale in ETH"
+  amountInETH: BigDecimal
+
+  "Referrer address for the sale, if applicable"
+  buyReferrer: Account
+
+  "Referral fee paid for the sale, if applicable"
+  buyReferrerFee: BigDecimal
+}
+
+type FixedPriceSale @entity {
+  "The address of the collection"
+  id: ID!
+
+  "The contract managing this fixed price sale"
+  nftMarketContract: NftMarketContract!
+
+  "The NFT contract for this NFT"
+  nftContract: NftContract!
+
+  "The seller for the fixed price sale"
+  seller: Account!
+
+  "The cost to mint per NFT in ETH"
+  unitPriceInETH: BigDecimal!
+
+  "The limit of mints allowed per account"
+  limitPerAccount: BigInt!
+
+  "The latest FixedPriceSaleMint events from this sale, if applicable"
+  latestMint: FixedPriceSaleMint
+
+  "The FixedPriceSaleMint events from this sale, if applicable"
+  mints: [FixedPriceSaleMint!] @derivedFrom(field: "fixedPriceSale")
+
+  "The total number of NFTS minted"
+  mintCount: BigInt!
+
+  "The total amount of proceeds from the sale in ETH"
+  amountInETH: BigDecimal!
+
+  "The date/time the fixed price sale was initially created in seconds since Unix epoch"
+  dateCreated: BigInt!
+
+  "The tx hash where this fixed price sale was initially created"
+  transactionHashCreated: Bytes!
+
+  "How much the beneficiary earned from this sale, set once minted"
+  creatorRevenueInETH: BigDecimal!
+
+  "How much Protocol earned from this sale, set once minted"
+  foundationRevenueInETH: BigDecimal!
+
+  "Referral fee paid for the sale, if applicable"
+  buyReferrerFee: BigDecimal
+
+  "How much Foundation earned from this sale, set once accepted"
+  foundationProtocolFeeInETH: BigDecimal!
+}
+
 type PrivateSale @entity {
   "tx-logId"
   id: ID!
@@ -602,6 +683,32 @@ type CollectionContract @entity {
 
   "The creator account which created this collection"
   creator: Creator!
+
+  "factoryAddress-templateVersion"
+  version: String!
+
+  "The date/time the collection was created in seconds since Unix epoch"
+  dateCreated: BigInt!
+
+  "The date/time the collection was self destructed in seconds since Unix epoch if applicable, this resets if the collection is re-created"
+  dateSelfDestructed: BigInt
+}
+
+type NftDropCollectionContract @entity {
+  "contractAddress"
+  id: ID!
+
+  "A reference to the NftContract instance"
+  nftContract: NftContract!
+
+  "The creator account which created this collection"
+  creator: Creator!
+
+  "The additional minter role grant address, if applicable"
+  approvedMinter: Account
+
+  "The payment address which receives the proceeds for the primary sale and royalties on secondary sale."
+  paymentAddress: Account!
 
   "factoryAddress-templateVersion"
   version: String!
@@ -735,8 +842,8 @@ type NftMarketOffer @entity {
   "Referrer address for the accepted offer, if applicable"
   buyReferrer: Account
 
-  "Referral fee paid for the accepted offer from protocol fee, if applicable"
-  buyReferrerProtocolFee: BigDecimal
+  "Referral fee paid for the accepted offer, if applicable"
+  buyReferrerFee: BigDecimal
 
   "Referral fee paid for the accepted offer from owner fee, if applicable"
   buyReferrerSellerFee: BigDecimal
@@ -823,8 +930,8 @@ type NftMarketBuyNow @entity {
   "Referrer address for the buy, if applicable"
   buyReferrer: Account
 
-  "Referral fee paid for the buy from protocol fee, if applicable"
-  buyReferrerProtocolFee: BigDecimal
+  "Referral fee paid for the buy, if applicable"
+  buyReferrerFee: BigDecimal
 
   "Referral fee paid for the buy from owner fee, if applicable"
   buyReferrerSellerFee: BigDecimal
