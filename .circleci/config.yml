@@ -17,15 +17,6 @@ jobs:
       - persist_to_workspace:
           root: ~/repo
           paths: .
-  test:
-    docker:
-      - image: circleci/node:16
-    working_directory: ~/repo
-    steps:
-      - attach_workspace:
-          at: ~/repo
-
-      - run: yarn test
   lint:
     docker:
       - image: circleci/node:16
@@ -35,23 +26,6 @@ jobs:
           at: ~/repo
 
       - run: yarn lint
-
-      # Auto-commit any lint or doc changes
-      - run: mkdir -p ~/.ssh
-      - run: ssh-keyscan -H github.com >> ~/.ssh/known_hosts
-      - run: bash .circleci/commit.sh
-  subgraph:
-    docker:
-      - image: circleci/node:16
-    working_directory: ~/repo
-    steps:
-      - attach_workspace:
-          at: ~/repo
-
-      - run: cd subgraph && yarn
-
-      # Test config for mainnet
-      - run: cd subgraph && yarn prepare:mainnet && yarn build
   publish:
     docker:
       - image: circleci/node:16
@@ -77,13 +51,7 @@ workflows:
               ignore:
                 - gh-pages
                 - artifacts
-      - test:
-          requires:
-            - build
       - lint:
-          requires:
-            - build
-      - subgraph:
           requires:
             - build
       - publish:

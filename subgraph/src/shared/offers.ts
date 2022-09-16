@@ -1,4 +1,5 @@
 import { ethereum } from "@graphprotocol/graph-ts";
+
 import { Account, Nft, NftMarketOffer } from "../../generated/schema";
 import { recordNftEvent } from "./events";
 

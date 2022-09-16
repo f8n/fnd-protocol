@@ -1,33 +1,47 @@
 # Changelog
 
-## 2.2.3.1
+## 2.3.0
 
-- NPM package: add `subgraphEndpoints.js` with the URLs to use when querying subgraph.
+- Add Drops
+- [Remove admin cancel](https://github.com/f8n/fnd-contracts/pull/1973) functions from the market
+- Remove `makeOffer` (was deprecated in favor of `makeOfferV2`).
+- Introduce the `NFTDropMarket`.
+- Add `getSellerOf` to the markets and `getSellerOrOwnerOf` to the middleware.
+- Upgrade to [solc 0.8.16](https://github.com/ethereum/solidity/releases/tag/v0.8.16)
+- SplitsV3: Gas-optimization to reduce costs of creating splits
+
+## 2.2.5
+
+- Upgrade to [solc 0.8.15](https://github.com/ethereum/solidity/releases/tag/v0.8.15)
+
+## 2.2.4
+
+- Middleware [fix div by 0](https://github.com/f8n/fnd-contracts/pull/1888) when 0 royalties are requested
 
 ## 2.2.3
 
-- Remove Private Sales
-- Try/catch `tokenCreator` so that other royalty APIs are checked for contracts with a fallback function.
-- Ignore `owner` when address(0)
+- [Remove Private Sales](https://github.com/f8n/fnd-contracts/pull/1864)
+- [Try/catch `tokenCreator`](https://github.com/f8n/fnd-contracts/pull/1867) so that other royalty APIs are checked for contracts with a fallback function.
+- [Ignore `owner` when address(0)](https://github.com/f8n/fnd-contracts/pull/1868)
 
 ## 2.2.2
 
-- Middleware: Fix `probeNFT` for fallback function in the royalty recipient.
+- Middleware: [Fix `probeNFT`](https://github.com/f8n/fnd-contracts/pull/1865) for fallback function in the royalty recipient.
 - Upgrade to [solc 0.8.14](https://github.com/ethereum/solidity/releases/tag/v0.8.14)
 
 ## 2.2.1
 
 ### Market
 
-- Try try catch so that contracts with a fallback function or unsupported return types do not cause the NFT to get stuck in escrow.
+- [Try try catch](https://github.com/f8n/fnd-contracts/pull/1838) so that contracts with a fallback function or unsupported return types do not cause the NFT to get stuck in escrow.
 
 ## 2.2.0
 
 ### Market
 
-- Bid Referrals: adds `placeBidV2` with referral incentives and `getReserveAuctionBidReferrer`.
-- Offer Referrals: adds `makeOfferV2` with referral incentives and `getOfferReferrer`.
-- Auction gas savings: don't store duration/extension.
+- [Bid Referrals](https://github.com/f8n/fnd-contracts/pull/1782): adds `placeBidV2` with referral incentives.
+- [Offer Referrals](https://github.com/f8n/fnd-contracts/pull/1790): adds `makeOfferV2` with referral incentives.
+- Auction gas savings: don't store duration/extension. https://github.com/f8n/fnd-contracts/pull/1793
 
 ## 2.1.1
 
@@ -43,7 +57,7 @@
 
 ### Market
 
-- Buy referrals: adds `buyV2` with referral incentives.
+- [Buy referrals](https://github.com/f8n/fnd-contracts/pull/1726): adds `buyV2` with referral incentives.
 - Royalties: ignore `royaltyInfo` from the NFT contract when the amount is 0 (does not impact the royalty override)
 - On placeBidOf, leverage FETH from an outstanding offer.
 - Remove withdraw from escrow (leaning on fallback to FETH instead).
@@ -60,7 +74,7 @@
 
 ### Middleware
 
-- `probeNFT`
+- `probeNFT` https://github.com/f8n/fnd-contracts/pull/1645
 
 ## 2.0.1
 

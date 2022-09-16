@@ -3,7 +3,7 @@
   "plugins": ["prettier"],
   "rules": {
     "code-complexity": ["error", 7],
-    "compiler-version": ["error", "^0.8.0"],
+    "compiler-version": ["error", "^0.8.12"],
     "const-name-snakecase": "off",
     "constructor-syntax": "error",
     "func-visibility": ["error", { "ignoreConstructors": true }],
@@ -16,6 +16,7 @@
       }
     ],
     "reason-string": ["warn", { "maxLength": 64 }],
-    "var-name-mixedcase": "off"
+    "var-name-mixedcase": "off",
+    "no-inline-assembly": "off"
   }
 }

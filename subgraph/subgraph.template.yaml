@@ -2,6 +2,7 @@ specVersion: 0.0.2
 schema:
   file: ./schema.graphql
 dataSources:
+  {{#nft721Address}}
   - kind: ethereum/contract
     name: NFT721Contract
     network: {{network}}
@@ -14,12 +15,12 @@ dataSources:
       apiVersion: 0.0.5
       language: wasm/assemblyscript
       entities:
-        - NFTContract
+        - CollectionContract
       abis:
         - name: NFT721Contract
-          file: ../artifacts/contracts/FNDNFT721.sol/FNDNFT721.json
-        - name: CollectionContract
-          file: ../artifacts/contracts/CollectionContract.sol/CollectionContract.json
+          file: ../artifacts/contracts/archive/FNDNFT721.sol/FNDNFT721.json
+        - name: NFTCollection
+          file: ../artifacts/contracts/NFTCollection.sol/NFTCollection.json
       eventHandlers:
         # TODO use the nft template for the shared contract instead
         - event: Approval(indexed address,indexed address,indexed uint256)
@@ -41,6 +42,7 @@ dataSources:
         - event: PaymentAddressMigrated(indexed uint256,indexed address,indexed address,address,address)
           handler: handlePaymentAddressMigrated
       file: ./src/mappings/nft.ts
+  {{/nft721Address}}
 
   - kind: ethereum/contract
     name: NFTMarketContract
@@ -57,20 +59,20 @@ dataSources:
         - NFTMarketContract
       abis:
         - name: NFTMarketContract
-          file: ../artifacts/contracts/FNDNFTMarket.sol/FNDNFTMarket.json
+          file: ../artifacts/contracts/NFTMarket.sol/NFTMarket.json
+        {{#nft721Address}}
         - name: NFT721Contract
-          file: ../artifacts/contracts/FNDNFT721.sol/FNDNFT721.json
-        - name: CollectionContract
-          file: ../artifacts/contracts/CollectionContract.sol/CollectionContract.json
+          file: ../artifacts/contracts/archive/FNDNFT721.sol/FNDNFT721.json
+        {{/nft721Address}}
+        - name: NFTCollection
+          file: ../artifacts/contracts/NFTCollection.sol/NFTCollection.json
         - name: IMarketDeprecatedAPIs
-          file: ../artifacts/contracts/interfaces/IMarketDeprecatedAPIs.sol/IMarketDeprecatedAPIs.json
+          file: ../artifacts/contracts/interfaces/subgraph/IMarketDeprecatedAPIs.sol/IMarketDeprecatedAPIs.json
       eventHandlers:
         - event: ReserveAuctionBidPlaced(indexed uint256,indexed address,uint256,uint256)
           handler: handleReserveAuctionBidPlaced
         - event: ReserveAuctionCanceled(indexed uint256)
           handler: handleReserveAuctionCanceled
-        - event: ReserveAuctionCanceledByAdmin(indexed uint256,string)
-          handler: handleReserveAuctionCanceledByAdmin
         - event: ReserveAuctionCreated(indexed address,indexed address,indexed uint256,uint256,uint256,uint256,uint256)
           handler: handleReserveAuctionCreated
         - event: ReserveAuctionFinalized(indexed uint256,indexed address,indexed address,uint256,uint256,uint256)
@@ -85,8 +87,6 @@ dataSources:
           handler: handleOfferAccepted
         - event: OfferInvalidated(indexed address,indexed uint256)
           handler: handleOfferInvalidated
-        - event: OfferCanceledByAdmin(indexed address,indexed uint256,string)
-          handler: handleOfferCanceledByAdmin
         - event: BuyPriceSet(indexed address,indexed uint256,indexed address,uint256)
           handler: handleBuyPriceSet
         - event: BuyPriceCanceled(indexed address,indexed uint256)
@@ -98,6 +98,41 @@ dataSources:
         - event: BuyReferralPaid(indexed address,indexed uint256,address,uint256,uint256)
           handler: handleBuyReferralPaid
       file: ./src/mappings/nftMarket.ts
+
+  {{#nftDropMarketAddress}}
+  - kind: ethereum/contract
+    name: NFTDropMarket
+    network: {{network}}
+    source:
+      address: "{{nftDropMarketAddress}}"
+      abi: NFTDropMarketContract
+      startBlock: {{startBlock.nftDropMarket}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - NFTDropMarketContract
+      abis:
+        - name: NFTDropMarketContract
+          file: ../artifacts/contracts/NFTDropMarket.sol/NFTDropMarket.json
+        {{#nft721Address}}
+        - name: NFT721Contract
+          file: ../artifacts/contracts/archive/FNDNFT721.sol/FNDNFT721.json
+        {{/nft721Address}}
+        - name: NFTCollection
+          file: ../artifacts/contracts/NFTCollection.sol/NFTCollection.json
+        - name: NFTDropCollection
+          file: ../artifacts/contracts/NFTDropCollection.sol/NFTDropCollection.json
+      eventHandlers:
+        - event: BuyReferralPaid(indexed address,indexed uint256,address,uint256,uint256)
+          handler: handleBuyReferralPaid
+        - event: CreateFixedPriceSale(indexed address,indexed address,uint256,uint256)
+          handler: handleCreateFixedPriceSale
+        - event: MintFromFixedPriceDrop(indexed address,indexed address,indexed uint256,uint256,uint256,uint256)
+          handler: handleMintFromFixedPriceDrop
+      file: ./src/mappings/nftDropMarket.ts
+  {{/nftDropMarketAddress}}
 
   - kind: ethereum/contract
     name: MarketDeprecatedEvents
@@ -114,11 +149,13 @@ dataSources:
         - NFTMarketContract
       abis:
         - name: NFTMarketContract
-          file: ../artifacts/contracts/FNDNFTMarket.sol/FNDNFTMarket.json
+          file: ../artifacts/contracts/NFTMarket.sol/NFTMarket.json
+        {{#nft721Address}}
         - name: NFT721Contract
-          file: ../artifacts/contracts/FNDNFT721.sol/FNDNFT721.json
-        - name: CollectionContract
-          file: ../artifacts/contracts/CollectionContract.sol/CollectionContract.json
+          file: ../artifacts/contracts/archive/FNDNFT721.sol/FNDNFT721.json
+        {{/nft721Address}}
+        - name: NFTCollection
+          file: ../artifacts/contracts/NFTCollection.sol/NFTCollection.json
         - name: MarketDeprecatedEvents
           file: ../artifacts/contracts/mocks/MarketDeprecatedEvents.sol/MarketDeprecatedEvents.json
       eventHandlers:
@@ -126,6 +163,10 @@ dataSources:
           handler: handleReserveAuctionSellerMigrated
         - event: PrivateSaleFinalized(indexed address,indexed uint256,indexed address,address,uint256,uint256,uint256,uint256)
           handler: handlePrivateSaleFinalized
+        - event: OfferCanceledByAdmin(indexed address,indexed uint256,string)
+          handler: handleOfferCanceledByAdmin
+        - event: ReserveAuctionCanceledByAdmin(indexed uint256,string)
+          handler: handleReserveAuctionCanceledByAdmin
       file: ./src/mappings/nftMarket.ts
 
   - kind: ethereum/contract
@@ -175,6 +216,8 @@ dataSources:
         - event: PercentSplitCreated(indexed address)
           handler: handlePercentSplitCreated
       file: ./src/mappings/percentSplit.ts
+    # conditional on whole block
+  {{#percentSplitV1Address}}
   - kind: ethereum/contract
     name: PercentSplitV1
     network: {{network}}
@@ -195,6 +238,8 @@ dataSources:
         - event: PercentSplitCreated(indexed address)
           handler: handlePercentSplitCreated
       file: ./src/mappings/percentSplit.ts
+  {{/percentSplitV1Address}}
+  {{#percentSplitV2Address}}
   - kind: ethereum/contract
     name: PercentSplitV2
     network: {{network}}
@@ -215,13 +260,14 @@ dataSources:
         - event: PercentSplitCreated(indexed address)
           handler: handlePercentSplitCreated
       file: ./src/mappings/percentSplit.ts
+  {{/percentSplitV2Address}}
   - kind: ethereum/contract
     name: FNDCollectionFactory
     network: {{network}}
     source:
-      address: "{{collectionFactoryAddress}}"
+      address: "{{nftCollectionFactoryV1Address}}"
       abi: FNDCollectionFactoryContract
-      startBlock: {{startBlock.collectionFactory}}
+      startBlock: {{startBlock.nftCollectionFactoryV1}}
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -230,15 +276,46 @@ dataSources:
         - Collection
       abis:
         - name: FNDCollectionFactoryContract
-          file: ../artifacts/contracts/FNDCollectionFactory.sol/FNDCollectionFactory.json
+          file: ../artifacts/contracts/archive/FNDCollectionFactory.sol/FNDCollectionFactory.json
+        {{#nft721Address}}
         - name: NFT721Contract
-          file: ../artifacts/contracts/FNDNFT721.sol/FNDNFT721.json
-        - name: CollectionContract
-          file: ../artifacts/contracts/CollectionContract.sol/CollectionContract.json
+          file: ../artifacts/contracts/archive/FNDNFT721.sol/FNDNFT721.json
+        {{/nft721Address}}
+        - name: NFTCollection
+          file: ../artifacts/contracts/NFTCollection.sol/NFTCollection.json
       eventHandlers:
         - event: CollectionCreated(indexed address,indexed address,indexed uint256,string,string,uint256)
           handler: handleCollectionCreated
       file: ./src/mappings/collections.ts
+
+  {{#nftCollectionFactoryV2Address}}
+  - kind: ethereum/contract
+    name: NFTCollectionFactory
+    network: {{network}}
+    source:
+      address: "{{nftCollectionFactoryV2Address}}"
+      abi: NFTCollectionFactoryContract
+      startBlock: {{startBlock.nftCollectionFactoryV2}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - Collection
+      abis:
+        - name: NFTCollectionFactoryContract
+          file: ../artifacts/contracts/NFTCollectionFactory.sol/NFTCollectionFactory.json
+        - name: NFTCollection
+          file: ../artifacts/contracts/NFTCollection.sol/NFTCollection.json
+        - name: NFTDropCollection
+          file: ../artifacts/contracts/NFTDropCollection.sol/NFTDropCollection.json
+      eventHandlers:
+        - event: NFTCollectionCreated(indexed address,indexed address,indexed uint256,string,string,uint256)
+          handler: handleCollectionCreatedV2
+        - event: NFTDropCollectionCreated(indexed address,indexed address,indexed address,string,string,string,bool,uint256,address,uint256,uint256)
+          handler: handleNFTDropCollectionCreated
+      file: ./src/mappings/collections.ts
+  {{/nftCollectionFactoryV2Address}}
 
 templates:
   - kind: ethereum/contract
@@ -262,10 +339,10 @@ templates:
 
   # Collections use the same template & entities as the shared collection
   - kind: ethereum/contract
-    name: CollectionContract
+    name: NFTCollection
     network: {{network}}
     source:
-      abi: CollectionContract
+      abi: NFTCollection
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -273,10 +350,12 @@ templates:
       entities:
         - NFTContract
       abis:
+        {{#nft721Address}}
         - name: NFT721Contract
-          file: ../artifacts/contracts/FNDNFT721.sol/FNDNFT721.json
-        - name: CollectionContract
-          file: ../artifacts/contracts/CollectionContract.sol/CollectionContract.json
+          file: ../artifacts/contracts/archive/FNDNFT721.sol/FNDNFT721.json
+        {{/nft721Address}}
+        - name: NFTCollection
+          file: ../artifacts/contracts/NFTCollection.sol/NFTCollection.json
       eventHandlers:
         - event: Approval(indexed address,indexed address,indexed uint256)
           handler: handleApproval
@@ -290,10 +369,35 @@ templates:
           handler: handleTransfer
         - event: TokenCreatorPaymentAddressSet(indexed address,indexed address,indexed uint256)
           handler: handleTokenCreatorPaymentAddressSet
-        - event: NFTOwnerMigrated(indexed uint256,indexed address,indexed address)
-          handler: handleNFTOwnerMigrated
-        - event: PaymentAddressMigrated(indexed uint256,indexed address,indexed address,address,address)
-          handler: handlePaymentAddressMigrated
+        - event: SelfDestruct(indexed address)
+          handler: handleSelfDestruct
+      file: ./src/mappings/nft.ts
+
+  - kind: ethereum/contract
+    name: NFTDropCollection
+    network: {{network}}
+    source:
+      abi: NFTDropCollection
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - NFTContract
+      abis:
+        - name: NFTDropCollection
+          file: ../artifacts/contracts/NFTDropCollection.sol/NFTDropCollection.json
+      eventHandlers:
+        - event: Approval(indexed address,indexed address,indexed uint256)
+          handler: handleApproval
+        - event: ApprovalForAll(indexed address,indexed address,bool)
+          handler: handleApprovalForAll
+        - event: URIUpdated(string,bool)
+          handler: handleURIUpdated
+        - event: MaxTokenIdUpdated(indexed uint256)
+          handler: handleMaxTokenIdUpdated
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
         - event: SelfDestruct(indexed address)
           handler: handleSelfDestruct
       file: ./src/mappings/nft.ts

@@ -1,4 +1,5 @@
 import { BigDecimal } from "@graphprotocol/graph-ts";
+
 import { Account, Creator, Nft } from "../../generated/schema";
 
 export function recordSale(

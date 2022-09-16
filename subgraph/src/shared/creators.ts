@@ -1,5 +1,6 @@
-import { Creator } from "../../generated/schema";
 import { Address } from "@graphprotocol/graph-ts";
+
+import { Creator } from "../../generated/schema";
 import { loadOrCreateAccount } from "./accounts";
 import { ZERO_BIG_DECIMAL } from "./constants";
 
