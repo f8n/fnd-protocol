@@ -19,7 +19,6 @@ How to get involved:
 ## Tools
 
 * [**Protocol**](protocol/) - A collection of contracts that power Foundation's on-chain Marketplace.
-* [**FoundationKit**](broken-reference) - Libraries that allow you to interact with Foundation's contracts in Typescript & JavaScript.
 
 ## Bounty Program
 
