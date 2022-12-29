@@ -73,9 +73,9 @@ Foundation is fully on-chain and the easiest way to retrieve any event emitted f
 
 To integrate you can use the endpoints below:
 
-- \***\*[**playground**](https://thegraph.com/hosted-service/subgraph/f8n/fnd)\*\***
-- \***\*[**mainnet**](https://api.thegraph.com/subgraphs/name/f8n/fnd)\*\***
-- \***\*[**goerli**](https://api.thegraph.com/subgraphs/name/f8n/fnd-goerli)\*\***
+* \***\***[**playground**](https://thegraph.com/hosted-service/subgraph/f8n/fnd)**\*\***
+* \***\***[**mainnet**](https://api.thegraph.com/subgraphs/name/f8n/fnd)**\*\***
+* \***\***[**goerli**](https://api.thegraph.com/subgraphs/name/f8n/fnd-goerli)**\*\***
 
 To get you started here are some example queries:
 
@@ -142,13 +142,3 @@ _Retrieve historical BuyNow Events:_
     }
 }
 ```
-
-## Testing
-
-```
-yarn
-yarn build
-yarn test
-```
-
-Note that our full test suite is not included here at this time. The tests are meant to demonstrate how to work with our contracts and a few of the core features.
